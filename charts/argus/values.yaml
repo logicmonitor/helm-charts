@@ -1,14 +1,16 @@
-affinity: {}
-collector:
-  imagePullPolicy: Always
-  imageRepository: logicmonitor/collector
-  imageTag: latest
-  secretName: collector
-debug: false
-deleteDevices: true
-disableAlerting: false
-enableRBAC: true
-imagePullPolicy: Always
 imageRepository: logicmonitor/argus
 imageTag: v2
+imagePullPolicy: Always
+disableAlerting: false
+deleteDevices: true
+debug: false
+enableRBAC: true
 nodeSelector: {}
+affinity: {}
+priorityClassName: ""
+collector:
+  imageRepository: logicmonitor/collector
+  imageTag: latest
+  imagePullPolicy: Always
+  secretName: collector
+  priorityClassName: ""
