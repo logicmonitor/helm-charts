@@ -1,19 +1,15 @@
+fullnameOverride: ""
 image:
-  repository: logicmonitor/lm-logs-k8s-fluentd
   pullPolicy: IfNotPresent
-  tag: "latest"
-
+  repository: logicmonitor/lm-logs-k8s-fluentd
+  tag: 0.0.9
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: ""
-
 resources:
   limits:
     memory: 200Mi
   requests:
     cpu: 100m
     memory: 200Mi
-
 tolerations:
-  - operator: Exists
-
+- operator: Exists
