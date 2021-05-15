@@ -25,6 +25,11 @@ deleteDevices: true
 disableAlerting: false
 enableRBAC: true
 etcdDiscoveryToken: ""
+filters:
+  deployment: ""
+  node: ""
+  pod: ""
+  service: ""
 imagePullPolicy: Always
 imageRepository: logicmonitor/argus
 imageTag: v4
