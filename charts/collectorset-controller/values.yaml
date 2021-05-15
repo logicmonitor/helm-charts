@@ -1,0 +1,7 @@
+affinity: {}
+debug: false
+enableRBAC: true
+imagePullPolicy: Always
+imageRepository: logicmonitor/collectorset-controller
+imageTag: v1
+nodeSelector: {}
