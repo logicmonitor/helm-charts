@@ -1,4 +1,4 @@
-# helm-charts
+# Logicmonitor Helm Charts
 New Helm repository for LogicMonitor helm charts
 
 ```bash
