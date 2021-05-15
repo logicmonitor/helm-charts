@@ -395,4 +395,18 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-logs-0.1.1/lm-logs-0.1.1.tgz
     version: 0.1.1
-generated: "2021-05-15T17:21:16.070697688Z"
+  lmotel:
+  - apiVersion: v2
+    created: "2021-05-15T17:29:47.621703037Z"
+    description: Automated Kubernetes lmotel deployement
+    digest: ac08d22fb7b8c4c3bf63d148722bcdf5aa250f4dee413c5c13ec286acb8950a8
+    icon: https://logicmonitor.github.io/k8s-helm-charts/lm_logo.png
+    kubeVersion: '>= 1.14.0-0'
+    maintainers:
+    - email: lmotel@logicmonitor.com
+      name: LogicMonitor
+    name: lmotel
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lmotel-1.0.0-devel/lmotel-1.0.0-devel.tgz
+    version: 1.0.0-devel
+generated: "2021-05-15T17:29:47.621852738Z"
