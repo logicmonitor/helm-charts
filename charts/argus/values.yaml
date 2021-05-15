@@ -43,4 +43,36 @@ priorityClassName: ""
 proxyPass: ""
 proxyURL: ""
 proxyUser: ""
+rlpolicy:
+  device:
+    delete:
+      dep: 10
+      hpa: 10
+      node: 10
+      pod: 60
+      svc: 10
+    get:
+      dep: 10
+      hpa: 10
+      node: 10
+      pod: 60
+      svc: 10
+    patch:
+      dep: 10
+      hpa: 10
+      node: 10
+      pod: 60
+      svc: 10
+    post:
+      dep: 10
+      hpa: 10
+      node: 10
+      pod: 60
+      svc: 10
+    put:
+      dep: 10
+      hpa: 10
+      node: 10
+      pod: 60
+      svc: 10
 tolerations: []
