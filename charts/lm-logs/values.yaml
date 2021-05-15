@@ -1,3 +1,5 @@
+affinity: []
+env: {}
 fullnameOverride: ""
 image:
   pullPolicy: IfNotPresent
@@ -5,11 +7,11 @@ image:
   tag: 0.0.12
 imagePullSecrets: []
 nameOverride: ""
+nodeSelector: []
 resources:
   limits:
     memory: 300Mi
   requests:
     cpu: 100m
     memory: 200Mi
-tolerations:
-- operator: Exists
+tolerations: []
