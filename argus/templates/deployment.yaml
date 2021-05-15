@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus
+  labels:
+    chart: "argus"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argus
+  template:
+    metadata:
+      labels:
+        app: argus
+    spec:
+      serviceAccountName: argus
+    {{- if .Values.affinity }}
+      affinity:
+{{ toYaml .Values.affinity | indent 8 }}
+    {{- end }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
+      containers:
+      - name: argus
+        image: "{{ .Values.imageRepository }}:{{ default "latest" .Values.imageTag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        args:
+          - watch
+        env:
+        - name: ACCESS_ID
+          valueFrom:
+            secretKeyRef:
+              name: argus
+              key: accessID
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: argus
+              key: accessKey
+        - name: ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: argus
+              key: account
+        - name: ETCD_DISCOVERY_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: argus
+              key: etcdDiscoveryToken
+        {{- if .Values.proxyUser }}
+        - name: PROXY_USER
+          valueFrom:
+            secretKeyRef:
+              name: argus
+              key: proxyUser
+        {{- end }}
+        {{- if .Values.proxyPass }}
+        - name: PROXY_PASS
+          valueFrom:
+            secretKeyRef:
+              name: argus
+              key: proxyPass
+        {{- end }}
+        volumeMounts:
+        - name: etc-argus
+          mountPath: "/etc/argus"
+          readOnly: true
+      volumes:
+      - name: etc-argus
+        projected:
+          sources:
+          - configMap:
+              name: argus
+              items:
+                - key: config.yaml
+                  path: config.yaml

@@ -1,0 +1,8 @@
+apiVersion: v3
+description: Automated Kubernetes monitoring
+kubeVersion: '>= 1.14.0-0'
+maintainers:
+- email: argus@logicmonitor.com
+  name: LogicMonitor
+name: argus
+version: 0.10.0
