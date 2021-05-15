@@ -170,6 +170,19 @@ entries:
     version: 0.10.0
   collectorset-controller:
   - apiVersion: v2
+    created: "2021-05-15T17:01:48.491327905Z"
+    description: Automated collector management
+    digest: 40408c30452955bf48f63faae24c96e297fa2af85c31cea813ca192ef1a85fe6
+    icon: https://logicmonitor.github.com/k8s-helm-charts/lm_logo.png
+    kubeVersion: '>= 1.14.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: collectorset-controller
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/collectorset-controller-0.10.0/collectorset-controller-0.10.0.tgz
+    version: 0.10.0
+  - apiVersion: v2
     created: "2021-05-15T17:00:11.86919931Z"
     description: Automated collector management
     digest: 59eca6b8cbd89e0118c883bf70c1bc4e0cd9e97de94bdf8dd02a26fc6b5abb37
@@ -270,4 +283,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/collectorset-controller-0.4.0/collectorset-controller-0.4.0.tgz
     version: 0.4.0
-generated: "2021-05-15T17:00:11.86932211Z"
+generated: "2021-05-15T17:01:48.491484404Z"
