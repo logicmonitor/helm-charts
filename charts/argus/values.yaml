@@ -36,7 +36,7 @@ fullDisplayNameIncludeClusterName: false
 fullDisplayNameIncludeNamespace: false
 imagePullPolicy: Always
 imageRepository: logicmonitor/argus
-imageTag: v4
+imageTag: v5
 labels: {}
 nodeSelector: {}
 priorityClassName: ""
