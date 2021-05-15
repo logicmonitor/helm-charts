@@ -8,6 +8,10 @@ data:
   fluent.conf: |
     @include kubernetes.conf
 
+    <system>
+      log_level warn
+    </system>
+
     <label @FLUENT_LOG>
       <match fluent.**>
         @type null
@@ -33,8 +37,8 @@ data:
       resource_mapping {"kubernetes.pod_name": "auto.name"}
       access_id {{ .Values.lm_access_id }}
       access_key {{ .Values.lm_access_key }}
-      compression gzip
       debug false
+      compression gzip
       <buffer>
         @type memory
         flush_interval 1s
