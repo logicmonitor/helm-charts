@@ -30,7 +30,8 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
-          if [[ ct list-changed --config ct.yaml | grep argus ]]; then
+          arguschanged=$(ct list-changed --config ct.yaml | grep argus)
+          if [[ -n "$arguschanged" ]]; then
             echo "::set-output name=arguschanged::true"
           fi
 
