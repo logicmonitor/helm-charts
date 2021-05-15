@@ -30,6 +30,10 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "::set-output name=changed::true"
           fi
+          arguschanged=$(ct list-changed --config ct.yaml | grep argus)
+          if [[ -n "$arguschanged" ]]; then
+            echo "::set-output name=arguschanged::true"
+          fi
 
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml
@@ -42,8 +46,9 @@ jobs:
         run: ct install --config ct.yaml --excluded-charts argus,lmotel,releasemanager
 
       - name: Run chart-testing (install) - only argus
+        if: steps.list-changed.outputs.arguschanged == 'true'
         run: |
-          kubectl apply -f collectorset.yaml
+          kubectl apply -f charts/collectorset-controller/crds/collectorset.yaml
           ct install --config ct.yaml --charts charts/argus
-          kubectl delete -f collectorset.yaml
+          kubectl delete -f charts/collectorset-controller/crds/collectorset.yaml
 
