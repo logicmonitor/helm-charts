@@ -324,6 +324,14 @@ entries:
     version: 0.4.0
   lm-logs:
   - apiVersion: v2
+    created: "2021-05-15T17:13:14.967377112Z"
+    description: A Helm chart for sending k8s logs to Logic Monitor
+    digest: 6105c010a60a00dd36451c553cf778f11501e9290444c0cbfb789c46e384c010
+    name: lm-logs
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lm-logs-0.1.4/lm-logs-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     created: "2021-05-15T17:12:16.59818731Z"
     description: A Helm chart for sending k8s logs to Logic Monitor
     digest: 6e5f4f219dd79658e881c7798b133c34f42d801b396c96f7c2eb1d288fafae1b
@@ -347,4 +355,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-logs-0.1.1/lm-logs-0.1.1.tgz
     version: 0.1.1
-generated: "2021-05-15T17:12:16.598596812Z"
+generated: "2021-05-15T17:13:14.967758614Z"
