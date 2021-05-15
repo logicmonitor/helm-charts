@@ -1,17 +1,23 @@
-affinity: []
-env: {}
-fullnameOverride: ""
 image:
-  pullPolicy: IfNotPresent
   repository: logicmonitor/lm-logs-k8s-fluentd
-  tag: 0.0.12
+  pullPolicy: IfNotPresent
+  tag: "0.0.12"
+
 imagePullSecrets: []
 nameOverride: ""
-nodeSelector: []
+fullnameOverride: ""
+
+env: {}
+
 resources:
   limits:
     memory: 300Mi
   requests:
     cpu: 100m
     memory: 200Mi
-tolerations: []
+
+nodeSelector: []
+affinity: []
+tolerations:
+ - operator: Exists
+
