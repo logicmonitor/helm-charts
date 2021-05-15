@@ -1,41 +1,41 @@
+imageRepository: logicmonitor/argus
+imageTag: v4
+imagePullPolicy: Always
+disableAlerting: false
+deleteDevices: true
+debug: false
+enableRBAC: true
+clusterName: ""
 accessID: ""
 accessKey: ""
 account: ""
-affinity: {}
-clusterGroupID: 0
-clusterName: ""
-collector:
-  collectorVersion: 0
-  escalationChainID: 0
-  groupID: 0
-  imagePullPolicy: Always
-  imageRepository: logicmonitor/collector
-  imageTag: latest
-  priorityClassName: ""
-  proxyPass: ""
-  proxyURL: ""
-  proxyUser: ""
-  replicas: 1
-  secretName: collector
-  size: ""
-  tolerations: []
-  useEA: false
-debug: false
-deleteDevices: true
-disableAlerting: false
-enableRBAC: true
 etcdDiscoveryToken: ""
-filters:
-  deployment: ""
-  node: ""
-  pod: ""
-  service: ""
-imagePullPolicy: Always
-imageRepository: logicmonitor/argus
-imageTag: v4
-nodeSelector: {}
-priorityClassName: ""
+proxyUser: ""
 proxyPass: ""
 proxyURL: ""
-proxyUser: ""
+clusterGroupID: 0
+nodeSelector: {}
+affinity: {}
+priorityClassName: ""
 tolerations: []
+filters:
+  pod: ""
+  service: ""
+  node: ""
+  deployment: ""
+collector:
+  imageRepository: logicmonitor/collector
+  imageTag: latest
+  imagePullPolicy: Always
+  secretName: collector
+  replicas: 1
+  size: ""
+  groupID: 0
+  escalationChainID: 0
+  collectorVersion: 0
+  useEA: false
+  proxyURL: ""
+  proxyUser: ""
+  proxyPass: ""
+  priorityClassName: ""
+  tolerations: []
