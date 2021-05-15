@@ -6,4 +6,4 @@ maintainers:
 - email: argus@logicmonitor.com
   name: LogicMonitor
 name: collectorset-controller
-version: 0.9.0-devel
+version: 0.9.0
