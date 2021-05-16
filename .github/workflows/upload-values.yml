@@ -1,0 +1,35 @@
+name: Add chart configuration file
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    name: Add release chart configuration file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Get chart name from release
+        id: get_chart
+        run: |
+          chartname=$(echo "${{ steps.get_release.outputs.tag_name }}" | grep -E "^(.*)-[0-9\.]+" -o | rev | cut -d'-' -f2- | rev)
+          echo "::set-output name=chartname::$chartname"
+
+      - name: Upload release binary
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./charts/${{ steps.get_chart.outputs.chartname }}/values.yaml
+          asset_name: ${{ steps.get_chart.outputs.chartname }}-configuration.yaml
+          asset_content_type: text/plain
+
