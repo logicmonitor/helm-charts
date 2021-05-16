@@ -1,11 +1,11 @@
 ## REQUIRED VALUES
 
 # The LogicMonitor API key ID.
-accessID: ""
+accessID: "dummy"
 # The LogicMonitor API key.
-accessKey: ""
+accessKey: "dummy"
 # The LogicMonitor account name.
-account: ""
+account: "dummy"
 # To enable verbose logging at debug level.
 debug: false
 
