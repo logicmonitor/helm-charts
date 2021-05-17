@@ -26,6 +26,7 @@ jobs:
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.2.1
+        # do not use default github token, as it does not raise release created event for post release github actions
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_TOKEN: "${{ secrets.CHART_RELEASE_TOKEN }}"
 
