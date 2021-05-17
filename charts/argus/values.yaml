@@ -9,7 +9,7 @@ account: ""
 # A unique name given to the cluster's device group.
 clusterName: ""
 # To enable verbose logging at debug level.
-debug: false
+debug: true
 # On a delete event, either delete from LogicMonitor or move the device to the `_delted` device group.
 deleteDevices: true
 # Disables LogicMonitor alerting for all the cluster resources.
