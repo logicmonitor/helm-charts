@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   argus:
   - apiVersion: v2
+    created: "2021-05-17T12:43:03.841266297Z"
+    description: Automated Kubernetes monitoring
+    digest: 12c2ef5554b8a66d686d2975d42df11b86a2816dd7156aaef6ffd7963fe59802
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.14.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: argus
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/argus-0.18.1/argus-0.18.1.tgz
+    version: 0.18.1
+  - apiVersion: v2
     created: "2021-05-17T11:42:25.477133955Z"
     description: Automated Kubernetes monitoring
     digest: 70cbd2acf6c36e54c56a9a86d2397844cb722604aa8888d25813ffb12b032df4
@@ -461,4 +474,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lmotel-1.0.0-devel/lmotel-1.0.0-devel.tgz
     version: 1.0.0-devel
-generated: "2021-05-17T11:42:25.477321956Z"
+generated: "2021-05-17T12:43:03.841494699Z"
