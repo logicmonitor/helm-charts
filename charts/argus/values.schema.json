@@ -1,0 +1,1251 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "accessID": "",
+            "accessKey": "",
+            "account": "",
+            "clusterName": "",
+            "logLevel": "info",
+            "deleteDevices": true,
+            "disableAlerting": false,
+            "enableRBAC": true,
+            "clusterGroupID": 0,
+            "resourceGroupID": 1,
+            "etcdDiscoveryToken": "",
+            "imageRepository": "logicmonitor/argus",
+            "imageTag": "v6.0.0-beta",
+            "imagePullPolicy": "Always",
+            "proxyURL": "",
+            "proxyUser": "",
+            "proxyPass": "",
+            "nodeSelector": {},
+            "affinity": {},
+            "priorityClassName": "",
+            "tolerations": [],
+            "labels": {},
+            "annotations": {},
+            "ignore_ssl": false,
+            "enableNewResourceTree": false,
+            "enableNamespacesDeletedGroups": false,
+            "registerGenericFilter": false,
+            "disableResourceMonitoring": [],
+            "app_intervals": {
+                "periodic_sync_interval": "30m",
+                "periodic_delete_interval": "10m",
+                "cache_sync_interval": "1h"
+            },
+            "device_group_props": {
+                "cluster": [
+                    {
+                        "name": "lmlogs.k8sevent.enable",
+                        "value": "false"
+                    },
+                    {
+                        "name": "kubernetes.resourcedeleteafterduration",
+                        "value": "P1DT0H0M0S",
+                        "override": false
+                    }
+                ],
+                "pods": [
+                    {
+                        "name": "lmlogs.k8spodlog.enable",
+                        "value": "false"
+                    }
+                ],
+                "services": [],
+                "deployments": [],
+                "nodes": [],
+                "etcd": [],
+                "hpas": []
+            },
+            "filters": {
+                "pod": [],
+                "service": [],
+                "node": [],
+                "deployment": [],
+                "hpa": []
+            },
+            "openmetrics": {
+                "port": 2112
+            },
+            "collector": {
+                "replicas": 1,
+                "size": "",
+                "imageRepository": "logicmonitor/collector",
+                "imageTag": "latest",
+                "imagePullPolicy": "Always",
+                "secretName": "collector",
+                "groupID": 0,
+                "escalationChainID": 0,
+                "collectorVersion": 0,
+                "useEA": false,
+                "proxyURL": "",
+                "proxyUser": "",
+                "proxyPass": "",
+                "annotations": {},
+                "labels": {},
+                "statefulsetspec": {
+                    "template": {
+                        "spec": {
+                            "nodeSelector": {},
+                            "tolerations": [],
+                            "priorityClassName": ""
+                        }
+                    }
+                }
+            },
+            "disable_resource_monitoring": [],
+            "replicas": 1
+        }
+    ],
+    "required": [
+        "accessID",
+        "accessKey",
+        "account",
+        "clusterName",
+        "logLevel",
+        "deleteDevices",
+        "disableAlerting",
+        "enableRBAC",
+        "clusterGroupID",
+        "resourceGroupID",
+        "etcdDiscoveryToken",
+        "imageRepository",
+        "imageTag",
+        "imagePullPolicy",
+        "proxyURL",
+        "proxyUser",
+        "proxyPass",
+        "nodeSelector",
+        "affinity",
+        "priorityClassName",
+        "tolerations",
+        "labels",
+        "annotations",
+        "ignore_ssl",
+        "enableNewResourceTree",
+        "enableNamespacesDeletedGroups",
+        "registerGenericFilter",
+        "disableResourceMonitoring",
+        "app_intervals",
+        "device_group_props",
+        "filters",
+        "openmetrics",
+        "collector",
+        "disable_resource_monitoring",
+        "replicas"
+    ],
+    "properties": {
+        "accessID": {
+            "$id": "#/properties/accessID",
+            "type": "string",
+            "title": "The accessID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "accessKey": {
+            "$id": "#/properties/accessKey",
+            "type": "string",
+            "title": "The accessKey schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "account": {
+            "$id": "#/properties/account",
+            "type": "string",
+            "title": "The account schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "clusterName": {
+            "$id": "#/properties/clusterName",
+            "type": "string",
+            "title": "The clusterName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "logLevel": {
+            "$id": "#/properties/logLevel",
+            "type": "string",
+            "title": "The logLevel schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "info"
+            ]
+        },
+        "deleteDevices": {
+            "$id": "#/properties/deleteDevices",
+            "type": "boolean",
+            "title": "The deleteDevices schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                true
+            ]
+        },
+        "disableAlerting": {
+            "$id": "#/properties/disableAlerting",
+            "type": "boolean",
+            "title": "The disableAlerting schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "enableRBAC": {
+            "$id": "#/properties/enableRBAC",
+            "type": "boolean",
+            "title": "The enableRBAC schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                true
+            ]
+        },
+        "clusterGroupID": {
+            "$id": "#/properties/clusterGroupID",
+            "type": "integer",
+            "title": "The clusterGroupID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                0
+            ]
+        },
+        "resourceGroupID": {
+            "$id": "#/properties/resourceGroupID",
+            "type": "integer",
+            "title": "The resourceGroupID schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                1
+            ]
+        },
+        "etcdDiscoveryToken": {
+            "$id": "#/properties/etcdDiscoveryToken",
+            "type": "string",
+            "title": "The etcdDiscoveryToken schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "imageRepository": {
+            "$id": "#/properties/imageRepository",
+            "type": "string",
+            "title": "The imageRepository schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "logicmonitor/argus"
+            ]
+        },
+        "imageTag": {
+            "$id": "#/properties/imageTag",
+            "type": "string",
+            "title": "The imageTag schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "v5"
+            ]
+        },
+        "imagePullPolicy": {
+            "$id": "#/properties/imagePullPolicy",
+            "type": "string",
+            "title": "The imagePullPolicy schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "Always"
+            ]
+        },
+        "proxyURL": {
+            "$id": "#/properties/proxyURL",
+            "type": "string",
+            "title": "The proxyURL schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "proxyUser": {
+            "$id": "#/properties/proxyUser",
+            "type": "string",
+            "title": "The proxyUser schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "proxyPass": {
+            "$id": "#/properties/proxyPass",
+            "type": "string",
+            "title": "The proxyPass schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "nodeSelector": {
+            "$id": "#/properties/nodeSelector",
+            "type": "object",
+            "title": "The nodeSelector schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        },
+        "affinity": {
+            "$id": "#/properties/affinity",
+            "type": "object",
+            "title": "The affinity schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        },
+        "priorityClassName": {
+            "$id": "#/properties/priorityClassName",
+            "type": "string",
+            "title": "The priorityClassName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                ""
+            ]
+        },
+        "tolerations": {
+            "$id": "#/properties/tolerations",
+            "type": "array",
+            "title": "The tolerations schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                []
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/tolerations/items"
+            }
+        },
+        "labels": {
+            "$id": "#/properties/labels",
+            "type": "object",
+            "title": "The labels schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        },
+        "annotations": {
+            "$id": "#/properties/annotations",
+            "type": "object",
+            "title": "The annotations schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {}
+            ],
+            "required": [],
+            "additionalProperties": true
+        },
+        "ignore_ssl": {
+            "$id": "#/properties/ignore_ssl",
+            "type": "boolean",
+            "title": "The ignore_ssl schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "enableNewResourceTree": {
+            "$id": "#/properties/enableNewResourceTree",
+            "type": "boolean",
+            "title": "The enableNewResourceTree schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "enableNamespacesDeletedGroups": {
+            "$id": "#/properties/enableNamespacesDeletedGroups",
+            "type": "boolean",
+            "title": "The enableNamespacesDeletedGroups schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "registerGenericFilter": {
+            "$id": "#/properties/registerGenericFilter",
+            "type": "boolean",
+            "title": "The registerGenericFilter schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false,
+            "examples": [
+                false
+            ]
+        },
+        "disableResourceMonitoring": {
+            "$id": "#/properties/disableResourceMonitoring",
+            "type": "array",
+            "title": "The disableResourceMonitoring schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                []
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/disableResourceMonitoring/items"
+            }
+        },
+        "app_intervals": {
+            "$id": "#/properties/app_intervals",
+            "type": "object",
+            "title": "The app_intervals schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "periodic_sync_interval": "30m",
+                    "periodic_delete_interval": "10m",
+                    "cache_sync_interval": "1h"
+                }
+            ],
+            "required": [
+                "periodic_sync_interval",
+                "periodic_delete_interval",
+                "cache_sync_interval"
+            ],
+            "properties": {
+                "periodic_sync_interval": {
+                    "$id": "#/properties/app_intervals/properties/periodic_sync_interval",
+                    "type": "string",
+                    "title": "The periodic_sync_interval schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "30m"
+                    ]
+                },
+                "periodic_delete_interval": {
+                    "$id": "#/properties/app_intervals/properties/periodic_delete_interval",
+                    "type": "string",
+                    "title": "The periodic_delete_interval schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "10m"
+                    ]
+                },
+                "cache_sync_interval": {
+                    "$id": "#/properties/app_intervals/properties/cache_sync_interval",
+                    "type": "string",
+                    "title": "The cache_sync_interval schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "1h"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "device_group_props": {
+            "$id": "#/properties/device_group_props",
+            "type": "object",
+            "title": "The device_group_props schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "cluster": [
+                        {
+                            "name": "lmlogs.k8sevent.enable",
+                            "value": "false"
+                        },
+                        {
+                            "name": "kubernetes.resourcedeleteafterduration",
+                            "value": "P1DT0H0M0S",
+                            "override": false
+                        }
+                    ],
+                    "pods": [
+                        {
+                            "name": "lmlogs.k8spodlog.enable",
+                            "value": "false"
+                        }
+                    ],
+                    "services": [],
+                    "deployments": [],
+                    "nodes": [],
+                    "etcd": [],
+                    "hpas": []
+                }
+            ],
+            "required": [
+                "cluster",
+                "pods",
+                "services",
+                "deployments",
+                "nodes",
+                "etcd",
+                "hpas"
+            ],
+            "properties": {
+                "cluster": {
+                    "$id": "#/properties/device_group_props/properties/cluster",
+                    "type": "array",
+                    "title": "The cluster schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "name": "lmlogs.k8sevent.enable",
+                                "value": "false"
+                            },
+                            {
+                                "name": "kubernetes.resourcedeleteafterduration",
+                                "value": "P1DT0H0M0S",
+                                "override": false
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/cluster/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "name": "lmlogs.k8sevent.enable",
+                                        "value": "false"
+                                    }
+                                ],
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/0/properties/name",
+                                        "type": "string",
+                                        "title": "The name schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "lmlogs.k8sevent.enable"
+                                        ]
+                                    },
+                                    "value": {
+                                        "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/0/properties/value",
+                                        "type": "string",
+                                        "title": "The value schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "false"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            },
+                            {
+                                "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/1",
+                                "type": "object",
+                                "title": "The second anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "name": "kubernetes.resourcedeleteafterduration",
+                                        "value": "P1DT0H0M0S",
+                                        "override": false
+                                    }
+                                ],
+                                "required": [
+                                    "name",
+                                    "value",
+                                    "override"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/1/properties/name",
+                                        "type": "string",
+                                        "title": "The name schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "kubernetes.resourcedeleteafterduration"
+                                        ]
+                                    },
+                                    "value": {
+                                        "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/1/properties/value",
+                                        "type": "string",
+                                        "title": "The value schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "P1DT0H0M0S"
+                                        ]
+                                    },
+                                    "override": {
+                                        "$id": "#/properties/device_group_props/properties/cluster/items/anyOf/1/properties/override",
+                                        "type": "boolean",
+                                        "title": "The override schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            false
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            }
+                        ]
+                    }
+                },
+                "pods": {
+                    "$id": "#/properties/device_group_props/properties/pods",
+                    "type": "array",
+                    "title": "The pods schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "name": "lmlogs.k8spodlog.enable",
+                                "value": "false"
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/pods/items",
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/device_group_props/properties/pods/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "name": "lmlogs.k8spodlog.enable",
+                                        "value": "false"
+                                    }
+                                ],
+                                "required": [
+                                    "name",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "$id": "#/properties/device_group_props/properties/pods/items/anyOf/0/properties/name",
+                                        "type": "string",
+                                        "title": "The name schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "lmlogs.k8spodlog.enable"
+                                        ]
+                                    },
+                                    "value": {
+                                        "$id": "#/properties/device_group_props/properties/pods/items/anyOf/0/properties/value",
+                                        "type": "string",
+                                        "title": "The value schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "false"
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": true
+                            }
+                        ]
+                    }
+                },
+                "services": {
+                    "$id": "#/properties/device_group_props/properties/services",
+                    "type": "array",
+                    "title": "The services schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/services/items"
+                    }
+                },
+                "deployments": {
+                    "$id": "#/properties/device_group_props/properties/deployments",
+                    "type": "array",
+                    "title": "The deployments schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/deployments/items"
+                    }
+                },
+                "nodes": {
+                    "$id": "#/properties/device_group_props/properties/nodes",
+                    "type": "array",
+                    "title": "The nodes schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/nodes/items"
+                    }
+                },
+                "etcd": {
+                    "$id": "#/properties/device_group_props/properties/etcd",
+                    "type": "array",
+                    "title": "The etcd schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/etcd/items"
+                    }
+                },
+                "hpas": {
+                    "$id": "#/properties/device_group_props/properties/hpas",
+                    "type": "array",
+                    "title": "The hpas schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/device_group_props/properties/hpas/items"
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "filters": {
+            "$id": "#/properties/filters",
+            "type": "object",
+            "title": "The filters schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "pod": [],
+                    "service": [],
+                    "node": [],
+                    "deployment": [],
+                    "hpa": []
+                }
+            ],
+            "required": [
+                "pod",
+                "service",
+                "node",
+                "deployment",
+                "hpa"
+            ],
+            "properties": {
+                "pod": {
+                    "$id": "#/properties/filters/properties/pod",
+                    "type": "array",
+                    "title": "The pod schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/filters/properties/pod/items"
+                    }
+                },
+                "service": {
+                    "$id": "#/properties/filters/properties/service",
+                    "type": "array",
+                    "title": "The service schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/filters/properties/service/items"
+                    }
+                },
+                "node": {
+                    "$id": "#/properties/filters/properties/node",
+                    "type": "array",
+                    "title": "The node schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/filters/properties/node/items"
+                    }
+                },
+                "deployment": {
+                    "$id": "#/properties/filters/properties/deployment",
+                    "type": "array",
+                    "title": "The deployment schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/filters/properties/deployment/items"
+                    }
+                },
+                "hpa": {
+                    "$id": "#/properties/filters/properties/hpa",
+                    "type": "array",
+                    "title": "The hpa schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        []
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "$id": "#/properties/filters/properties/hpa/items"
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "openmetrics": {
+            "$id": "#/properties/openmetrics",
+            "type": "object",
+            "title": "The openmetrics schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "port": 2112
+                }
+            ],
+            "required": [
+                "port"
+            ],
+            "properties": {
+                "port": {
+                    "$id": "#/properties/openmetrics/properties/port",
+                    "type": "integer",
+                    "title": "The port schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        2112
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "collector": {
+            "$id": "#/properties/collector",
+            "type": "object",
+            "title": "The collector schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "replicas": 1,
+                    "size": "",
+                    "imageRepository": "logicmonitor/collector",
+                    "imageTag": "latest",
+                    "imagePullPolicy": "Always",
+                    "secretName": "collector",
+                    "groupID": 0,
+                    "escalationChainID": 0,
+                    "collectorVersion": 0,
+                    "useEA": false,
+                    "proxyURL": "",
+                    "proxyUser": "",
+                    "proxyPass": "",
+                    "annotations": {},
+                    "labels": {},
+                    "statefulsetspec": {
+                        "template": {
+                            "spec": {
+                                "nodeSelector": {},
+                                "tolerations": [],
+                                "priorityClassName": ""
+                            }
+                        }
+                    }
+                }
+            ],
+            "required": [
+                "replicas",
+                "size",
+                "imageRepository",
+                "imageTag",
+                "imagePullPolicy",
+                "secretName",
+                "groupID",
+                "escalationChainID",
+                "collectorVersion",
+                "useEA",
+                "proxyURL",
+                "proxyUser",
+                "proxyPass",
+                "annotations",
+                "labels",
+                "statefulsetspec"
+            ],
+            "properties": {
+                "replicas": {
+                    "$id": "#/properties/collector/properties/replicas",
+                    "type": "integer",
+                    "title": "The replicas schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        1
+                    ]
+                },
+                "size": {
+                    "$id": "#/properties/collector/properties/size",
+                    "type": "string",
+                    "title": "The size schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "imageRepository": {
+                    "$id": "#/properties/collector/properties/imageRepository",
+                    "type": "string",
+                    "title": "The imageRepository schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "logicmonitor/collector"
+                    ]
+                },
+                "imageTag": {
+                    "$id": "#/properties/collector/properties/imageTag",
+                    "type": "string",
+                    "title": "The imageTag schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "latest"
+                    ]
+                },
+                "imagePullPolicy": {
+                    "$id": "#/properties/collector/properties/imagePullPolicy",
+                    "type": "string",
+                    "title": "The imagePullPolicy schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "Always"
+                    ]
+                },
+                "secretName": {
+                    "$id": "#/properties/collector/properties/secretName",
+                    "type": "string",
+                    "title": "The secretName schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        "collector"
+                    ]
+                },
+                "groupID": {
+                    "$id": "#/properties/collector/properties/groupID",
+                    "type": "integer",
+                    "title": "The groupID schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0
+                    ]
+                },
+                "escalationChainID": {
+                    "$id": "#/properties/collector/properties/escalationChainID",
+                    "type": "integer",
+                    "title": "The escalationChainID schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0
+                    ]
+                },
+                "collectorVersion": {
+                    "$id": "#/properties/collector/properties/collectorVersion",
+                    "type": "integer",
+                    "title": "The collectorVersion schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                    "examples": [
+                        0
+                    ]
+                },
+                "useEA": {
+                    "$id": "#/properties/collector/properties/useEA",
+                    "type": "boolean",
+                    "title": "The useEA schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                },
+                "proxyURL": {
+                    "$id": "#/properties/collector/properties/proxyURL",
+                    "type": "string",
+                    "title": "The proxyURL schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "proxyUser": {
+                    "$id": "#/properties/collector/properties/proxyUser",
+                    "type": "string",
+                    "title": "The proxyUser schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "proxyPass": {
+                    "$id": "#/properties/collector/properties/proxyPass",
+                    "type": "string",
+                    "title": "The proxyPass schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "annotations": {
+                    "$id": "#/properties/collector/properties/annotations",
+                    "type": "object",
+                    "title": "The annotations schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {}
+                    ],
+                    "required": [],
+                    "additionalProperties": true
+                },
+                "labels": {
+                    "$id": "#/properties/collector/properties/labels",
+                    "type": "object",
+                    "title": "The labels schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {}
+                    ],
+                    "required": [],
+                    "additionalProperties": true
+                },
+                "statefulsetspec": {
+                    "$id": "#/properties/collector/properties/statefulsetspec",
+                    "type": "object",
+                    "title": "The statefulsetspec schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": {},
+                    "examples": [
+                        {
+                            "template": {
+                                "spec": {
+                                    "nodeSelector": {},
+                                    "tolerations": [],
+                                    "priorityClassName": ""
+                                }
+                            }
+                        }
+                    ],
+                    "required": [
+                        "template"
+                    ],
+                    "properties": {
+                        "template": {
+                            "$id": "#/properties/collector/properties/statefulsetspec/properties/template",
+                            "type": "object",
+                            "title": "The template schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "default": {},
+                            "examples": [
+                                {
+                                    "spec": {
+                                        "nodeSelector": {},
+                                        "tolerations": [],
+                                        "priorityClassName": ""
+                                    }
+                                }
+                            ],
+                            "required": [
+                                "spec"
+                            ],
+                            "properties": {
+                                "spec": {
+                                    "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec",
+                                    "type": "object",
+                                    "title": "The spec schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": {},
+                                    "examples": [
+                                        {
+                                            "nodeSelector": {},
+                                            "tolerations": [],
+                                            "priorityClassName": ""
+                                        }
+                                    ],
+                                    "required": [
+                                        "nodeSelector",
+                                        "tolerations",
+                                        "priorityClassName"
+                                    ],
+                                    "properties": {
+                                        "nodeSelector": {
+                                            "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/nodeSelector",
+                                            "type": "object",
+                                            "title": "The nodeSelector schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": {},
+                                            "examples": [
+                                                {}
+                                            ],
+                                            "required": [],
+                                            "additionalProperties": true
+                                        },
+                                        "tolerations": {
+                                            "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/tolerations",
+                                            "type": "array",
+                                            "title": "The tolerations schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": [],
+                                            "examples": [
+                                                []
+                                            ],
+                                            "additionalItems": true,
+                                            "items": {
+                                                "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/tolerations/items"
+                                            }
+                                        },
+                                        "priorityClassName": {
+                                            "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/priorityClassName",
+                                            "type": "string",
+                                            "title": "The priorityClassName schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": "",
+                                            "examples": [
+                                                ""
+                                            ]
+                                        }
+                                    },
+                                    "additionalProperties": true
+                                }
+                            },
+                            "additionalProperties": true
+                        }
+                    },
+                    "additionalProperties": true
+                }
+            },
+            "additionalProperties": true
+        },
+        "disable_resource_monitoring": {
+            "$id": "#/properties/disable_resource_monitoring",
+            "type": "array",
+            "title": "The disable_resource_monitoring schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                []
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/disable_resource_monitoring/items"
+            }
+        },
+        "replicas": {
+            "$id": "#/properties/replicas",
+            "type": "integer",
+            "title": "The replicas schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+            "examples": [
+                1
+            ]
+        }
+    },
+    "additionalProperties": true
+}
