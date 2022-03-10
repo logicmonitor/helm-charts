@@ -28,7 +28,7 @@ etcdDiscoveryToken: ""
 # The image respository of the [Argus](https://hub.docker.com/r/logicmonitor/argus) container.
 imageRepository: logicmonitor/argus
 # The image tag of the [Argus](https://hub.docker.com/r/logicmonitor/argus/tags) container.
-imageTag: v5
+imageTag: v6
 # The image pull policy of the Argus container.
 imagePullPolicy: Always
 # The Http/s proxy url.
@@ -61,13 +61,6 @@ enableNamespacesDeletedGroups: false
 # Flag to register generic filter based on resource label => "logicmonitor/monitoring": "disable"
 registerGenericFilter: false
 
-# To disable resource monitoring
-# for ex:
-# disableResourceMonitoring:
-#   - deployments
-#   - services
-disableResourceMonitoring: []
-
 # appIntervals defines time intervals for periodic sync, periodic delete and in memory cache resync operations.
 app_intervals:
   periodic_sync_interval: "30m"
@@ -92,6 +85,7 @@ device_group_props:
   nodes: []
   etcd: []
   hpas: []
+
 filters:
   # The filtered expression for Pod resource type. Based on this parameter, Pods would be added/deleted for discovery on LM.
   pod: []
@@ -110,6 +104,7 @@ openmetrics:
 
 collector:
   ## REQUIRED VALUES
+
   # The number of collectors to create and use with Argus.
   replicas: 1
   # The collector size to install. Can be nano, small, medium, or large.
@@ -156,10 +151,21 @@ collector:
 
 # List of resources to disable monitoring
 # for ex:
-# disable_resource_monitoring:
+# disableResourceMonitoring:
 #   - deployments
 #   - horizontalpodautoscalers
-disable_resource_monitoring: []
+disableResourceMonitoring:
+  - statefulsets
+  - replicasets
+  - daemonsets
+
+# List of resources to disable alerting
+# for ex:
+# disableResourceAlerting:
+#   - deployments
+#   - horizontalpodautoscalers
+disableResourceAlerting:
+  - deployments
 
 # Replicas - defaults to 1, param is just for development purpose, do not increase more than one replicas in production
 replicas: 1
