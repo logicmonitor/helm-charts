@@ -132,13 +132,11 @@
         "enableNewResourceTree",
         "enableNamespacesDeletedGroups",
         "registerGenericFilter",
-        "disableResourceMonitoring",
         "app_intervals",
         "device_group_props",
         "filters",
         "openmetrics",
         "collector",
-        "disable_resource_monitoring",
         "replicas"
     ],
     "properties": {
