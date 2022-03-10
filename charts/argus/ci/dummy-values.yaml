@@ -26,7 +26,7 @@ etcdDiscoveryToken: ""
 # The image respository of the [Argus](https://hub.docker.com/r/logicmonitor/argus) container.
 imageRepository: logicmonitor/argus
 # The image tag of the [Argus](https://hub.docker.com/r/logicmonitor/argus/tags) container.
-imageTag: v5
+imageTag: v6
 # The image pull policy of the Argus container.
 imagePullPolicy: Always
 # The Http/s proxy url.
@@ -135,36 +135,3 @@ collector:
         tolerations: []
         # The priority class name for Pod priority of the collector. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.
         priorityClassName: ""
-# rlpolicy defines the rate at which argus will send requests to Logicmonitor portal in order to avoid rate limit thresholds
-rlpolicy:
-  device:
-    get:
-      pod: 60
-      dep: 10
-      svc: 10
-      node: 10
-      hpa: 10
-    post:
-      pod: 60
-      dep: 10
-      svc: 10
-      node: 10
-      hpa: 10
-    put:
-      pod: 60
-      dep: 10
-      svc: 10
-      node: 10
-      hpa: 10
-    patch:
-      pod: 60
-      dep: 10
-      svc: 10
-      node: 10
-      hpa: 10
-    delete:
-      pod: 60
-      dep: 10
-      svc: 10
-      node: 10
-      hpa: 10
