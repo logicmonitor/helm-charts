@@ -17,15 +17,16 @@ rules:
     - ""
   resources:
     - pods
+    - pods/log
     - containers
     - nodes
     - services
     - namespaces
     - componentstatuses
     - persistentvolumes
-    - persistentvolumeclaims
-    - secrets
-    - endpoints
+    # - persistentvolumeclaims
+    # - secrets
+    # - endpoints
   verbs:
     - list
     - get
@@ -63,26 +64,26 @@ rules:
     - get
     - watch
     - update
-- apiGroups:
-    - "batch"
-  resources:
-    - cronjobs
-    - jobs
-  verbs:
-    - list
-    - get
-    - watch
-    - update
-- apiGroups:
-    - "networking.k8s.io"
-  resources:
-    - ingresses
-    - networkpolicies
-  verbs:
-    - list
-    - get
-    - watch
-    - update
+# - apiGroups:
+#     - "batch"
+#   resources:
+#     - cronjobs
+#     - jobs
+#   verbs:
+#     - list
+#     - get
+#     - watch
+#     - update
+# - apiGroups:
+#     - "networking.k8s.io"
+#   resources:
+#     - ingresses
+#     - networkpolicies
+#   verbs:
+#     - list
+#     - get
+#     - watch
+#     - update
 - nonResourceURLs:
     - /
     - /healthz
