@@ -1,44 +1,40 @@
 apiVersion: logicmonitor.com/v1alpha2
 kind: CollectorSet
 metadata:
-  name: {{ lower .Values.clusterName }}
-  namespace: {{ .Release.Namespace }}
-{{- if .Values.labels}}
+  name: {{ include "argus.fullname" . }}
+  namespace: {{ template "argus.namespace" . }}
   labels:
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-
-{{- if .Values.annotations }}
+    {{- include "argus.labels" . | nindent 4 }}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "argus.annotations" . | nindent 4 }}
 spec:
-  imageRepository: {{ required "A valid .Values.collector.imageRepository entry is required!" .Values.collector.imageRepository }}
-  imageTag: {{ required "A valid .Values.collector.imageTag entry is required!" .Values.collector.imageTag }}
-  imagePullPolicy: {{ required "A valid .Values.collector.imagePullPolicy entry is required!" .Values.collector.imagePullPolicy }}
+  image:
+    repository: {{ required "A valid .Values.collector.imageRepository entry is required!" .Values.collector.image.repository }}
+    tag: {{ required "A valid .Values.collector.imageTag entry is required!" .Values.collector.image.tag }}
+    pullPolicy: {{ required "A valid .Values.collector.imagePullPolicy entry is required!" .Values.collector.image.pullPolicy }}
   policy:
     distributionStrategy: RoundRobin
     orchestrator: Kubernetes
   replicas: {{ required "A valid .Values.collector.replicas entry is required!" .Values.collector.replicas }}
   size: {{ required "A valid .Values.collector.size entry is required!" .Values.collector.size }}
   clusterName: {{ required "A valid .Values.clusterName entry is required!" .Values.clusterName }}
-  {{- if .Values.collector.groupID }}
-  groupID:  {{ .Values.collector.groupID }}
+  {{- if .Values.collector.lm.groupID }}
+  groupID: {{ .Values.collector.lm.groupID }}
   {{- end }}
-  {{- if .Values.collector.escalationChainID }}
-  escalationChainID: {{ .Values.collector.escalationChainID }}
+  {{- if .Values.collector.lm.escalationChainID }}
+  escalationChainID: {{ .Values.collector.lm.escalationChainID }}
   {{- end }}
-  {{- if .Values.collector.collectorVersion }}
-  collectorVersion: {{ .Values.collector.collectorVersion }}
+  {{- if .Values.collector.version }}
+  collectorVersion: {{ .Values.collector.version }}
   {{- end }}
   {{- if .Values.collector.useEA }}
   useEA: {{ .Values.collector.useEA }}
   {{- end }}
-  {{- if .Values.collector.proxyURL }}
-  proxyURL: {{ .Values.collector.proxyURL }}
+  {{- if .Values.collector.proxy.url }}
+  proxyURL: {{ .Values.collector.proxy.url }}
   {{- end }}
-  {{- if .Values.collector.proxyUser }}
-  secretName: {{ required "A valid .Values.collector.secretName entry is required!" .Values.collector.secretName }}
+  {{- if .Values.collector.proxy.user }}
+  secretName: {{ include "argus.fullname" . }}-collector
   {{- end }}
 {{- if .Values.collector.labels }}
   labels:

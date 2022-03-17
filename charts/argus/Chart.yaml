@@ -1,15 +1,16 @@
 apiVersion: v2
 dependencies:
-- condition: kube-state-metrics.enabled
-  name: kube-state-metrics
-  repository: https://prometheus-community.github.io/helm-charts
-  version: 4.4.0
+  - condition: kube-state-metrics.enabled
+    name: kube-state-metrics
+    repository: https://prometheus-community.github.io/helm-charts
+    version: 4.4.0
 description: Automated Kubernetes monitoring
 icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
 kubeVersion: '>= 1.14.0-0'
 maintainers:
-- email: argus@logicmonitor.com
-  name: LogicMonitor
+  - email: argus@logicmonitor.com
+    name: LogicMonitor
 name: argus
-version: 1.2.0
+version: 2.0.0
 home: https://logicmonitor.github.io/helm-charts
+appVersion: v6.2

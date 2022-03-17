@@ -1,4 +1,4 @@
-{{- if .Values.enableRBAC -}}
+{{- if .Values.rbac.create -}}
 ---
 kind: ClusterRole
 apiVersion: {{ template "rbac.apiVersion" . }}

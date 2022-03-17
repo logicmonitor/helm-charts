@@ -1,28 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "argus.fullname" . }}
+  namespace: {{ template "argus.namespace" . }}
   labels:
-    chart: "argus"
     logicmonitor.com/version: v2
-{{- if .Values.labels}}
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
+    {{- include "argus.labels" . | nindent 4 }}
   annotations:
     helm-chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     helm-revision: "{{ .Release.Revision }}"
     ## keep value false as string, spinnaker's limitation, otherwise spinnaker fails to cast boolean to string
     strategy.spinnaker.io/versioned: "false"
-{{- if .Values.annotations }}
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "argus.annotations" . | nindent 4 }}
 data:
   config.yaml: |
-    address: collectorset-controller:50000
+    address: {{ default "collectorset-controller" .Values.collectorsetcontroller.address }}:{{ default "50000" .Values.collectorsetcontroller.port }}
     cluster_name: {{ required "A valid .Values.clusterName entry is required!" .Values.clusterName }}
     log_level: {{ .Values.logLevel }}
-    delete_resources: {{ required "A valid .Values.deleteDevices entry is required!" .Values.deleteDevices }}
-    disable_alerting: {{ required "A valid .Values.disableAlerting entry is required!" .Values.disableAlerting }}
     etcd_discovery_token: {{ .Values.etcdDiscoveryToken }}
     cluster_group_id: {{ .Values.clusterGroupID }}
     resource_group_id: {{ .Values.resourceGroupID }}

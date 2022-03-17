@@ -1,37 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: collectorset-controller
+  name: {{ include "collectorset-controller.fullname" . }}
+  namespace: {{ template "collectorset-controller.namespace" . }}
   labels:
-    chart: "collectorset-controller"
-{{- if .Values.labels}}
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-{{- if .Values.annotations }}
+    {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: collectorset-controller
+      {{- include "collectorset-controller.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: collectorset-controller
-{{- if .Values.labels}}
-{{ toYaml .Values.labels| indent 8 }}
-{{- end }}
-{{- if .Values.annotations }}
+        {{- include "collectorset-controller.labels" . | nindent 8 }}
       annotations:
-{{ toYaml .Values.annotations | indent 8 }}
-{{- end }}
+        {{- include "collectorset-controller.annotations" . | nindent 8}}
     spec:
-      serviceAccountName: collectorset-controller
-    {{- if .Values.affinity }}
+      serviceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}
+    {{- with .Values.affinity }}
       affinity:
-{{ toYaml .Values.affinity | indent 8 }}
+      {{ toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
@@ -42,61 +33,61 @@ spec:
     {{- end }}
     {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
+        {{ toYaml . | nindent 8 }}
     {{- end }}
       containers:
-      - name: collectorset-controller
-        image: "{{ .Values.imageRepository }}:{{ default "latest" .Values.imageTag }}"
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
-        {{- if .Values.resources }}
-        resources:
-{{ toYaml .Values.resources | indent 10}}
+        - name: collectorset-controller
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.resources }}
+          resources:
+            {{ toYaml . | nindent 12 }}
         {{- end}}
-        env:
-        - name: ACCESS_ID
-          valueFrom:
-            secretKeyRef:
-              name: collectorset-controller
-              key: accessID
-        - name: ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: collectorset-controller
-              key: accessKey
-        - name: ACCOUNT
-          valueFrom:
-            secretKeyRef:
-              name: collectorset-controller
-              key: account
-        - name: ETCD_DISCOVERY_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: collectorset-controller
-              key: etcdDiscoveryToken
-        {{- if .Values.proxyUser }}
-        - name: PROXY_USER
-          valueFrom:
-            secretKeyRef:
-              name: collectorset-controller
-              key: proxyUser
+          env:
+            - name: ACCESS_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  key: accessID
+            - name: ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  key: accessKey
+            - name: ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  key: account
+            - name: ETCD_DISCOVERY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  key: etcdDiscoveryToken
+        {{- if .Values.proxy.user }}
+            - name: PROXY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  key: proxyUser
         {{- end }}
-        {{- if .Values.proxyPass }}
-        - name: PROXY_PASS
-          valueFrom:
-            secretKeyRef:
-              name: collectorset-controller
-              key: proxyPass
+        {{- if .Values.proxy.pass }}
+            - name: PROXY_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  key: proxyPass
         {{- end }}
-        volumeMounts:
-        - name: etc-collectorset-controller
-          mountPath: "/etc/collectorset-controller"
-          readOnly: true
+          volumeMounts:
+            - name: etc-collectorset-controller
+              mountPath: "/etc/collectorset-controller"
+              readOnly: true
       volumes:
-      - name: etc-collectorset-controller
-        projected:
-          sources:
-          - configMap:
-              name: collectorset-controller
-              items:
-                - key: config.yaml
-                  path: config.yaml
+        - name: etc-collectorset-controller
+          projected:
+            sources:
+              - configMap:
+                  name: {{ include "collectorset-controller.fullname" . }}
+                  items:
+                    - key: config.yaml
+                      path: config.yaml

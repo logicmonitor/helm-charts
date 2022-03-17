@@ -1,147 +1,131 @@
-{{- if .Values.enableRBAC -}}
+{{- if .Values.rbac.create -}}
 ---
 kind: ClusterRole
-apiVersion: {{ template "rbac.apiVersion" . }}
+apiVersion: {{ include "rbac.apiVersion" . }}
 metadata:
-  name: collectorset-controller
-{{- if .Values.labels}}
+  name: {{ include "collectorset-controller.fullname" . }}
   labels:
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-{{- if .Values.annotations }}
+      {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
 rules:
-- apiGroups:
-    - ""
-  resources:
-    - pods
-  verbs:
-    - "*"
-- apiGroups:
-    - "apps"
-  resources:
-    - statefulsets
-  verbs:
-    - "*"
-- apiGroups:
-    - "*"
-  resources:
-    - collectorsets
-  verbs:
-    - "*"
-- apiGroups:
-    - apiextensions.k8s.io
-  resources:
-    - customresourcedefinitions
-  verbs:
-    - "*"
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - "*"
+  - apiGroups:
+      - "apps"
+    resources:
+      - statefulsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - "*"
+    resources:
+      - collectorsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - "*"
 ---
 apiVersion: {{ template "rbac.apiVersion" . }}
 kind: ClusterRoleBinding
 metadata:
-  name: collectorset-controller
-{{- if .Values.labels}}
+  name: {{ include "collectorset-controller.fullname" . }}
   labels:
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-{{- if .Values.annotations }}
+      {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: collectorset-controller
+  name: {{ include "collectorset-controller.fullname" . }}
 subjects:
-- kind: ServiceAccount
-  name: collectorset-controller
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "collectorset-controller.serviceAccountName" . }}
+    namespace: {{ template "collectorset-controller.namespace" . }}
 ---
 kind: ClusterRole
 apiVersion: {{ template "rbac.apiVersion" . }}
 metadata:
-  name: collector
-{{- if .Values.labels}}
+  name: {{ include "collectorset-controller.fullname" . }}-collector
   labels:
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-{{- if .Values.annotations }}
+      {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  - containers
-  - nodes
-  - componentstatuses
-  - replicasets
-  - ingress
-  - services
-  - endpoints
-  - pods/log
-  - events
-  verbs:
-  - list
-  - get
-- apiGroups:
-  - "apps"
-  - "extensions"
-  resources:
-  - deployments
-  verbs:
-  - list
-  - get
-- apiGroups:
-    - "autoscaling"
-  resources:
-    - horizontalpodautoscalers
-  verbs:
-    - list
-    - get
-- apiGroups:
-  - ""
-  resources:
-  - nodes/stats
-  verbs:
-  - get
-- apiGroups:
-  - "discovery.k8s.io"
-  resources:
-  - endpointslices
-  verbs:
-  - list
-  - get
-- nonResourceURLs:
-  - /
-  - /healthz
-  - /healthz/*
-  - /metrics
-  verbs:
-  - get
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - containers
+      - nodes
+      - componentstatuses
+      - replicasets
+      - ingress
+      - services
+      - endpoints
+      - pods/log
+      - events
+    verbs:
+      - list
+      - get
+  - apiGroups:
+      - "apps"
+      - "extensions"
+    resources:
+      - deployments
+    verbs:
+      - list
+      - get
+  - apiGroups:
+      - "autoscaling"
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - list
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - nodes/stats
+    verbs:
+      - get
+  - apiGroups:
+      - "discovery.k8s.io"
+    resources:
+      - endpointslices
+    verbs:
+      - list
+      - get
+  - nonResourceURLs:
+      - /
+      - /healthz
+      - /healthz/*
+      - /metrics
+    verbs:
+      - get
 ---
 apiVersion: {{ template "rbac.apiVersion" . }}
 kind: ClusterRoleBinding
 metadata:
-  name: collector
-{{- if .Values.labels}}
+  name: {{ include "collectorset-controller.fullname" . }}-collector
   labels:
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-{{- if .Values.annotations }}
+      {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: collector
+  name: {{ include "collectorset-controller.fullname" . }}-collector
 subjects:
-- kind: ServiceAccount
-  name: collector
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "collectorset-controller.serviceAccountName" . }}-collector
+    namespace: {{ template "collectorset-controller.namespace" . }}
 {{- end -}}
