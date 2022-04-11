@@ -49,4 +49,4 @@ jobs:
       - name: Validate all commits from PR
         run: |
           npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-          echo "$prTitle\r\n$prBody" | npx commitlint --verbose
+          echo "$prTitle\n$prBody" > tmp && npx commitlint --verbose < tmp
