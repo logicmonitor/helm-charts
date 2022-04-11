@@ -48,5 +48,6 @@ jobs:
           prLabel: ${{ steps.PR.outputs.pr_labels }}
       - name: Validate all commits from PR
         run: |
+          echo "$prTitle\n$prBody" | npx commitlint --verbose
           npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
           echo "$prTitle\n$prBody" > tmp && npx commitlint --verbose < tmp
