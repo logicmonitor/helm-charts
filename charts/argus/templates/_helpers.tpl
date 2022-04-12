@@ -99,3 +99,42 @@ Return the appropriate apiVersion for rbac.
 {{- print "rbac.authorization.k8s.io/v1beta1" -}}
 {{- end -}}
 {{- end -}}
+
+
+
+{{- define "cluster.extraprops" }}
+{{- range $item := .Values.lm.resourceGroup.extraProps.cluster }}
+- {{ $item }}
+{{- end }}
+- name: "kubernetes.resourcedeleteafterduration"
+  value: {{ .Values.lm.resource.globalDeleteAfterDuration | quote }}
+- name: "lmlogs.k8sevent.enable"
+  value: {{ .Values.lm.lmlogs.k8sevent.enable | quote }}
+- name: "lmlogs.k8spodlog.enable"
+  value: {{ .Values.lm.lmlogs.k8spodlog.enable | quote }}
+{{- end }}
+
+
+{{- define "monitoring.disable" }}
+{{ $alwaysDisable := list "configmaps" "secrets" "persistentvolumeclaims" "endpoints" "cronjobs" "jobs" "ingresses" "networkpolicies"}}
+{{ $resultList := ( concat $alwaysDisable $.Values.monitoring.disable | uniq )  }}
+{{- toYaml $resultList | nindent 0}}
+{{- end }}
+
+{{- define "alerting.disable" }}
+{{ $alwaysDisable := list }}
+{{ $resultList := (concat $alwaysDisable $.Values.lm.resource.alerting.disable | uniq )  }}
+{{- toYaml $resultList | nindent 0}}
+{{- end }}
+
+
+{{- define "collector.default.labels" }}
+
+{{- end }}
+
+{{- define "collector.labels" }}
+{{ $default := dict }}
+{{ $_ := set $default "app.kubernetes.io/part-of" (include "argus.name" .)}}
+{{- $result := (merge $default .Values.collector.labels)}}
+{{- toYaml $result | nindent 0 }}
+{{- end }}

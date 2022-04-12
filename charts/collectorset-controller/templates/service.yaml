@@ -1,7 +1,11 @@
 kind: Service
 apiVersion: v1
 metadata:
+  {{ if .Values.global.collectorsetServiceNameSuffix }}
+  name: {{ (printf "%s-%s" .Release.Name .Values.global.collectorsetServiceNameSuffix) | trunc 63 | trimSuffix "-" }}
+  {{ else }}
   name: {{ include "collectorset-controller.fullname" . }}
+  {{ end }}
   namespace: {{ template "collectorset-controller.namespace" . }}
   labels:
     {{- include "collectorset-controller.labels" . | nindent 4}}

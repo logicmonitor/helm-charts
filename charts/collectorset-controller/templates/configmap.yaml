@@ -13,8 +13,12 @@ metadata:
     {{- include "collectorset-controller.annotations" . | nindent 4}}
 data:
   config.yaml: |
-    logLevel: {{ .Values.logLevel }}
+    log:
+      {{- toYaml .Values.log | nindent 6 }}
     {{- if .Values.proxy.url }}
-    proxyURL: {{ .Values.proxy.url }}
+    proxy:
+      url: {{ .Values.proxy.url }}
     {{- end }}
     ignoreSSL: {{ default false .Values.ignoreSSL }}
+    collectorServiceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}-collector
+    secretName: {{ include "collectorset-controller.fullname" . }}

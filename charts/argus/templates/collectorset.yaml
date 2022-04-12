@@ -1,4 +1,4 @@
-apiVersion: logicmonitor.com/v1alpha2
+apiVersion: logicmonitor.com/v1beta1
 kind: CollectorSet
 metadata:
   name: {{ include "argus.fullname" . }}
@@ -11,7 +11,7 @@ spec:
   image:
     repository: {{ required "A valid .Values.collector.imageRepository entry is required!" .Values.collector.image.repository }}
     tag: {{ required "A valid .Values.collector.imageTag entry is required!" .Values.collector.image.tag }}
-    pullPolicy: {{ required "A valid .Values.collector.imagePullPolicy entry is required!" .Values.collector.image.pullPolicy }}
+    pullPolicy: {{ .Values.collector.image.pullPolicy | default .Values.global.image.pullPolicy }}
   policy:
     distributionStrategy: RoundRobin
     orchestrator: Kubernetes
@@ -36,17 +36,19 @@ spec:
   {{- if .Values.collector.proxy.user }}
   secretName: {{ include "argus.fullname" . }}-collector
   {{- end }}
-{{- if .Values.collector.labels }}
   labels:
-{{ toYaml .Values.collector.labels | indent 4 }}
-{{- end }}
+    {{- include "collector.labels" . | fromYaml | toYaml | nindent 4 }}
+{{/*{{- if .Values.collector.labels }}*/}}
+{{/*  labels:*/}}
+{{/*{{ toYaml .Values.collector.labels | indent 4 }}*/}}
+{{/*{{- end }}*/}}
 
 {{- if .Values.collector.annotations}}
   annotations:
 {{ toYaml .Values.collector.annotations| indent 4 }}
 {{- end }}
 
-{{- if .Values.collector.statefulsetspec }}
+{{- if .Values.collector.statefulsetSpec }}
   statefulsetspec:
-{{ toYaml .Values.collector.statefulsetspec | indent 4 }}
+{{ toYaml .Values.collector.statefulsetSpec | indent 4 }}
 {{- end }}

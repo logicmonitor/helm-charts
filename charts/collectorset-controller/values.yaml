@@ -7,7 +7,8 @@ accessKey: ""
 # The LogicMonitor account name.
 account: ""
 # To enable verbose logging at debug level.
-logLevel: info
+log:
+  level: info
 
 ## OPTIONAL VALUES
 
@@ -18,11 +19,9 @@ serviceAccount:
 rbac:
   create: true
 # The public etcd discovery token used to add etcd hosts to the cluster device group.
-etcdDiscoveryToken: ""
-# The image repository of the [Collectorset-controller](https://hub.docker.com/r/logicmonitor/collectorset-controller) container.
 image:
   repository: logicmonitor/collectorset-controller
-  pullPolicy: Always
+  pullPolicy: ""
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 # The Http/s proxy.
@@ -44,3 +43,15 @@ labels: {}
 annotations: {}
 # Set flag to ignore ssl/tls validation
 ignoreSSL: false
+
+global:
+  accessID: ""
+  accessKey: ""
+  account: ""
+  collectorsetServiceNameSuffix: ""
+  proxy:
+    url: ""
+    user: ""
+    pass: ""
+  image:
+    pullPolicy: Always

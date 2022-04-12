@@ -38,7 +38,7 @@ spec:
       containers:
         - name: collectorset-controller
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.global.image.pullPolicy }}
         {{- with .Values.resources }}
           resources:
             {{ toYaml . | nindent 12 }}

@@ -1,32 +1,67 @@
 ## REQUIRED VALUES
 
 # The LogicMonitor API key ID.
+# NOTE: Always add surrounding double quotes to avoid special character parsing errors
 accessID: ""
 # The LogicMonitor API key.
+# NOTE: Always add surrounding double quotes to avoid special character parsing errors
 accessKey: ""
 # The LogicMonitor account name.
+# Value should be trimmed from URL ___.logicmonitor.com
+# example: say, lmqauat.logicmonitor.com then "lmqauat" should be valid here
 account: ""
 # A unique name given to the cluster's resource group.
+# NOTE: do not change name once application deployed in cluster, breaks correlation at multiple places
+# example: Organised Resource group name of kubernetes resource tree generated as "Kubernetes Cluster: <clusterName>"
 clusterName: ""
 
-## OPTIONAL VALUES
+# clusterTreeParentID is a parent group ID underneath the organised kubernetes resource tree gets created
+clusterTreeParentID: 1
 
-nameOverride: ""
-fullnameOverride: ""
-rbac:
-  create: true
-# Set Argus Log Level
-logLevel: "info"
-
-serviceAccount:
-  create: true
-collectorsetcontroller:
-  address: collectorset-controller
+## OPTIONAL VALUES - used for Kubernetes Manifest files
 image:
   repository: logicmonitor/argus
-  pullPolicy: Always
+  pullPolicy: ""
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+# It provides the simplest way to run Pod on particular Node(s) based on labels on the node.
+nodeSelector: {}
+# It allows you to constrain which nodes your pod is eligible to be scheduled on.
+affinity: {}
+# The priority class name for Pod priority. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.
+priorityClassName: ""
+# tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.
+tolerations: []
+# resources are Pod resource limits
+resources: {}
+# Example:
+#  limits:
+#    cpu: "1000m"
+#    memory: "1Gi"
+#    ephemeral-storage: "100Mi"
+#  requests:
+#    cpu: "1000m"
+#    memory: "1Gi"
+#    ephemeral-storage: "100Mi"
+# Labels to apply on all objects created by Argus
+labels: {}
+# Annotations to apply on all objects created by Argus
+annotations: {}
+# Replicas - defaults to 1, param is just for development purpose, do not increase more than one replicas in production
+replicas: 1
+
+
+## OPTIONAL VALUES - Argus application configuration
+# A parent group id that will hold all cluster resources under it. This is useful when Argus is installed with non-admin user's token.
+resourceContainerID: 1
+
+# Set Argus Log Level
+log:
+  level: "info"
+
+collectorsetcontroller:
+  address: collectorset-controller
+  port: 50000
 # The Http/s proxy
 proxy:
   url: ""
@@ -34,60 +69,54 @@ proxy:
   pass: ""
 # The public etcd discovery token used to add etcd hosts to the cluster resource group.
 etcdDiscoveryToken: ""
-
-# It provides the simplest way to run Pod on particular Node(s) based on labels on the node.
-nodeSelector: {}
-# It allows you to constrain which nodes your pod is eligible to be scheduled on.
-affinity: {}
-# The priority class name for Pod priority. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.
-priorityClassName: ""
-# Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.
-tolerations: []
-
-resources: {}
-# Labels to apply on all objects created by Argus
-labels: {}
-# Annotations to apply on all objects created by Argus
-annotations: {}
 # Set flag to ignore ssl/tls validation
 ignoreSSL: false
 
 # appIntervals defines time intervals for periodic sync, periodic delete and in memory cache resync operations.
 daemons:
-  k8sBulkSync:
-    interval: "30m"
-  LMResourceSweeper:
-    interval: "10m"
-  LMCacheSync:
-    interval: "1h"
-lmlogs:
-  k8sevent.enable: false
-  k8spodlog.enable: false
+  lmResourceSweeper:
+    interval: '10m'
+  lmCacheSync:
+    interval: '1h'
+  worker:
+    poolSize: 10
+  watcher:
+    bulkSyncInterval: '30m'
+    runner:
+      poolSize: 10
+      backPressureQueueSizePerRunner: 10
+    sysIpsWaitTimeout: '5m'
+monitoring:
+  # list of resources to disable monitoring
+  disable: []
 lm:
+  lmlogs:
+    k8sevent:
+      enable: false
+    k8spodlog:
+      enable: false
   resource:
-    scheduledDelete: "P0DT0H0M0S"
-    monitoring:
-      # list of resources to disable monitoring
-      disable: []
+    # setting this to zero time, deletes resources immediately, global means global to this cluster
+    globalDeleteAfterDuration: "P0DT0H0M0S"
     alerting:
-      # only cluster scoped resources can be mentioned, to disable
+      # only cluster scoped resources can be mentioned to disable
       disable: []
   resourceGroup:
-    clusterTreeParentID: 1
-    # A parent group id that will hold all cluster resources under it. This is useful when Argus is installed with non-admin user's token.
-    resourceContainerID: 1
     extraProps:
+      # only cluster scoped resources can be mentioned to disable
+      # user need to use labels for namespaces
       cluster: []
       # - name: "abc"
       #   value: "xyz"
       nodes: []
       etcd: []
 filters: []
-
-# openmetrics config for Argus metrics collection
-openmetrics:
+selfMonitor:
+  enable: false
   port: 2112
-
+debug:
+  profiling:
+    enable: false
 collector:
   ## REQUIRED VALUES
 
@@ -104,7 +133,7 @@ collector:
   image:
     repository: logicmonitor/collector
     tag: latest
-    pullPolicy: Always
+    pullPolicy: ""
   ## OPTIONAL VALUES
 
   # On a collector downloading event, either download the latest EA version or the latest GD version.
@@ -119,17 +148,15 @@ collector:
   # labels to add on collector statefulset
   labels: {}
   # Collector statefulset template
-  statefulsetspec:
+  statefulsetSpec:
     template:
       spec:
         nodeSelector: {}
-        # Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.
+        # tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.
         tolerations: []
-        # The priority class name for Pod priority of the collector. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.
+        # priorityClassName for Pod priority of the collector. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.
         priorityClassName: ""
 
-# Replicas - defaults to 1, param is just for development purpose, do not increase more than one replicas in production
-replicas: 1
 
 # Kube state metrics configuration
 # For further customizing KSM configuration, pls refer https://artifacthub.io/packages/helm/prometheus-community/kube-state-metrics/?modal=values
@@ -143,3 +170,22 @@ kube-state-metrics:
     - replicasets
     - statefulsets
     - persistentvolumes
+
+global:
+  accessID: ""
+  accessKey: ""
+  account: ""
+  proxy:
+    url: ""
+    user: ""
+    pass: ""
+  image:
+    pullPolicy: Always
+  collectorsetServiceNameSuffix: ""
+
+nameOverride: ""
+fullnameOverride: ""
+rbac:
+  create: true
+serviceAccount:
+  create: true

@@ -38,7 +38,7 @@ spec:
       containers:
         - name: argus
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.global.image.pullPolicy }}
           {{ with .Values.resources }}
           resources:
             {{ toYaml . | nindent 12 }}
@@ -53,34 +53,34 @@ spec:
             - name: ACCESS_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{ include "argus.fullname" . }}
                   key: accessID
             - name: ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{ include "argus.fullname" . }}
                   key: accessKey
             - name: ACCOUNT
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{ include "argus.fullname" . }}
                   key: account
             - name: ETCD_DISCOVERY_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{ include "argus.fullname" . }}
                   key: etcdDiscoveryToken
         {{- if .Values.proxy.user }}
             - name: PROXY_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{ include "argus.fullname" . }}
                   key: proxyUser
         {{- end }}
         {{- if .Values.proxy.pass }}
             - name: PROXY_PASS
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}
+                  name: {{ include "argus.fullname" . }}
                   key: proxyPass
         {{- end }}

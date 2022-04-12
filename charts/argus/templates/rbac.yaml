@@ -3,7 +3,8 @@
 kind: ClusterRole
 apiVersion: {{ template "rbac.apiVersion" . }}
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "argus.fullname" . }}
+  namespace: {{ template "argus.namespace" . }}
 {{- if .Values.labels}}
   labels:
 {{ toYaml .Values.labels| indent 4 }}
@@ -13,88 +14,89 @@ metadata:
 {{ toYaml .Values.annotations | indent 4 }}
 {{- end }}
 rules:
-- apiGroups:
-    - ""
-  resources:
-    - pods
-    - pods/log
-    - containers
-    - nodes
-    - services
-    - namespaces
-    - componentstatuses
-    - persistentvolumes
-    # - persistentvolumeclaims
-    # - secrets
-    # - endpoints
-  verbs:
-    - list
-    - get
-    - watch
-    - update
-- apiGroups:
-    - ""
-  resources:
-    - configmaps
-  verbs:
-    - list
-    - get
-    - watch
-    - update
-    - create
-    - deletecollection
-- apiGroups:
-    - "apps"
-  resources:
-    - deployments
-    - daemonsets
-    - replicasets
-    - statefulsets
-  verbs:
-    - list
-    - get
-    - watch
-    - update
-- apiGroups:
-    - "autoscaling"
-  resources:
-    - horizontalpodautoscalers
-  verbs:
-    - list
-    - get
-    - watch
-    - update
-# - apiGroups:
-#     - "batch"
-#   resources:
-#     - cronjobs
-#     - jobs
-#   verbs:
-#     - list
-#     - get
-#     - watch
-#     - update
-# - apiGroups:
-#     - "networking.k8s.io"
-#   resources:
-#     - ingresses
-#     - networkpolicies
-#   verbs:
-#     - list
-#     - get
-#     - watch
-#     - update
-- nonResourceURLs:
-    - /
-    - /healthz
-    - /healthz/*
-  verbs:
-    - get
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - pods/log
+      - containers
+      - nodes
+      - services
+      - namespaces
+      - componentstatuses
+      - persistentvolumes
+      # - persistentvolumeclaims
+      # - secrets
+      # - endpoints
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+      - create
+      - deletecollection
+  - apiGroups:
+      - "apps"
+    resources:
+      - deployments
+      - daemonsets
+      - replicasets
+      - statefulsets
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  - apiGroups:
+      - "autoscaling"
+    resources:
+      - horizontalpodautoscalers
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  # - apiGroups:
+  #     - "batch"
+  #   resources:
+  #     - cronjobs
+  #     - jobs
+  #   verbs:
+  #     - list
+  #     - get
+  #     - watch
+  #     - update
+  # - apiGroups:
+  #     - "networking.k8s.io"
+  #   resources:
+  #     - ingresses
+  #     - networkpolicies
+  #   verbs:
+  #     - list
+  #     - get
+  #     - watch
+  #     - update
+  - nonResourceURLs:
+      - /
+      - /healthz
+      - /healthz/*
+    verbs:
+      - get
 ---
 apiVersion: {{ template "rbac.apiVersion" . }}
 kind: ClusterRoleBinding
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "argus.fullname" . }}
+  namespace: {{ template "argus.namespace" . }}
 {{- if .Values.labels}}
   labels:
 {{ toYaml .Values.labels| indent 4 }}
@@ -106,9 +108,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ .Release.Name }}
+  name: {{ include "argus.fullname" . }}
 subjects:
-- kind: ServiceAccount
-  name: {{ .Release.Name }}
-  namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: {{ include "argus.serviceAccountName" . }}
+    namespace: {{ template "argus.namespace" . }}
 {{- end -}}
