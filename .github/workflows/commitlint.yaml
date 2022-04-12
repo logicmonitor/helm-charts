@@ -46,7 +46,8 @@ jobs:
           prMergedAt: ${{ steps.PR.outputs.pr_merged_at }}
           prClosedAt: ${{ steps.PR.outputs.pr_closed_at }}
           prLabel: ${{ steps.PR.outputs.pr_labels }}
-      - name: validate pr description
+      - name: Validate PR description compliant with Conventional Commits
         run: printf "${{ steps.PR.outputs.pr_title }}\n${{ steps.PR.outputs.pr_body }}" | npx commitlint --verbose
+        if: success() && steps.PR.outputs.number
       - name: Validate all commits from PR
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
