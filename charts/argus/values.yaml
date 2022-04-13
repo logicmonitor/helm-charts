@@ -171,6 +171,8 @@ kube-state-metrics:
     - statefulsets
     - persistentvolumes
 
+imagePullSecrets: []
+
 global:
   accessID: ""
   accessKey: ""
@@ -182,6 +184,7 @@ global:
   image:
     pullPolicy: Always
   collectorsetServiceNameSuffix: ""
+  imagePullSecrets: []
 
 nameOverride: ""
 fullnameOverride: ""

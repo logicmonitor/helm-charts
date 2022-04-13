@@ -99,3 +99,8 @@ Return the appropriate apiVersion for rbac.
 {{- print "rbac.authorization.k8s.io/v1beta1" -}}
 {{- end -}}
 {{- end -}}
+
+{{ define "collectorset-controller.imagePullSecrets" }}
+{{ $result := (concat .Values.imagePullSecrets .Values.global.imagePullSecrets | uniq)}}
+{{ toYaml $result | nindent 0 }}
+{{ end }}

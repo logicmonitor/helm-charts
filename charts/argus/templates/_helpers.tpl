@@ -138,3 +138,8 @@ Return the appropriate apiVersion for rbac.
 {{- $result := (merge $default .Values.collector.labels)}}
 {{- toYaml $result | nindent 0 }}
 {{- end }}
+
+{{ define "argus.imagePullSecrets" }}
+{{ $result := (concat .Values.imagePullSecrets .Values.global.imagePullSecrets | uniq)}}
+{{ toYaml $result | nindent 0 }}
+{{ end }}

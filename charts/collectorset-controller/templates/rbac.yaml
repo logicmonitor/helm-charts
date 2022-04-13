@@ -1,11 +1,26 @@
 {{- if .Values.rbac.create -}}
 ---
+apiVersion: {{ template "rbac.apiVersion" . }}
 kind: ClusterRole
-apiVersion: {{ include "rbac.apiVersion" . }}
 metadata:
   name: {{ include "collectorset-controller.fullname" . }}
   labels:
-      {{- include "collectorset-controller.labels" . | nindent 4}}
+    {{- include "collectorset-controller.labels" . | nindent 4}}
+  annotations:
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        logicmonitor.com/aggregate-to-collectorset-controller: "true"
+rules: [ ] # The control plane automatically fills in the rules
+---
+kind: ClusterRole
+apiVersion: {{ include "rbac.apiVersion" . }}
+metadata:
+  name: {{ include "collectorset-controller.fullname" . }}-child
+  labels:
+    logicmonitor.com/aggregate-to-collectorset-controller: "true"
+    {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
     {{- include "collectorset-controller.annotations" . | nindent 4}}
 rules:
@@ -51,12 +66,27 @@ subjects:
     name: {{ include "collectorset-controller.serviceAccountName" . }}
     namespace: {{ template "collectorset-controller.namespace" . }}
 ---
-kind: ClusterRole
 apiVersion: {{ template "rbac.apiVersion" . }}
+kind: ClusterRole
 metadata:
   name: {{ include "collectorset-controller.fullname" . }}-collector
   labels:
-      {{- include "collectorset-controller.labels" . | nindent 4}}
+    {{- include "collectorset-controller.labels" . | nindent 4}}
+  annotations:
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        logicmonitor.com/aggregate-to-collector: "true"
+rules: [ ] # The control plane automatically fills in the rules
+---
+kind: ClusterRole
+apiVersion: {{ template "rbac.apiVersion" . }}
+metadata:
+  name: {{ include "collectorset-controller.fullname" . }}-collector-child
+  labels:
+    logicmonitor.com/aggregate-to-collector: "true"
+    {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
     {{- include "collectorset-controller.annotations" . | nindent 4}}
 rules:

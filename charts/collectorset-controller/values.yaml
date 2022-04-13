@@ -44,6 +44,7 @@ annotations: {}
 # Set flag to ignore ssl/tls validation
 ignoreSSL: false
 
+imagePullSecrets: []
 global:
   accessID: ""
   accessKey: ""
@@ -55,3 +56,4 @@ global:
     pass: ""
   image:
     pullPolicy: Always
+  imagePullSecrets: []
