@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "argus.fullname" . }}
-  namespace: {{ template "argus.namespace" . }}
+  namespace: {{ include "argus.namespace" . }}
   labels:
     {{ include "argus.labels" . | nindent 4 }}
   annotations:
@@ -37,7 +37,13 @@ spec:
     {{ end }}
       containers:
         - name: argus
+          {{- if or .Values.image.registry }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{ else if .Values.global.image.registry }}
+          image: "{{ .Values.global.image.registry}}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{ else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{ end }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.global.image.pullPolicy }}
           {{ with .Values.resources }}
           resources:
@@ -50,6 +56,14 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: MY_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: APP_KUBERNETES_IO_NAME
+              value: {{ include "argus.name" . }}
+            - name: APP_KUBERNETES_IO_INSTANCE
+              value: {{ .Release.Name }}
             - name: ACCESS_ID
               valueFrom:
                 secretKeyRef:

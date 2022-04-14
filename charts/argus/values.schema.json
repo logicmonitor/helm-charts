@@ -227,6 +227,7 @@
       "default": {},
       "examples": [
         {
+          "registry": "382028353997.dkr.ecr.us-west-2.amazonaws.com",
           "repository": "logicmonitor/argus",
           "pullPolicy": "Always",
           "tag": "v6"
@@ -234,6 +235,17 @@
       ],
       "required": [],
       "properties": {
+        "registry": {
+          "$id": "#/properties/image/properties/registry",
+          "type": "string",
+          "title": "The registry schema",
+          "description": "Container Image Registry",
+          "default": "",
+          "minLength": 0,
+          "examples": [
+            "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+          ]
+        },
         "repository": {
           "$id": "#/properties/image/properties/repository",
           "type": "string",
@@ -1280,6 +1292,7 @@
           "default": {},
           "examples": [
             {
+              "registry": "",
               "repository": "logicmonitor/collector",
               "tag": "latest",
               "pullPolicy": ""
@@ -1288,6 +1301,17 @@
           "required": [
           ],
           "properties": {
+            "registry": {
+              "$id": "#/properties/collector/properties/image/properties/registry",
+              "type": "string",
+              "title": "The registry schema",
+              "description": "Container Image Registry",
+              "default": "",
+              "minLength": 0,
+              "examples": [
+                "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+              ]
+            },
             "repository": {
               "$id": "#/properties/collector/properties/image/properties/repository",
               "type": "string",
@@ -1867,7 +1891,7 @@
           "type": "array"
         },
         "image": {
-          "$id": "#/properties/image",
+          "$id": "#/properties/global/properties/image",
           "type": "object",
           "title": "The image schema",
           "description": "An explanation about the purpose of this instance.",
@@ -1879,8 +1903,19 @@
           ],
           "required": [],
           "properties": {
+            "registry": {
+              "$id": "#/properties/global/properties/image/properties/registry",
+              "type": "string",
+              "title": "The registry schema",
+              "description": "Container Image Registry",
+              "default": "",
+              "minLength": 0,
+              "examples": [
+                "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+              ]
+            },
             "pullPolicy": {
-              "$id": "#/properties/image/properties/pullPolicy",
+              "$id": "#/properties/global/properties/image/properties/pullpolicy",
               "type": "string",
               "title": "pullPolicy",
               "description": "Overrides the image tag whose default is the chart appVersion.",

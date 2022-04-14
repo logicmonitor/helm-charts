@@ -209,6 +209,7 @@
       "default": {},
       "examples": [
         {
+          "registry": "382028353997.dkr.ecr.us-west-2.amazonaws.com",
           "repository": "logicmonitor/collectorset-controller",
           "pullPolicy": "",
           "tag": ""
@@ -217,6 +218,17 @@
       "required": [
       ],
       "properties": {
+        "registry": {
+          "$id": "#/properties/image/properties/registry",
+          "type": "string",
+          "title": "The registry schema",
+          "description": "Container Image Registry",
+          "default": "",
+          "minLength": 0,
+          "examples": [
+            "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+          ]
+        },
         "repository": {
           "$id": "#/properties/image/properties/repository",
           "type": "string",
@@ -424,8 +436,19 @@
           ],
           "required": [],
           "properties": {
+            "registry": {
+              "$id": "#/properties/global/properties/image/properties/registry",
+              "type": "string",
+              "title": "The registry schema",
+              "description": "Container Image Registry",
+              "default": "",
+              "minLength": 0,
+              "examples": [
+                "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+              ]
+            },
             "pullPolicy": {
-              "$id": "#/properties/image/properties/pullPolicy",
+              "$id": "#/properties/global/properties/image/properties/pullpolicy",
               "type": "string",
               "title": "pullPolicy",
               "description": "Overrides the image tag whose default is the chart appVersion.",
@@ -512,6 +535,7 @@
       "type": "array"
     }
   },
+  "additionalProperties": false,
   "definitions": {
     "toleration": {
       "oneOf": [

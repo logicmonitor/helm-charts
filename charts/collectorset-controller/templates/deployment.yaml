@@ -37,7 +37,13 @@ spec:
     {{- end }}
       containers:
         - name: collectorset-controller
+          {{- if or .Values.image.registry }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{ else if .Values.global.image.registry }}
+          image: "{{ .Values.global.image.registry}}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{ else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{ end }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.global.image.pullPolicy }}
         {{- with .Values.resources }}
           resources:

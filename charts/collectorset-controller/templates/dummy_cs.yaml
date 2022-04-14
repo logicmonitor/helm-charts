@@ -1,0 +1,9 @@
+# dummy cs object to trigger crd creation, by default if no crd object then helm chart ignores crd creation
+apiVersion: logicmonitor.com/v1beta1
+kind: CollectorSet
+metadata:
+  name: "dummy-void-cs"
+  namespace: {{ include "collectorset-controller.namespace" . }}
+spec:
+  replicas: 0
+  clusterName: "dummy-void-cs"

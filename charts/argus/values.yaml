@@ -20,6 +20,7 @@ clusterTreeParentID: 1
 
 ## OPTIONAL VALUES - used for Kubernetes Manifest files
 image:
+  registry: ""
   repository: logicmonitor/argus
   pullPolicy: ""
   # Overrides the image tag whose default is the chart appVersion.
@@ -131,6 +132,7 @@ collector:
     escalationChainID: 0
   # The image repository of the [Collector](https://hub.docker.com/r/logicmonitor/collector) container.
   image:
+    registry: ""
     repository: logicmonitor/collector
     tag: latest
     pullPolicy: ""
@@ -182,6 +184,7 @@ global:
     user: ""
     pass: ""
   image:
+    registry: ""
     pullPolicy: Always
   collectorsetServiceNameSuffix: ""
   imagePullSecrets: []
