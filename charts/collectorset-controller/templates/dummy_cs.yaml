@@ -2,8 +2,9 @@
 apiVersion: logicmonitor.com/v1beta1
 kind: CollectorSet
 metadata:
-  name: "dummy-void-cs"
+  name: "dummy-void-cs-{{ .Release.Name }}"
   namespace: {{ include "collectorset-controller.namespace" . }}
 spec:
   replicas: 0
-  clusterName: "dummy-void-cs"
+  clusterName: "dummy-void-cs-{{ .Release.Name }}"
+
