@@ -1,0 +1,479 @@
+{
+  "type": "object",
+  "title": "ArgusValues",
+  "description": "Argus helm chart configuration",
+  "required": [
+    "accessID",
+    "accessKey",
+    "account",
+    "clusterName",
+    "collector"
+  ],
+  "properties": {
+    "accessID": {
+      "description": "Logicmonitor API Token accessID",
+      "type": "string"
+    },
+    "accessKey": {
+      "description": "Logicmonitor API Token accessKey",
+      "type": "string"
+    },
+    "account": {
+      "description": "Logicmonitor account name (trimmed: ___.logicmonitor.com)",
+      "type": "string"
+    },
+    "clusterName": {
+      "type": "string"
+    },
+    "monitoring": {
+      "type": "object",
+      "properties": {
+        "disable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "disable"
+      ]
+    },
+    "rbac": {
+      "type": "object",
+      "properties": {
+        "create": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "create"
+      ]
+    },
+    "logLevel": {
+      "type": "string"
+    },
+    "clusterGroupID": {
+      "type": "integer"
+    },
+    "resourceGroupID": {
+      "type": "integer"
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "pullPolicy": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "pullPolicy",
+        "tag"
+      ]
+    },
+    "proxy": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "pass": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "user",
+        "pass"
+      ]
+    },
+    "etcdDiscoveryToken": {
+      "type": "string"
+    },
+    "nodeSelector": {
+      "type": "object"
+    },
+    "affinity": {
+      "type": "object"
+    },
+    "priorityClassName": {
+      "type": "string"
+    },
+    "tolerations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/toleration"
+      }
+    },
+    "labels": {
+      "type": "object"
+    },
+    "annotations": {
+      "type": "object"
+    },
+    "ignoreSSL": {
+      "type": "boolean"
+    },
+    "daemons": {
+      "type": "object",
+      "properties": {
+        "lmResourceSweeper": {
+          "type": "object",
+          "properties": {
+            "interval": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "interval"
+          ]
+        },
+        "lmCacheSync": {
+          "type": "object",
+          "properties": {
+            "interval": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "interval"
+          ]
+        },
+        "worker": {
+          "type": "object",
+          "properties": {
+            "poolSize": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1
+            }
+          },
+          "required": [
+            "poolSize"
+          ]
+        },
+        "watcher": {
+          "type": "object",
+          "properties": {
+            "bulkSyncInterval": {
+              "type": "string"
+            },
+            "runner": {
+              "type": "object",
+              "properties": {
+                "poolSize": {
+                  "type": "integer",
+                  "default": 10,
+                  "minimum": 1
+                },
+                "backPressureQueueSizePerRunner": {
+                  "type": "integer",
+                  "default": 10,
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "backPressureQueueSizePerRunner",
+                "poolSize"
+              ]
+            }
+          },
+          "required": [
+            "bulkSyncInterval",
+            "runner"
+          ]
+        }
+      },
+      "required": [
+        "lmResourceSweeper",
+        "lmCacheSync",
+        "worker",
+        "watcher"
+      ]
+    },
+    "lmlogs": {
+      "type": "object",
+      "properties": {
+        "k8sevent.enable": {
+          "type": "boolean"
+        },
+        "k8spodlog.enable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "k8sevent.enable",
+        "k8spodlog.enable"
+      ]
+    },
+    "lm": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "type": "object",
+          "properties": {
+            "globalDeleteAfterDuration": {
+              "type": "string"
+            },
+            "alerting": {
+              "type": "object",
+              "properties": {
+                "disable": {
+                  "type": "array",
+                  "items": {}
+                }
+              },
+              "required": [
+                "disable"
+              ]
+            }
+          },
+          "required": [
+            "globalDeleteAfterDuration",
+            "alerting"
+          ]
+        },
+        "resourceGroup": {
+          "type": "object",
+          "properties": {
+            "clusterTreeParentID": {
+              "type": "integer"
+            },
+            "resourceContainerID": {
+              "type": "integer"
+            },
+            "extraProps": {
+              "type": "object",
+              "properties": {
+                "cluster": {
+                  "type": "array",
+                  "items": {}
+                },
+                "nodes": {
+                  "type": "array",
+                  "items": {}
+                },
+                "etcd": {
+                  "type": "array",
+                  "items": {}
+                }
+              },
+              "required": [
+                "cluster",
+                "nodes",
+                "etcd"
+              ]
+            }
+          },
+          "required": [
+            "extraProps"
+          ]
+        }
+      },
+      "required": [
+        "resource",
+        "resourceGroup"
+      ]
+    },
+    "filters": {
+      "type": "array",
+      "items": {}
+    },
+    "openmetrics": {
+      "type": "object",
+      "properties": {
+        "port": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "port"
+      ]
+    },
+    "collector": {
+      "type": "object",
+      "properties": {
+        "replicas": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "nano",
+            "small",
+            "medium",
+            "large",
+            "extra_large",
+            "double_extra_large"
+          ]
+        },
+        "useEA": {
+          "type": "boolean"
+        },
+        "lm": {
+          "type": "object",
+          "properties": {
+            "groupID": {
+              "type": "integer"
+            },
+            "escalationChainID": {
+              "type": "integer"
+            }
+          }
+        },
+        "image": {
+          "type": "object",
+          "properties": {
+            "repository": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "pullPolicy": {
+              "type": "string"
+            }
+          }
+        },
+        "proxy": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "user": {
+              "type": "string"
+            },
+            "pass": {
+              "type": "string"
+            }
+          }
+        },
+        "annotations": {
+          "type": "object"
+        },
+        "labels": {
+          "type": "object"
+        },
+        "statefulsetspec": {
+          "type": "object",
+          "properties": {
+            "template": {
+              "type": "object",
+              "properties": {
+                "spec": {
+                  "type": "object",
+                  "properties": {
+                    "nodeSelector": {
+                      "type": "object"
+                    },
+                    "tolerations": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/toleration"
+                      }
+                    },
+                    "priorityClassName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "nodeSelector",
+                    "tolerations",
+                    "priorityClassName"
+                  ]
+                }
+              },
+              "required": [
+                "spec"
+              ]
+            }
+          },
+          "required": [
+            "template"
+          ]
+        }
+      },
+      "required": [
+        "size"
+      ]
+    },
+    "replicas": {
+      "type": "integer"
+    },
+    "kube-state-metrics": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "replicas": {
+          "type": "integer"
+        },
+        "collectors": {
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "enabled",
+        "replicas",
+        "collectors"
+      ]
+    }
+  },
+  "definitions": {
+    "toleration": {
+      "properties": {
+        "effect": {
+          "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+          "type": "string"
+        },
+        "key": {
+          "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+          "type": "string"
+        },
+        "operator": {
+          "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+          "type": "string"
+        },
+        "tolerationSeconds": {
+          "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+          "format": "int64",
+          "type": "integer"
+        },
+        "value": {
+          "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

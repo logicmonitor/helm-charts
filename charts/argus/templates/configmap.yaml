@@ -1,85 +1,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "argus.fullname" . }}
+  namespace: {{ template "argus.namespace" . }}
   labels:
-    chart: "argus"
-    logicmonitor.com/version: v2
-{{- if .Values.labels}}
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
+    logicmonitor.com/version: v3
+    {{- include "argus.labels" . | nindent 4 }}
   annotations:
     helm-chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     helm-revision: "{{ .Release.Revision }}"
     ## keep value false as string, spinnaker's limitation, otherwise spinnaker fails to cast boolean to string
     strategy.spinnaker.io/versioned: "false"
-{{- if .Values.annotations }}
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "argus.annotations" . | nindent 4 }}
 data:
   config.yaml: |
-    address: collectorset-controller:50000
-    cluster_name: {{ required "A valid .Values.clusterName entry is required!" .Values.clusterName }}
-    log_level: {{ .Values.logLevel }}
-    delete_resources: {{ required "A valid .Values.deleteDevices entry is required!" .Values.deleteDevices }}
-    disable_alerting: {{ required "A valid .Values.disableAlerting entry is required!" .Values.disableAlerting }}
-    etcd_discovery_token: {{ .Values.etcdDiscoveryToken }}
-    cluster_group_id: {{ .Values.clusterGroupID }}
-    resource_group_id: {{ .Values.resourceGroupID }}
-    {{- if .Values.enableNewResourceTree }}
-    enable_new_resource_tree: {{ .Values.enableNewResourceTree }}
-    {{- end }}
-    {{- if .Values.telemetryCronString}}
-    telemetry_cron_string: {{ .Values.telemetryCronString | quote}}
-    {{- end }}
-    {{- if .Values.registerGenericFilter}}
-    register_generic_filter: {{ .Values.registerGenericFilter}}
-    {{- end }}
-    {{- if .Values.deleteInfraPodsAfter}}
-    delete_infra_pods_after: {{ .Values.deleteInfraPodsAfter}}
-    {{- end }}
-    {{- if .Values.enableNamespacesDeletedGroups}}
-    enable_namespaces_deleted_groups: {{ .Values.enableNamespacesDeletedGroups}}
-    {{- end }}
-    {{- if .Values.numberOfWorkers}}
-    number_of_workers: {{ .Values.numberOfWorkers}}
-    {{- end }}
-    {{- if .Values.numberOfParallelRunners}}
-    number_of_parallel_runners: {{ .Values.numberOfParallelRunners}}
-    {{- end }}
-    {{- if .Values.parallelRunnerQueueSize}}
-    parallel_runner_queue_size: {{ .Values.parallelRunnerQueueSize}}
-    {{- end }}
-    {{- if .Values.proxyURL }}
-    proxy_url: {{ .Values.proxyURL }}
-    {{- end }}
-    displayName_include_namespace: {{ .Values.fullDisplayNameIncludeNamespace }}
-    displayName_include_clustername: {{ .Values.fullDisplayNameIncludeClusterName }}
-    ignore_ssl: {{ .Values.ignore_ssl }}
-    app_intervals:
-{{ toYaml .Values.app_intervals | indent 6}}
-      periodic_sync_min_interval: 10m
-      periodic_delete_min_interval: 10m
-      cache_sync_min_interval: 5m
-    resource_group_props:
-{{ toYaml .Values.device_group_props | indent 6}}
-{{- if .Values.openmetrics }}
-    openmetrics:
-{{ toYaml .Values.openmetrics | indent 6}}
-{{- end }}
-    disable_resource_monitoring:
-{{- if .Values.disableResourceMonitoring}}
-{{ toYaml .Values.disableResourceMonitoring | indent 4}}
-{{- end }}
-    disable_resource_alerting:
-{{- if .Values.disableResourceAlerting}}
-{{ toYaml .Values.disableResourceAlerting| indent 4}}
-{{- end }}
-{{- if .Values.enableProfiling}}
-    enable_profiling: {{ .Values.enableProfiling }}
-{{- end }}
+    {{- include "argus-config" . | fromYaml | toYaml | nindent 4 }}
   filters-config.yaml: |
-    filters:
-{{- if .Values.filters }}
-{{ toYaml .Values.filters | indent 6}}
-{{- end }}
+    filters: {{- toYaml .Values.filters | nindent 6 }}
