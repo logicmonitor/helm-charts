@@ -1,1 +1,4 @@
 target-branch: main
+chart-repos:
+  - prometheus=https://prometheus-community.github.io/helm-charts
+  - logicmonitor=https://logicmonitor.github.io/helm-charts
