@@ -1,15 +1,16 @@
 {
   "dependencies": {
     "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4"
+    "@commitlint/config-conventional": "^12.1.4",
+    "husky": "^7.0.4"
   },
   "devDependencies": {
     "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.0.1",
-    "husky": "^7.0.4"
+    "cz-conventional-changelog": "^3.0.1"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "husky install"
   },
   "config": {
     "commitizen": {
