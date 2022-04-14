@@ -1,19 +1,20 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: collectorset-controller
-{{- if .Values.labels}}
+  {{ if .Values.global.collectorsetServiceNameSuffix }}
+  name: {{ (printf "%s-%s" .Release.Name .Values.global.collectorsetServiceNameSuffix) | trunc 63 | trimSuffix "-" }}
+  {{ else }}
+  name: {{ include "collectorset-controller.fullname" . }}
+  {{ end }}
+  namespace: {{ template "collectorset-controller.namespace" . }}
   labels:
-{{ toYaml .Values.labels| indent 4 }}
-{{- end }}
-{{- if .Values.annotations }}
+    {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
-{{ toYaml .Values.annotations | indent 4 }}
-{{- end }}
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
 spec:
   selector:
-    app: collectorset-controller
+    {{- include "collectorset-controller.selectorLabels" . | nindent 4}}
   ports:
-  - protocol: TCP
-    port: 50000
-    targetPort: 50000
+    - protocol: TCP
+      port: 50000
+      targetPort: 50000

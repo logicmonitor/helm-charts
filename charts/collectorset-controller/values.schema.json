@@ -1,0 +1,615 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "Collectorset Controller Helm chart Values Schema",
+  "description": "Collectorset Controller Helm chart Values Schema",
+  "default": {},
+  "examples": [
+    {
+      "accessID": "",
+      "accessKey": "",
+      "account": "",
+      "log": {
+        "level": "info"
+      },
+      "nameOverride": "",
+      "fullnameOverride": "",
+      "serviceAccount": {
+        "create": true
+      },
+      "rbac": {
+        "create": true
+      },
+      "image": {
+        "repository": "logicmonitor/collectorset-controller",
+        "pullPolicy": "",
+        "tag": ""
+      },
+      "proxy": {
+        "url": "",
+        "user": "",
+        "pass": ""
+      },
+      "nodeSelector": {},
+      "affinity": {},
+      "priorityClassName": "",
+      "tolerations": [],
+      "labels": {},
+      "annotations": {},
+      "ignoreSSL": false,
+      "global": {
+        "accessID": "",
+        "accessKey": "",
+        "account": "",
+        "collectorsetServiceNameSuffix": "",
+        "proxy": {
+          "url": "",
+          "user": "",
+          "pass": ""
+        },
+        "image": {
+          "pullPolicy": "Always"
+        }
+      }
+    }
+  ],
+  "required": [
+    "accessID",
+    "accessKey",
+    "account"
+  ],
+  "properties": {
+    "accessID": {
+      "$id": "#/properties/accessID",
+      "type": "string",
+      "title": "The accessID schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "accessKey": {
+      "$id": "#/properties/accessKey",
+      "type": "string",
+      "title": "The accessKey schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "account": {
+      "$id": "#/properties/account",
+      "type": "string",
+      "title": "The account schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "log": {
+      "$id": "#/properties/log",
+      "type": "object",
+      "title": "The log schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "level": "info"
+        }
+      ],
+      "required": [
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "$id": "#/properties/log/properties/level",
+          "type": "string",
+          "title": "The level schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "info",
+          "enum": [
+            "info",
+            "warn",
+            "warning",
+            "debug",
+            "trace",
+            "error",
+            "fatal",
+            "panic"
+          ],
+          "examples": [
+            "info"
+          ]
+        }
+      }
+    },
+    "nameOverride": {
+      "$id": "#/properties/nameOverride",
+      "type": "string",
+      "title": "The nameOverride schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "fullnameOverride": {
+      "$id": "#/properties/fullnameOverride",
+      "type": "string",
+      "title": "The fullnameOverride schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "serviceAccount": {
+      "$id": "#/properties/serviceAccount",
+      "type": "object",
+      "title": "The serviceAccount schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "create": true
+        }
+      ],
+      "required": [
+        "create"
+      ],
+      "properties": {
+        "create": {
+          "$id": "#/properties/serviceAccount/properties/create",
+          "type": "boolean",
+          "title": "The create schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": false,
+          "examples": [
+            true
+          ]
+        }
+      }
+    },
+    "rbac": {
+      "$id": "#/properties/rbac",
+      "type": "object",
+      "title": "The rbac schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "create": true
+        }
+      ],
+      "required": [
+        "create"
+      ],
+      "properties": {
+        "create": {
+          "$id": "#/properties/rbac/properties/create",
+          "type": "boolean",
+          "title": "The create schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": false,
+          "examples": [
+            true
+          ]
+        }
+      }
+    },
+    "image": {
+      "$id": "#/properties/image",
+      "type": "object",
+      "title": "The image schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "registry": "382028353997.dkr.ecr.us-west-2.amazonaws.com",
+          "repository": "logicmonitor/collectorset-controller",
+          "pullPolicy": "",
+          "tag": ""
+        }
+      ],
+      "required": [
+      ],
+      "properties": {
+        "registry": {
+          "$id": "#/properties/image/properties/registry",
+          "type": "string",
+          "title": "The registry schema",
+          "description": "Container Image Registry",
+          "default": "",
+          "minLength": 0,
+          "examples": [
+            "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+          ]
+        },
+        "repository": {
+          "$id": "#/properties/image/properties/repository",
+          "type": "string",
+          "title": "The repository schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "logicmonitor/collectorset-controller"
+          ]
+        },
+        "pullPolicy": {
+          "$id": "#/properties/image/properties/pullPolicy",
+          "type": "string",
+          "title": "The pullPolicy schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "Always",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never",
+            ""
+          ],
+          "examples": [
+            ""
+          ]
+        },
+        "tag": {
+          "$id": "#/properties/image/properties/tag",
+          "type": "string",
+          "title": "The tag schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        }
+      }
+    },
+    "proxy": {
+      "$id": "#/properties/proxy",
+      "type": "object",
+      "title": "The proxy schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {
+          "url": "",
+          "user": "",
+          "pass": ""
+        }
+      ],
+      "required": [
+      ],
+      "properties": {
+        "url": {
+          "$id": "#/properties/proxy/properties/url",
+          "type": "string",
+          "title": "The url schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        },
+        "user": {
+          "$id": "#/properties/proxy/properties/user",
+          "type": "string",
+          "title": "The user schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        },
+        "pass": {
+          "$id": "#/properties/proxy/properties/pass",
+          "type": "string",
+          "title": "The pass schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        }
+      }
+    },
+    "nodeSelector": {
+      "$id": "#/properties/nodeSelector",
+      "type": "object",
+      "title": "The nodeSelector schema",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "required": [],
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/"
+    },
+    "affinity": {
+      "$id": "#/properties/affinity",
+      "type": "object",
+      "title": "The affinity schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "required": []
+    },
+    "priorityClassName": {
+      "$id": "#/properties/priorityClassName",
+      "type": "string",
+      "title": "The priorityClassName schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "tolerations": {
+      "$id": "#/properties/tolerations",
+      "type": "array",
+      "title": "The tolerations schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": [],
+      "examples": [
+        []
+      ],
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/tolerations/items",
+        "$ref": "#/definitions/toleration"
+      },
+      "uniqueItems": true
+    },
+    "labels": {
+      "$id": "#/properties/labels",
+      "type": "object",
+      "title": "The labels schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "additionalProperties": {
+        "type": "string"
+      },
+      "required": []
+    },
+    "annotations": {
+      "$id": "#/properties/annotations",
+      "type": "object",
+      "title": "The annotations schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "additionalProperties": {
+        "type": "string"
+      },
+      "required": []
+    },
+    "ignoreSSL": {
+      "$id": "#/properties/ignoreSSL",
+      "type": "boolean",
+      "title": "The ignoreSSL schema",
+      "description": "An explanation about the purpose of this instance.",
+      "default": false,
+      "examples": [
+        false
+      ]
+    },
+    "global": {
+      "$id": "#/properties/global",
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "imagePullSecrets": {
+          "description": "ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. For example, in the case of docker, only DockerConfig type secrets are honored. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod",
+          "examples": [
+            [
+              {
+                "name": "imagepullsecret1"
+              }
+            ]
+          ],
+          "items": {
+            "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+          },
+          "type": "array"
+        },
+        "image": {
+          "$id": "#/properties/image",
+          "type": "object",
+          "title": "The image schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": {},
+          "examples": [
+            {
+              "pullPolicy": "Always"
+            }
+          ],
+          "required": [],
+          "properties": {
+            "registry": {
+              "$id": "#/properties/global/properties/image/properties/registry",
+              "type": "string",
+              "title": "The registry schema",
+              "description": "Container Image Registry",
+              "default": "",
+              "minLength": 0,
+              "examples": [
+                "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+              ]
+            },
+            "pullPolicy": {
+              "$id": "#/properties/global/properties/image/properties/pullpolicy",
+              "type": "string",
+              "title": "pullPolicy",
+              "description": "Overrides the image tag whose default is the chart appVersion.",
+              "default": "Always",
+              "enum": [
+                "Always",
+                "IfNotPresent",
+                "Never",
+                ""
+              ],
+              "examples": [
+                "Always"
+              ]
+            }
+          }
+        },
+        "proxy": {
+          "$id": "#/properties/proxy",
+          "type": "object",
+          "title": "The proxy schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": {},
+          "examples": [
+            {
+              "url": "",
+              "user": "",
+              "pass": ""
+            }
+          ],
+          "required": [
+          ],
+          "properties": {
+            "url": {
+              "$id": "#/properties/proxy/properties/url",
+              "type": "string",
+              "title": "The url schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "user": {
+              "$id": "#/properties/proxy/properties/user",
+              "type": "string",
+              "title": "The user schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            },
+            "pass": {
+              "$id": "#/properties/proxy/properties/pass",
+              "type": "string",
+              "title": "The pass schema",
+              "description": "An explanation about the purpose of this instance.",
+              "default": "",
+              "examples": [
+                ""
+              ]
+            }
+          }
+        },
+        "collectorsetServiceNameSuffix": {
+          "type": "string",
+          "default": "",
+          "description": "Suffix to be added to .Release.name to generate Collectorset controller service name.\nKeep it empty while installing this chart individually, umbrella chart uses this to generate unique name across"
+        }
+      }
+    },
+    "imagePullSecrets": {
+      "description": "ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. For example, in the case of docker, only DockerConfig type secrets are honored. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod",
+      "examples": [
+        [
+          {
+            "name": "imagepullsecret1"
+          }
+        ]
+      ],
+      "items": {
+        "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+      },
+      "type": "array"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "toleration": {
+      "oneOf": [
+        {
+          "properties": {
+            "effect": {
+              "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+              "type": "string"
+            },
+            "key": {
+              "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+              "type": "string"
+            },
+            "operator": {
+              "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+              "type": "string",
+              "enum": [
+                "Exists"
+              ]
+            },
+            "tolerationSeconds": {
+              "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+              "format": "int64",
+              "type": "integer"
+            },
+            "value": {
+              "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+              "type": "string",
+              "maxLength": 0
+            }
+          },
+          "type": "object"
+        },
+        {
+          "properties": {
+            "effect": {
+              "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+              "type": "string"
+            },
+            "key": {
+              "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+              "type": "string"
+            },
+            "operator": {
+              "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+              "type": "string",
+              "enum": [
+                "Equal"
+              ]
+            },
+            "tolerationSeconds": {
+              "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+              "format": "int64",
+              "type": "integer"
+            },
+            "value": {
+              "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "io.k8s.api.core.v1.LocalObjectReference": {
+      "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+      "properties": {
+        "name": {
+          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}
