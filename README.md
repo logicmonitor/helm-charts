@@ -1,7 +1,7 @@
 # Logicmonitor Helm Charts
 New Helm repository for LogicMonitor helm charts
 
-![Release Builds](https://github.com/logicmonitor/helm-charts/actions/workflows/release.yml/badge.svg?branch=main)
+![Release Builds](https://github.com/logicmonitor/helm-charts/actions/workflows/release.yml/badge.svg?branch=main) ![Pages Build Deployment](https://github.com/logicmonitor/helm-charts/actions/workflows/pages/pages-build-deployment/badge.svg)
 
 ```bash
 $ helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
