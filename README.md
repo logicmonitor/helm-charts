@@ -18,3 +18,9 @@ Check the [LM-logs](charts/lm-logs/README.md) for more details on **LM-logs** He
 
 ## LMOtel
 Check the [LMOtel](charts/lmotel/README.md) for more details on **LMOtel** Helm Chart.
+
+## Contributors
+
+<a href="https://github.com/logicmonitor/helm-charts/graphs/contributors">
+  <img src="https://contributors-img.firebaseapp.com/image?repo=logicmonitor/helm-charts" />
+</a>
