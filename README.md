@@ -16,10 +16,11 @@ New Helm repository for LogicMonitor helm charts
 
 ## Getting started
 
-Add helm repository using following command
+Add helm repository using following command:
 ```bash
 $ helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
 ```
+Use [helm search repo](https://helm.sh/docs/helm/helm_search_repo/#helm-search-repo) search charts and latest chart versions.
 
 ## Contributing
 
