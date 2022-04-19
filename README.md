@@ -1,7 +1,7 @@
 <h1 align="center">
   <br>
   <a href="https://github.com/logicmonitor/helm-charts">
-    <img src="https://github.com/logicmonitor/helm-charts/blob/main/lm_logo.png?raw=true" alt="helm-charts" width="400"></a>
+    <img src="https://github.com/logicmonitor/helm-charts/blob/dev-vk-logo/lm_logo.png?raw=true" alt="helm-charts" width="400"></a>
   <br>
 </h1>
 
