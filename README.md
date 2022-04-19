@@ -10,7 +10,7 @@
 # Logicmonitor Helm Charts
 New Helm repository for LogicMonitor helm charts
 
-![Release Builds](https://github.com/logicmonitor/helm-charts/actions/workflows/release.yml/badge.svg?branch=main) ![Pages Build Deployment](https://github.com/logicmonitor/helm-charts/actions/workflows/pages/pages-build-deployment/badge.svg)
+![Release Builds](https://github.com/logicmonitor/helm-charts/actions/workflows/release.yml/badge.svg?branch=main) ![Pages Build Deployment](https://github.com/logicmonitor/helm-charts/actions/workflows/pages/pages-build-deployment/badge.svg) ![Open Pull Requests](https://img.shields.io/github/issues-pr/logicmonitor/helm-charts)
 
 ## Getting started
 
