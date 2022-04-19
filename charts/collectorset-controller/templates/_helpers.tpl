@@ -37,7 +37,7 @@ Common labels
 */}}
 {{- define "collectorset-controller.labels" -}}
 helm.sh/chart: {{ include "collectorset-controller.chart" . }}
-app.kubernetes.io/component: discovery-agent
+app.kubernetes.io/component: custom-resource-controller
 app.kubernetes.io/part-of: {{ template "collectorset-controller.name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{ include "collectorset-controller.selectorLabels" . }}
