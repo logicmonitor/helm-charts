@@ -3,7 +3,7 @@
 First of all: Thank you! We really appreciate your efforts to make helm-charts better ❤️
 
 Create or find an issue you would like to implement:
--   issues with the label [helm-wanted](https://img.shields.io/github/issues/logicmonitor/helm-charts/helm-wanted) are ready to be picked up and implemented
+-   issues with the label [helm-wanted](https://github.com/logicmonitor/helm-charts/labels/help%20wanted) are ready to be picked up and implemented. Current [helm wanted issues](https://img.shields.io/github/issues/logicmonitor/helm-charts/helm-wanted).
 -   review the existing issues and ensure that you are not going to create a duplicate
 -   create your issue and wait for comments from maintainers
 -   once the issue is discussed and assigned to you – feel free to implement
