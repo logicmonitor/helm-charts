@@ -1,3 +1,11 @@
+<h1 align="center">
+  <br>
+  <a href="https://github.com/logicmonitor/helm-charts">
+    <img src="https://github.com/logicmonitor/helm-charts/blob/master/lm_logo.png?raw=true" alt="helm-charts" width="500"></a>
+  <br>
+</h1>
+
+<br>
 # Logicmonitor Helm Charts
 New Helm repository for LogicMonitor helm charts
 
