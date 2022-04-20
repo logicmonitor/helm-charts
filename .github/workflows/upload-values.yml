@@ -23,7 +23,7 @@ jobs:
           chartname=$(echo "${{ steps.get_release.outputs.tag_name }}" | grep -E "^(.*)-[0-9\.]+" -o | rev | cut -d'-' -f2- | rev)
           echo "::set-output name=chartname::$chartname"
 
-      - name: Upload release binary
+      - name: add values.yaml to release asset
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -33,3 +33,18 @@ jobs:
           asset_name: ${{ steps.get_chart.outputs.chartname }}-configuration.yaml
           asset_content_type: text/plain
 
+      - name: check values.schema.json exists
+        id: values_schema_exists
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "./charts/${{ steps.get_chart.outputs.chartname }}/values.schema.json"
+      - name: add values.schema.json to release asset
+        uses: actions/upload-release-asset@v1.0.2
+        if: steps.values_schema_exists.outputs.files_exists == 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./charts/${{ steps.get_chart.outputs.chartname }}/values.schema.json
+          asset_name: values.schema.json
+          asset_content_type: text/plain
