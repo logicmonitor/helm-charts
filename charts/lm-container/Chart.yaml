@@ -6,7 +6,7 @@ version: 1.0.0-rc2
 maintainers:
   - name: LogicMonitor
     email: argus@logicmonitor.com
-icon: https://logicmonitor.github.io/k8s-helm-charts/lm_logo.png
+icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
 dependencies:
   - name: argus
     # need to explicitly quote to make it string, else json schema fails
