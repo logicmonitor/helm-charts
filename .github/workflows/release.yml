@@ -45,17 +45,17 @@ jobs:
           touch out.md
           printf "# VERSION SKEW MATRIX" >> out.md
           printf "\n## Argus Releases\n" >> out.md
-          echo "| name | version | appVersion | dependencies |" >> out.md
+          echo "| name | version | appVersion | dependencies | Compatible Kubernetes Versions" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
-          cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/argus-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/argus-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | ", .kubeVersion? // empty , " | \n")' >> out.md
           printf "\n## Collectorset Controller Releases\n" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
-          cat tmp.json | jq -jr '(.entries."collectorset-controller"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat tmp.json | jq -jr '(.entries."collectorset-controller"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | ", .kubeVersion? // empty , " | \n")' >> out.md
           printf "\n## LM Container Releases\n" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
-          cat tmp.json | jq -jr '(.entries."lm-container"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/lm-container-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/lm-container/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat tmp.json | jq -jr '(.entries."lm-container"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/lm-container-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/lm-container/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | ", .kubeVersion? // empty , " | \n")' >> out.md
           cp out.md gh-pages/VERSION-SKEW-MATRIX.md
       - name: Push Version Skew Matrix
         uses: stefanzweifel/git-auto-commit-action@v4
