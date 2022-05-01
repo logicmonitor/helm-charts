@@ -16,3 +16,5 @@ helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
 ```
 
 You can then run `helm search repo logicmonitor` to see the charts.
+
+Find Version Skew Matrix [here](https://github.com/logicmonitor/helm-charts/blob/gh-pages/VERSION-SKEW-MATRIX.md)
