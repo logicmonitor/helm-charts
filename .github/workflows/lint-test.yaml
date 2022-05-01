@@ -64,3 +64,7 @@ jobs:
         run: |
           echo '{"abc": "xyz"}' | jq .
           yq gh-pages/index.yaml -o json > tmp.json
+          cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | ", .version, " | ", .appVersion, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat tmp.json | jq -jr '(.entries."collectorset-controller"[] | "| ", .name, " | ", .version, " | ", .appVersion, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat tmp.json | jq -jr '(.entries."lm-container"[] | "| ", .name, " | ", .version, " | ", .appVersion, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat out.md
