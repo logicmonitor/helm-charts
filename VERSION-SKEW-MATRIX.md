@@ -1,7 +1,7 @@
 # VERSION SKEW MATRIX
 ## Argus Releases
-| name | version | appVersion | dependencies | Kubernetes Vesion Compatibility
-| :---- | :---- | :---- | :---- | :---- |
+| name | version | appVersion | dependencies | Compatible Kubernetes Versions
+| :---- | :---- | :---- | :---- |
 | argus | [2.0.0-rc2](https://github.com/logicmonitor/helm-charts/releases/tag/argus-2.0.0-rc2) | [v8.0.0-rc1](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=v8.0.0-rc1) | <ul> <li>kube-state-metrics@4.7.0 https://prometheus-community.github.io/helm-charts</li> </ul> | >= 1.14.0-0 | 
 | argus | [2.0.0-rc1](https://github.com/logicmonitor/helm-charts/releases/tag/argus-2.0.0-rc1) | [v8.0.0-rc1](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=v8.0.0-rc1) | <ul> <li>kube-state-metrics@4.7.0 https://prometheus-community.github.io/helm-charts</li> </ul> | >= 1.14.0-0 | 
 
