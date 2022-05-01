@@ -64,15 +64,15 @@ jobs:
         run: |
           yq gh-pages/index.yaml -o json > tmp.json
           cp gh-pages/README.md out.md
-          echo "\n## Argus Releases"
+          echo "\n## Argus Releases" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
           cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | ", .version, " | ", .appVersion, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
-          echo "\n## Collectorset Controller Releases"
+          echo "\n## Collectorset Controller Releases" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
           cat tmp.json | jq -jr '(.entries."collectorset-controller"[] | "| ", .name, " | ", .version, " | ", .appVersion, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
-          echo "\n## LM Container Releases"
+          echo "\n## LM Container Releases" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
           cat tmp.json | jq -jr '(.entries."lm-container"[] | "| ", .name, " | ", .version, " | ", .appVersion, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
