@@ -76,4 +76,10 @@ jobs:
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
           cat tmp.json | jq -jr '(.entries."lm-container"[] | "| ", .name, " | ", .version, " | ", .appVersion // empty, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
-          cat out.md
+          cp out.md gh-pages/README.md
+          cd gh-pages
+      - name: auto commit
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "docs(readme): update readme"
+          file_pattern: "README.md"
