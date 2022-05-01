@@ -51,6 +51,8 @@ jobs:
           kubectl apply -f charts/collectorset-controller/crds/collectorset.yaml
           ct install --config ct.yaml --charts charts/argus
           kubectl delete -f charts/collectorset-controller/crds/collectorset.yaml
+      - name: setup yq
+        run: snap install yq
 
       - name: checkout gh-pages
         uses: actions/checkout@v3
@@ -61,3 +63,4 @@ jobs:
       - name: generate readme table
         run: |
           echo '{"abc": "xyz"}' | jq .
+          yq index.yaml -o json > tmp.json
