@@ -57,7 +57,7 @@ jobs:
         with:
           fetch-depth: 0
           path: gh-pages
-          branch: gh-pages
+          ref: gh-pages
       - name: generate readme table
         run: |
           cat '{"abc": "xyz"}' | jq .
