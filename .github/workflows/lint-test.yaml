@@ -52,7 +52,7 @@ jobs:
           ct install --config ct.yaml --charts charts/argus
           kubectl delete -f charts/collectorset-controller/crds/collectorset.yaml
       - name: setup yq
-        run: snap install yq
+        run: sudo snap install yq
 
       - name: checkout gh-pages
         uses: actions/checkout@v3
