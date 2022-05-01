@@ -68,7 +68,7 @@ jobs:
           printf "\n## Argus Releases\n" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
-          cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | ", .version, " | ", .appVersion // empty, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
+          cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | [", .version, "](https://github.com/logicmonitor/helm-charts/releases/tag/argus-", .version , ") | ", if .appVersion != null then ("[", .appVersion, "](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=", .appVersion, ")") else empty end, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
           printf "\n## Collectorset Controller Releases\n" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
           echo "| :---- | :---- | :---- | :---- |" >> out.md
