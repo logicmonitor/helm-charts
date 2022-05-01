@@ -66,8 +66,8 @@ jobs:
           touch out.md
           printf "# VERSION SKEW MATRIX" >> out.md
           printf "\n## Argus Releases\n" >> out.md
-          printf "| name | version | appVersion | dependencies |" >> out.md
-          printf "| :---- | :---- | :---- | :---- |" >> out.md
+          echo "| name | version | appVersion | dependencies |" >> out.md
+          echo "| :---- | :---- | :---- | :---- |" >> out.md
           cat tmp.json | jq -jr '(.entries."argus"[] | "| ", .name, " | ", .version, " | ", .appVersion // empty, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
           printf "\n## Collectorset Controller Releases\n" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
