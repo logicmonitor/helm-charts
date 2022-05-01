@@ -64,7 +64,7 @@ jobs:
         run: |
           yq gh-pages/index.yaml -o json > tmp.json
           touch out.md
-          printf "# VERSION SKEW MATRIX >> out.md
+          printf "# VERSION SKEW MATRIX" >> out.md
           printf "\n## Argus Releases\n" >> out.md
           printf "| name | version | appVersion | dependencies |" >> out.md
           printf "| :---- | :---- | :---- | :---- |" >> out.md
@@ -78,7 +78,6 @@ jobs:
           echo "| :---- | :---- | :---- | :---- |" >> out.md
           cat tmp.json | jq -jr '(.entries."lm-container"[] | "| ", .name, " | ", .version, " | ", .appVersion // empty, " | " as $out | " | <ul> ", (.dependencies[]? | "<li>", .name, "@" ,.version, " " , .repository,  "</li>" ), " </ul> | \n")' >> out.md
           cp out.md gh-pages/VERSION-SKEW-MATRIX.md
-          cd gh-pages
       - name: auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
