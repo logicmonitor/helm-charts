@@ -29,4 +29,12 @@ jobs:
         # do not use default github token, as it does not raise release created event for post release github actions
         env:
           CR_TOKEN: "${{ secrets.CHART_RELEASE_TOKEN }}"
-
+      
+      - name: checkout gh-pages
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: gh-pages
+      - name: generate readme table
+        run: |
+          cat '{"abc": "xyz"}' | jq .
