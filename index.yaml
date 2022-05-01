@@ -74,6 +74,36 @@ entries:
     version: 1.0.0-rc1
   lm-container:
   - apiVersion: v2
+    created: "2022-05-01T18:49:04.155776328Z"
+    dependencies:
+    - condition: argus.enabled
+      name: argus
+      repository: https://logicmonitor.github.io/helm-charts
+      tags:
+      - logicmonitor
+      - argus
+      - monitoring
+      version: 2.0.0-rc1
+    - condition: collectorset-controller.enabled
+      name: collectorset-controller
+      repository: https://logicmonitor.github.io/helm-charts
+      tags:
+      - logicmonitor
+      - collectorset-controller
+      - monitoring
+      version: 1.0.0-rc2
+    description: A Helm chart for Logicmonitor's Kubernetes moniotoring solutions
+    digest: f8a471caf0bfbd4c0e89f5dd8d058b0db7bb6d84dfab3face7473ee28a4cef5d
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: lm-container
+    type: application
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-1.0.0-rc4/lm-container-1.0.0-rc4.tgz
+    version: 1.0.0-rc4
+  - apiVersion: v2
     created: "2022-05-01T18:26:22.645512707Z"
     dependencies:
     - condition: argus.enabled
@@ -163,4 +193,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-1.0.0-rc1/lm-container-1.0.0-rc1.tgz
     version: 1.0.0-rc1
-generated: "2022-05-01T18:26:22.645536806Z"
+generated: "2022-05-01T18:49:04.155817028Z"
