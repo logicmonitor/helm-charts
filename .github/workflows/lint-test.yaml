@@ -63,6 +63,7 @@ jobs:
       - name: generate readme table
         run: |
           yq gh-pages/index.yaml -o json > tmp.json
+          touch out.md
           printf "# VERSION SKEW MATRIX >> out.md
           printf "\n## Argus Releases\n" >> out.md
           echo "| name | version | appVersion | dependencies |" >> out.md
