@@ -81,5 +81,6 @@ jobs:
       - name: auto commit
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
+          repository: gh-pages
           commit_message: "docs(readme): update readme"
           file_pattern: "README.md"
