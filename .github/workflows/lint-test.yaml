@@ -63,4 +63,4 @@ jobs:
       - name: generate readme table
         run: |
           echo '{"abc": "xyz"}' | jq .
-          yq index.yaml -o json > tmp.json
+          yq gh-pages/index.yaml -o json > tmp.json
