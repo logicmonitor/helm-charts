@@ -60,4 +60,4 @@ jobs:
           ref: gh-pages
       - name: generate readme table
         run: |
-          cat '{"abc": "xyz"}' | jq .
+          echo '{"abc": "xyz"}' | jq .
