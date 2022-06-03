@@ -44,13 +44,33 @@ spec:
           {{ else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           {{ end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.global.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default (.Values.global.image.pullPolicy | default "Always") }}
           {{ with .Values.resources }}
           resources:
             {{ toYaml . | nindent 12 }}
           {{ end }}
           args:
             - watch
+          {{ if .Values.probe.enabled }}
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            failureThreshold: {{ .Values.probe.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probe.startup.periodSeconds }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            failureThreshold: {{ .Values.probe.liveness.failureThreshold }}
+            periodSeconds: {{ .Values.probe.liveness.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            failureThreshold: {{ .Values.probe.readiness.failureThreshold }}
+            periodSeconds: {{ .Values.probe.readiness.periodSeconds }}
+          {{ end }}
           env:
             - name: MY_POD_NAME
               valueFrom:

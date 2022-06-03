@@ -12,7 +12,7 @@ spec:
     registry: {{ .Values.collector.image.registry | default .Values.global.image.registry }}
     repository: {{ required "A valid .Values.collector.imageRepository entry is required!" .Values.collector.image.repository }}
     tag: {{ required "A valid .Values.collector.imageTag entry is required!" .Values.collector.image.tag }}
-    pullPolicy: {{ .Values.collector.image.pullPolicy | default .Values.global.image.pullPolicy }}
+    pullPolicy: {{ .Values.collector.image.pullPolicy | default (.Values.global.image.pullPolicy | default "Always") }}
   policy:
     distributionStrategy: RoundRobin
     orchestrator: Kubernetes
@@ -49,3 +49,4 @@ spec:
   statefulsetspec:
     {{ toYaml .Values.collector.statefulsetSpec | nindent 4 }}
   {{- end }}
+  probe: {{ toYaml .Values.collector.probe | nindent 4 }}

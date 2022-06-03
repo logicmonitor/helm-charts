@@ -9,3 +9,6 @@ clusterName: "dummy"
 
 collector:
   size: nano
+
+probe:
+  enabled: false

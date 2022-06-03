@@ -158,7 +158,17 @@ collector:
         tolerations: []
         # priorityClassName for Pod priority of the collector. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.
         priorityClassName: ""
-
+  probe:
+    enabled: true
+    startup:
+      failureThreshold: 30
+      periodSeconds: 20
+    liveness:
+      failureThreshold: 30
+      periodSeconds: 10
+    readiness:
+      failureThreshold: 30
+      periodSeconds: 10
 
 # Kube state metrics configuration
 # For further customizing KSM configuration, pls refer https://artifacthub.io/packages/helm/prometheus-community/kube-state-metrics/?modal=values
@@ -166,6 +176,9 @@ kube-state-metrics:
   # Set enabled to false in case you want to use a custom configured KSM
   enabled: true
   # No. of KSM Replicas to be configured
+  selfMonitor:
+    enabled: true
+    telemetryPort: 8081
   replicas: 1
   collectors:
     - daemonsets
@@ -195,3 +208,15 @@ rbac:
   create: true
 serviceAccount:
   create: true
+
+probe:
+  enabled: true
+  startup:
+    failureThreshold: 30
+    periodSeconds: 10
+  liveness:
+    failureThreshold: 3
+    periodSeconds: 10
+  readiness:
+    failureThreshold: 3
+    periodSeconds: 10

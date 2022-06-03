@@ -104,7 +104,7 @@ Return the appropriate apiVersion for rbac.
 
 {{- define "cluster.extraprops" }}
 {{- range $item := .Values.lm.resourceGroup.extraProps.cluster }}
-- {{ $item }}
+- {{ toYaml $item | nindent 2 }}
 {{- end }}
 - name: "kubernetes.resourcedeleteafterduration"
   value: {{ .Values.lm.resource.globalDeleteAfterDuration | quote }}
