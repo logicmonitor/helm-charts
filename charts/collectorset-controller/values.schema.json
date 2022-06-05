@@ -125,7 +125,8 @@
             "info"
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "nameOverride": {
       "$id": "#/properties/nameOverride",
@@ -172,7 +173,8 @@
             true
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "rbac": {
       "$id": "#/properties/rbac",
@@ -199,7 +201,8 @@
             true
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "image": {
       "$id": "#/properties/image",
@@ -265,7 +268,8 @@
             ""
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "proxy": {
       "$id": "#/properties/proxy",
@@ -313,7 +317,8 @@
             ""
           ]
         }
-      }
+      },
+      "additionalProperties": false
     },
     "nodeSelector": {
       "$id": "#/properties/nodeSelector",
@@ -533,6 +538,80 @@
         "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
       },
       "type": "array"
+    },
+    "probe": {
+      "$id": "#/properties/probe",
+      "description": "The container probe configuration schema",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "$id": "#/properties/probe/properties/enabled",
+          "type": "boolean",
+          "default": true,
+          "description": "Enables container probes"
+        },
+        "startup": {
+          "$id": "#/properties/probe/properties/startup",
+          "properties": {
+            "failureThreshold": {
+              "$id": "#/properties/probe/properties/startup/properties/failureThreshold",
+              "type": "integer",
+              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+              "default": 30,
+              "minimum": 1
+            },
+            "periodSeconds": {
+              "$id": "#/properties/probe/properties/startup/properties/periodSeconds",
+              "type": "integer",
+              "description": "How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1.",
+              "default": 10,
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "liveness": {
+          "$id": "#/properties/probe/properties/liveness",
+          "properties": {
+            "failureThreshold": {
+              "$id": "#/properties/probe/properties/liveness/properties/failureThreshold",
+              "type": "integer",
+              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+              "default": 3,
+              "minimum": 1
+            },
+            "periodSeconds": {
+              "$id": "#/properties/probe/properties/liveness/properties/periodSeconds",
+              "type": "integer",
+              "description": "How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1.",
+              "default": 10,
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "readiness": {
+          "$id": "#/properties/probe/properties/readiness",
+          "properties": {
+            "failureThreshold": {
+              "$id": "#/properties/probe/properties/readiness/properties/failureThreshold",
+              "type": "integer",
+              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+              "default": 3,
+              "minimum": 1
+            },
+            "periodSeconds": {
+              "$id": "#/properties/probe/properties/readiness/properties/periodSeconds",
+              "type": "integer",
+              "description": "How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1.",
+              "default": 10,
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false,

@@ -25,8 +25,7 @@ spec:
       {{ toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+      nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
     {{- end }}
     {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName | quote }}
@@ -44,7 +43,41 @@ spec:
           {{ else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           {{ end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy | default .Values.global.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default (.Values.global.image.pullPolicy | default "Always") }}
+          {{ if and ( .Values.probe.enabled) ( semverCompare ">=1.23.0-0" .Capabilities.KubeVersion.Version )}}
+          startupProbe:
+            grpc:
+              port: 50000
+            failureThreshold: {{ .Values.probe.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probe.startup.periodSeconds }}
+          livenessProbe:
+            grpc:
+              port: 50000
+            failureThreshold: {{ .Values.probe.liveness.failureThreshold }}
+            periodSeconds: {{ .Values.probe.liveness.periodSeconds }}
+          readinessProbe:
+            grpc:
+              port: 50000
+            failureThreshold: {{ .Values.probe.readiness.failureThreshold }}
+            periodSeconds: {{ .Values.probe.readiness.periodSeconds }}
+          {{ else if ( .Values.probe.enabled) }}
+          startupProbe:
+            exec:
+              command: [ "/bin/grpc_health_probe", "-addr=:50000" ]
+            failureThreshold: {{ .Values.probe.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probe.startup.periodSeconds }}
+          livenessProbe:
+            exec:
+              command: [ "/bin/grpc_health_probe", "-addr=:50000" ]
+            failureThreshold: {{ .Values.probe.liveness.failureThreshold }}
+            periodSeconds: {{ .Values.probe.liveness.periodSeconds }}
+          readinessProbe:
+            exec:
+              command: [ "/bin/grpc_health_probe", "-addr=:50000" ]
+            failureThreshold: {{ .Values.probe.readiness.failureThreshold }}
+            periodSeconds: {{ .Values.probe.readiness.periodSeconds }}
+          {{ end }}
+
         {{- with .Values.resources }}
           resources:
             {{ toYaml . | nindent 12 }}

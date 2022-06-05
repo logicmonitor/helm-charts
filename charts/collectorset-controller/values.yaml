@@ -59,3 +59,15 @@ global:
     registry: ""
     pullPolicy: Always
   imagePullSecrets: []
+
+probe:
+  enabled: true
+  startup:
+    failureThreshold: 3
+    periodSeconds: 10
+  liveness:
+    failureThreshold: 3
+    periodSeconds: 10
+  readiness:
+    failureThreshold: 3
+    periodSeconds: 10
