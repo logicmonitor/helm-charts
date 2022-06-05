@@ -636,6 +636,62 @@ spec:
                         - Kubernetes
                       type: string
                   type: object
+                probe:
+                  description: The container probe configuration schema
+                  properties:
+                    enabled:
+                      default: true
+                      description: Enables container probes
+                      type: boolean
+                    liveness:
+                      properties:
+                        failureThreshold:
+                          default: 30
+                          description: The failureThreshold is maximum count before
+                            marking container start failed, typically collector installation
+                            time affects the argus startup
+                          minimum: 1
+                          type: integer
+                        periodSeconds:
+                          default: 10
+                          description: How often (in seconds) to perform the probe.
+                            Default to 10 seconds. Minimum value is 1.
+                          minimum: 1
+                          type: integer
+                      type: object
+                    readiness:
+                      properties:
+                        failureThreshold:
+                          default: 30
+                          description: The failureThreshold is maximum count before
+                            marking container start failed, typically collector installation
+                            time affects the argus startup
+                          minimum: 1
+                          type: integer
+                        periodSeconds:
+                          default: 10
+                          description: How often (in seconds) to perform the probe.
+                            Default to 10 seconds. Minimum value is 1.
+                          minimum: 1
+                          type: integer
+                      type: object
+                    startup:
+                      properties:
+                        failureThreshold:
+                          default: 20
+                          description: The failureThreshold is maximum count before
+                            marking container start failed, typically collector installation
+                            time affects the argus startup
+                          minimum: 1
+                          type: integer
+                        periodSeconds:
+                          default: 30
+                          description: How often (in seconds) to perform the probe.
+                            Default to 10 seconds. Minimum value is 1.
+                          minimum: 1
+                          type: integer
+                      type: object
+                  type: object
                 proxy:
                   default:
                     url: ""
