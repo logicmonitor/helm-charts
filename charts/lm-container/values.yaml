@@ -6,3 +6,8 @@ global:
     registry: ""
     pullPolicy: ""
   collectorsetServiceNameSuffix: "lm-container-collectorset-controller"
+
+argus:
+  enabled: true
+collectorset-controller:
+  enabled: true
