@@ -60,6 +60,12 @@
     "account"
   ],
   "properties": {
+    "enabled": {
+      "$id": "#/properties/enabled",
+      "description": "Defined for umbrella chart but unused here.",
+      "type": "boolean",
+      "default": true
+    },
     "accessID": {
       "$id": "#/properties/accessID",
       "type": "string",

@@ -168,6 +168,12 @@
     "clusterTreeParentID"
   ],
   "properties": {
+    "enabled": {
+      "$id": "#/properties/enabled",
+      "description": "Defined for umbrella chart but unused here.",
+      "type": "boolean",
+      "default": true
+    },
     "accessID": {
       "$id": "#/properties/accessID",
       "type": "string",
@@ -176,7 +182,8 @@
       "default": "",
       "examples": [
         ""
-      ]
+      ],
+      "$comment": "ui:accessId-ignore"
     },
     "accessKey": {
       "$id": "#/properties/accessKey",
@@ -186,7 +193,8 @@
       "default": "",
       "examples": [
         ""
-      ]
+      ],
+      "$comment": "ui:accessKey-ignore"
     },
     "account": {
       "$id": "#/properties/account",
@@ -196,7 +204,8 @@
       "default": "",
       "examples": [
         "lmqauat"
-      ]
+      ],
+      "$comment": "ui:account-ignore"
     },
     "clusterName": {
       "$id": "#/properties/clusterName",
@@ -206,7 +215,8 @@
       "default": "",
       "examples": [
         ""
-      ]
+      ],
+      "$comment": "ui:clusterName"
     },
     "clusterTreeParentID": {
       "$id": "#/properties/clusterTreeParentID",
@@ -217,7 +227,8 @@
       "minimum": 1,
       "examples": [
         1
-      ]
+      ],
+      "$comment": "ui:clusterGroupID"
     },
     "image": {
       "$id": "#/properties/image",
@@ -427,7 +438,8 @@
       "minimum": 1,
       "examples": [
         1
-      ]
+      ],
+      "$comment": "ui:resourceGroupID"
     },
     "log": {
       "$id": "#/properties/log",
@@ -530,7 +542,8 @@
           "default": "",
           "examples": [
             ""
-          ]
+          ],
+          "$comment": "ui:proxyURL"
         },
         "user": {
           "$id": "#/properties/proxy/properties/user",
@@ -540,7 +553,8 @@
           "default": "",
           "examples": [
             ""
-          ]
+          ],
+          "$comment": "ui:proxyUser"
         },
         "pass": {
           "$id": "#/properties/proxy/properties/pass",
@@ -550,7 +564,8 @@
           "default": "",
           "examples": [
             ""
-          ]
+          ],
+          "$comment": "ui:proxyPass"
         }
       },
       "additionalProperties": false
@@ -563,7 +578,8 @@
       "default": "",
       "examples": [
         ""
-      ]
+      ],
+      "$comment": "ui:etcdDiscoveryToken"
     },
     "ignoreSSL": {
       "$id": "#/properties/ignoreSSL",
@@ -883,7 +899,8 @@
                   "default": false,
                   "examples": [
                     false
-                  ]
+                  ],
+                  "$comment": "ui:k8sEventEnable"
                 }
               }
             },
@@ -909,7 +926,8 @@
                   "default": false,
                   "examples": [
                     false
-                  ]
+                  ],
+                  "$comment": "ui:k8sPodLogEnable"
                 }
               }
             }
@@ -1083,6 +1101,7 @@
           "'type == \"pod\" && [app.kubernetes.io/instance] != \"lm-container\""
         ]
       ],
+      "$comment": "ui:excludeRules",
       "additionalItems": true,
       "items": {
         "$id": "#/properties/filters/items",
@@ -1225,7 +1244,8 @@
           "minimum": 1,
           "examples": [
             1
-          ]
+          ],
+          "$comment": "ui:collectorReplicas"
         },
         "version": {
           "$id": "#/properties/collector/properties/version",
@@ -1253,7 +1273,8 @@
           ],
           "examples": [
             "small"
-          ]
+          ],
+          "$comment": "ui:collectorSize"
         },
         "useEA": {
           "$id": "#/properties/collector/properties/useEA",
@@ -1263,7 +1284,8 @@
           "default": false,
           "examples": [
             false
-          ]
+          ],
+          "$comment": "ui:collectorUseEA"
         },
         "lm": {
           "$id": "#/properties/collector/properties/lm",
@@ -1288,7 +1310,8 @@
               "default": 1,
               "examples": [
                 1
-              ]
+              ],
+              "$comment": "ui:collectorGroupID"
             },
             "escalationChainID": {
               "$id": "#/properties/collector/properties/lm/properties/escalationChainID",
@@ -1297,7 +1320,8 @@
               "description": "An explanation about the purpose of this instance.",
               "examples": [
                 1
-              ]
+              ],
+              "$comment": "ui:collectorEscalationChainID"
             }
           }
         },
@@ -1977,6 +2001,39 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "accessID": {
+          "$id": "#/properties/global/properties/accessID",
+          "type": "string",
+          "title": "Logicmonitor API Token accessID",
+          "description": "The LogicMonitor API key ID.\nNOTE: Always add surrounding double quotes to avoid special character parsing errors",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:accessId"
+        },
+        "accessKey": {
+          "$id": "#/properties/global/properties/accessKey",
+          "type": "string",
+          "title": "Logicmonitor API Token accessKey",
+          "description": "# The LogicMonitor API key.\nNOTE: Always add surrounding double quotes to avoid special character parsing errors",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:accessKey"
+        },
+        "account": {
+          "$id": "#/properties/global/properties/account",
+          "type": "string",
+          "title": "Logicmonitor account name",
+          "description": "The LogicMonitor account name.\nValue should be trimmed from URL ___.logicmonitor.com\nexample: say, lmqauat.logicmonitor.com then \"lmqauat\" should be valid here",
+          "default": "",
+          "examples": [
+            "lmqauat"
+          ],
+          "$comment": "ui:account"
+        },
         "imagePullSecrets": {
           "description": "ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. For example, in the case of docker, only DockerConfig type secrets are honored. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod",
           "examples": [
@@ -2130,7 +2187,8 @@
           "default": false,
           "examples": [
             true
-          ]
+          ],
+          "$comment": "ui:enableRBAC"
         }
       },
       "additionalProperties": false
