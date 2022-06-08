@@ -51,11 +51,12 @@ jobs:
           asset_name: values.schema.json
           asset_content_type: text/plain
       - name: Install Helm
-        if: ${{ steps.get_chart.outputs.chartname }} == "lm-container"
+        if: steps.get_chart.outputs.chartname == 'lm-container'
         uses: azure/setup-helm@v1
         with:
           version: v3.5.4
       - name: Wait for gh-pages to publish index.yaml
+        if: steps.get_chart.outputs.chartname == 'lm-container'
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
           ref: "gh-pages"
@@ -64,7 +65,7 @@ jobs:
           wait-interval: 10
 
       - name: Pull Charts and Generate UI Template
-        if: ${{ steps.get_chart.outputs.chartname }} == "lm-container"
+        if: steps.get_chart.outputs.chartname == 'lm-container'
         run: |
           helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
           helm pull logicmonitor/lm-container --untar --version ${{ steps.get_chart.outputs.chartversion }}
@@ -72,7 +73,7 @@ jobs:
           cat lm-container-ui-jsonpaths.json
       - name: Upload ui template to release asset
         uses: actions/upload-release-asset@v1.0.2
-        if: ${{ steps.get_chart.outputs.chartname }} == "lm-container"
+        if: steps.get_chart.outputs.chartname == 'lm-container'
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
