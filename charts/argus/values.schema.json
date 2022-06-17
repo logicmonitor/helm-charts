@@ -2,8 +2,8 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "http://example.com/example.json",
   "type": "object",
-  "title": "The root schema",
-  "description": "The root schema comprises the entire JSON document.",
+  "title": "Argus Helm Chart Configuration Schema",
+  "description": "The Argus Helm Chart Configuration Schema",
   "default": {},
   "examples": [
     {
@@ -178,7 +178,7 @@
       "$id": "#/properties/accessID",
       "type": "string",
       "title": "Logicmonitor API Token accessID",
-      "description": "The LogicMonitor API key ID.\nNOTE: Always add surrounding double quotes to avoid special character parsing errors",
+      "description": "The LogicMonitor API key ID.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
       "default": "",
       "examples": [
         ""
@@ -189,7 +189,7 @@
       "$id": "#/properties/accessKey",
       "type": "string",
       "title": "Logicmonitor API Token accessKey",
-      "description": "# The LogicMonitor API key.\nNOTE: Always add surrounding double quotes to avoid special character parsing errors",
+      "description": "The LogicMonitor API key.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
       "default": "",
       "examples": [
         ""
@@ -200,7 +200,7 @@
       "$id": "#/properties/account",
       "type": "string",
       "title": "Logicmonitor account name",
-      "description": "The LogicMonitor account name.\nValue should be trimmed from URL ___.logicmonitor.com\nexample: say, lmqauat.logicmonitor.com then \"lmqauat\" should be valid here",
+      "description": "The LogicMonitor account name.nValue should be trimmed from URL \"___.logicmonitor.com\"\nexample: lmqauat.logicmonitor.com then \"lmqauat\" must be a valid value.",
       "default": "",
       "examples": [
         "lmqauat"
@@ -211,7 +211,7 @@
       "$id": "#/properties/clusterName",
       "type": "string",
       "title": "Friendly Cluster Name",
-      "description": "A unique name given to the cluster's resource group.\nNOTE: do not change name once application deployed in cluster, breaks correlation at multiple places\nexample: Organised Resource group name of kubernetes resource tree generated as \"Kubernetes Cluster: <clusterName>\"",
+      "description": "The unique name to give to the cluster's resource group.\nNOTE: You must not change the name once the application is deployed in the cluster. If changed, breaks correlation at multiple places\nexample: Organised Resource group name of Kubernetes resource tree, is generated as \"Kubernetes Cluster: <clusterName>\"",
       "default": "",
       "examples": [
         ""
@@ -222,7 +222,7 @@
       "$id": "#/properties/clusterTreeParentID",
       "type": "integer",
       "title": "The clusterTreeParentID",
-      "description": "clusterTreeParentID is a parent group ID underneath the organised kubernetes resource tree gets created",
+      "description": "clusterTreeParentID is a parent static resource group ID under which the organised Kubernetes resource tree gets created.\nA static resource group with the mentioned ID should exit beforehand.",
       "default": 1,
       "minimum": 1,
       "examples": [
@@ -233,8 +233,8 @@
     "image": {
       "$id": "#/properties/image",
       "type": "object",
-      "title": "The image schema",
-      "description": "An explanation about the purpose of this instance.",
+      "title": "Argus Docker Image Schema",
+      "description": "The image contains the Argus docker image details.",
       "default": {},
       "examples": [
         {
@@ -249,8 +249,8 @@
         "registry": {
           "$id": "#/properties/image/properties/registry",
           "type": "string",
-          "title": "The registry schema",
-          "description": "Container Image Registry",
+          "title": "Argus Image Registry Schema",
+          "description": "The Docker Registry from which Argus image is pulled.\ndefaults to empty value.",
           "default": "",
           "minLength": 0,
           "examples": [
@@ -260,8 +260,8 @@
         "repository": {
           "$id": "#/properties/image/properties/repository",
           "type": "string",
-          "title": "The repository schema",
-          "description": "An explanation about the purpose of this instance.",
+          "title": "Argus Image Repository Schema",
+          "description": "The Docker Repository Name for Argus Image",
           "default": "logicmonitor/argus",
           "minLength": 1,
           "examples": [
@@ -271,8 +271,8 @@
         "pullPolicy": {
           "$id": "#/properties/image/properties/pullPolicy",
           "type": "string",
-          "title": "pullPolicy",
-          "description": "Overrides the image tag whose default is the chart appVersion.",
+          "title": "The Argus pullPolicy Schema",
+          "description": "Overrides the image pullPolicy.\nDefaults to \"Always\".",
           "default": "Always",
           "enum": [
             "Always",
@@ -287,8 +287,8 @@
         "tag": {
           "$id": "#/properties/image/properties/tag",
           "type": "string",
-          "title": "The tag schema",
-          "description": "An explanation about the purpose of this instance.",
+          "title": "The Argus Image tag schema",
+          "description": "The Argus Docker Image Tag.\nOverrides the image tag whose default is the chart appVersion.",
           "default": "",
           "examples": [
             ""
@@ -301,7 +301,7 @@
       "$id": "#/properties/nodeSelector",
       "type": "object",
       "title": "nodeSelector",
-      "description": "NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+      "description": "NodeSelector is a selector, which must be set to true for the pod to fit on a node. The selector must match the node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
       "default": {},
       "examples": [
         {}
@@ -315,7 +315,7 @@
       "$id": "#/properties/affinity",
       "type": "object",
       "title": "affinity",
-      "description": "It allows you to constrain which nodes your pod is eligible to be scheduled on.",
+      "description": "Affinity allows you to constrain which nodes your pod is eligible to be scheduled on.",
       "default": {},
       "examples": [
         {}
@@ -326,7 +326,7 @@
       "$id": "#/properties/priorityClassName",
       "type": "string",
       "title": "priorityClassName",
-      "description": "The priority class name for Pod priority. If this parameter is set then user must have PriorityClass resource created otherwise Pod will be rejected.",
+      "description": "The priority class name for Pod priority. If the priorityClassName parameter is enabled, then PriorityClass resource is created, or the Pod is rejected.",
       "default": "",
       "examples": [
         ""
@@ -351,8 +351,8 @@
     "resources": {
       "$id": "#/properties/resources",
       "type": "object",
-      "title": "The resources schema",
-      "description": "resources are Pod resource limits",
+      "title": "The Argus resource limits schema",
+      "description": "The Argus pod resource limits",
       "default": {},
       "examples": [
         {
@@ -392,7 +392,7 @@
     "labels": {
       "$id": "#/properties/labels",
       "type": "object",
-      "title": "extraLabels",
+      "title": "The Argus extra labels schema",
       "description": "Labels to apply on all objects created by Argus. Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: http://kubernetes.io/docs/user-guide/labels",
       "default": {},
       "examples": [
@@ -406,7 +406,7 @@
     "annotations": {
       "$id": "#/properties/annotations",
       "type": "object",
-      "title": "extraAnnotations",
+      "title": "The Argus extra annotations schema",
       "description": "Annotations to apply on all objects created by Argus. Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: http://kubernetes.io/docs/user-guide/annotations",
       "default": {},
       "examples": [
@@ -421,7 +421,7 @@
       "$id": "#/properties/replicas",
       "type": "integer",
       "title": "The replicas schema",
-      "description": "Replicas - defaults to 1, param is just for development purpose, do not increase more than one replicas in production",
+      "description": "Argus Pod Replicas - defaults to 1, parameter is just for development purpose, do not increase more than one replicas in production",
       "default": 1,
       "minimum": 0,
       "maximum": 1,
@@ -433,7 +433,7 @@
       "$id": "#/properties/resourceContainerID",
       "type": "integer",
       "title": "The resourceContainerID schema",
-      "description": "A parent group id that will hold all cluster resources under it. This is useful when Argus is installed with non-admin user's token.",
+      "description": "You must use the resourceContainerID when you install Argus as a non-admin user. \nThe resourceContainerID is a parent resource group id that holds all cluster resources under it.",
       "default": 1,
       "minimum": 1,
       "examples": [
@@ -445,7 +445,7 @@
       "$id": "#/properties/log",
       "type": "object",
       "title": "Log",
-      "description": "Log Configurations",
+      "description": "The Argus Log Configurations Schema",
       "default": {},
       "examples": [
         {
@@ -458,8 +458,8 @@
         "level": {
           "$id": "#/properties/log/properties/level",
           "type": "string",
-          "title": "log.level",
-          "description": "Log Level",
+          "title": "The Log Level for Argus Schema",
+          "description": "The Log Level for Argus",
           "default": "info",
           "enum": [
             "info",
@@ -481,8 +481,8 @@
     "collectorsetcontroller": {
       "$id": "#/properties/collectorsetcontroller",
       "type": "object",
-      "title": "collectorsetcontroller",
-      "description": "Collectorset-Controller Configurations",
+      "title": "The collectorsetcontroller schema",
+      "description": "The Collectorset-Controller Configurations",
       "default": {},
       "examples": [
         {
@@ -496,8 +496,8 @@
         "address": {
           "$id": "#/properties/collectorsetcontroller/properties/address",
           "type": "string",
-          "title": "collectorsetController",
-          "description": "Collectorset-controller grpc service address",
+          "title": "The CollectorsetController Address Schema",
+          "description": "The Collectorset-controller grpc service address",
           "default": "collectorset-controller",
           "minLength": 1,
           "examples": [
@@ -508,7 +508,7 @@
           "$id": "#/properties/collectorsetcontroller/properties/port",
           "type": "integer",
           "title": "port",
-          "description": "Port service exposes",
+          "description": "The Collectorset-controller grpc service port",
           "minimum": 2,
           "default": 50000,
           "examples": [
@@ -521,8 +521,8 @@
     "proxy": {
       "$id": "#/properties/proxy",
       "type": "object",
-      "title": "proxy",
-      "description": "Http/s proxy",
+      "title": "The proxy schema",
+      "description": "The Http/s proxy for Argus",
       "default": {},
       "examples": [
         {
@@ -537,8 +537,8 @@
         "url": {
           "$id": "#/properties/proxy/properties/url",
           "type": "string",
-          "title": "url",
-          "description": "Proxy service endpoint",
+          "title": "The Proxy Server URL Schema",
+          "description": "The Proxy Server's URL",
           "default": "",
           "examples": [
             ""
@@ -548,8 +548,8 @@
         "user": {
           "$id": "#/properties/proxy/properties/user",
           "type": "string",
-          "title": "The user schema",
-          "description": "Proxy service user",
+          "title": "The Proxy Server's User schema",
+          "description": "User for the Proxy Server.",
           "default": "",
           "examples": [
             ""
@@ -559,8 +559,8 @@
         "pass": {
           "$id": "#/properties/proxy/properties/pass",
           "type": "string",
-          "title": "pass",
-          "description": "Proxy service password",
+          "title": "The Proxy Server's Password schema",
+          "description": "Password for the Proxy Server",
           "default": "",
           "examples": [
             ""
@@ -573,8 +573,8 @@
     "etcdDiscoveryToken": {
       "$id": "#/properties/etcdDiscoveryToken",
       "type": "string",
-      "title": "etcdDiscoveryToken",
-      "description": "ETCD discovery token",
+      "title": "The ETCD DiscoveryToken Schema",
+      "description": "The ETCD DiscoveryToken.",
       "default": "",
       "examples": [
         ""
@@ -584,8 +584,8 @@
     "ignoreSSL": {
       "$id": "#/properties/ignoreSSL",
       "type": "boolean",
-      "title": "ignoreSSL",
-      "description": "Set flag to ignore ssl/tls validation",
+      "title": "The ignoreSSL Schema",
+      "description": "Set flag to ignore ssl/tls validation.",
       "default": false,
       "examples": [
         false
@@ -594,8 +594,8 @@
     "daemons": {
       "$id": "#/properties/daemons",
       "type": "object",
-      "title": "daemons",
-      "description": "Daemon configurations",
+      "title": "The Argus Daemon configurations Schema",
+      "description": "The Argus Daemon configurations.",
       "default": {},
       "examples": [
         {
@@ -624,8 +624,8 @@
         "lmResourceSweeper": {
           "$id": "#/properties/daemons/properties/lmResourceSweeper",
           "type": "object",
-          "title": "lmResourceSweeper",
-          "description": "LM Resource sweeper configurations",
+          "title": "The LM Resource sweeper configurations Schema",
+          "description": "The LM Resource sweeper configurations.",
           "default": {},
           "examples": [
             {
@@ -638,11 +638,11 @@
             "interval": {
               "$id": "#/properties/daemons/properties/lmResourceSweeper/properties/interval",
               "type": "string",
-              "title": "interval",
-              "description": "Execution run interval",
+              "title": "The LogicMonitor Resource sweeper Interval Schema",
+              "description": "The LogicMonitor Resource sweeper Run Interval Duration.",
               "default": "10m",
               "examples": [
-                "10m"
+                "0h10m0s"
               ],
               "pattern": "^(\\d+h)?(\\d+m)?(\\d+s)?(\\d+[u]s)?(\\d+ns)?$"
             }
@@ -652,8 +652,8 @@
         "lmCacheSync": {
           "$id": "#/properties/daemons/properties/lmCacheSync",
           "type": "object",
-          "title": "lmCacheSync",
-          "description": "Cache Sync using LM resources configurations",
+          "title": "The Cache Sync using LogicMonitor resources configurations Schema",
+          "description": "The Cache Sync using LogicMonitor resources configurations.",
           "default": {},
           "examples": [
             {
@@ -666,11 +666,11 @@
             "interval": {
               "$id": "#/properties/daemons/properties/lmCacheSync/properties/interval",
               "type": "string",
-              "title": "interval",
-              "description": "Execution run interval",
+              "title": "The Cache Sync using LogicMonitor resources Interval Schema",
+              "description": "The Cache Sync using LogicMonitor resources Run Interval Duration.",
               "default": "1h",
               "examples": [
-                "1h"
+                "1h0m0s"
               ],
               "pattern": "^(\\d+h)?(\\d+m)?(\\d+s)?(\\d+[u]s)?(\\d+ns)?$"
             }
@@ -680,8 +680,8 @@
         "worker": {
           "$id": "#/properties/daemons/properties/worker",
           "type": "object",
-          "title": "worker",
-          "description": "Worker configurations",
+          "title": "The Worker configurations Schema",
+          "description": "The Worker configurations.",
           "default": {},
           "examples": [
             {
@@ -694,8 +694,8 @@
             "poolSize": {
               "$id": "#/properties/daemons/properties/worker/properties/poolSize",
               "type": "integer",
-              "title": "The poolSize schema",
-              "description": "number of workers in a pool",
+              "title": "The Worker poolSize schema",
+              "description": "The number of workers in a pool.",
               "default": 10,
               "minimum": 1,
               "examples": [
@@ -708,8 +708,8 @@
         "watcher": {
           "$id": "#/properties/daemons/properties/watcher",
           "type": "object",
-          "title": "watcher",
-          "description": "Kubernetes watcher configurations",
+          "title": "The Kubernetes watcher configurations Schema",
+          "description": "The Kubernetes watcher configurations.",
           "default": {},
           "examples": [
             {
@@ -728,18 +728,18 @@
               "$id": "#/properties/daemons/properties/watcher/properties/bulkSyncInterval",
               "type": "string",
               "title": "bulkSyncInterval",
-              "description": "Execution run interval",
+              "description": "The Bulk Discovery Run Interval Duration.",
               "default": "30m",
               "examples": [
-                "30m"
+                "0h30m0s"
               ],
               "pattern": "^(\\d+h)?(\\d+m)?(\\d+s)?(\\d+[u]s)?(\\d+ns)?$"
             },
             "runner": {
               "$id": "#/properties/daemons/properties/watcher/properties/runner",
               "type": "object",
-              "title": "The runner schema",
-              "description": "configurations for parallel runners to process watcher events",
+              "title": "The runner configurations schema",
+              "description": "The configurations for parallel runners to process watcher events.",
               "default": {},
               "examples": [
                 {
@@ -753,8 +753,8 @@
                 "poolSize": {
                   "$id": "#/properties/daemons/properties/watcher/properties/runner/properties/poolSize",
                   "type": "integer",
-                  "title": "The poolSize schema",
-                  "description": "Number of runner in a pool",
+                  "title": "The Runner poolSize schema",
+                  "description": "The number runners in a pool.",
                   "default": 10,
                   "minimum": 1,
                   "examples": [
@@ -764,8 +764,8 @@
                 "backPressureQueueSizePerRunner": {
                   "$id": "#/properties/daemons/properties/watcher/properties/runner/properties/backPressureQueueSizePerRunner",
                   "type": "integer",
-                  "title": "The backPressureQueueSizePerRunner schema",
-                  "description": "Number of events to queue per runner",
+                  "title": "The Number of events to queue per runner schema",
+                  "description": "The number of events to queue per runner.",
                   "default": 10,
                   "minimum": 1,
                   "examples": [
@@ -778,10 +778,10 @@
               "$id": "#/properties/daemons/properties/watcher/properties/sysIpsWaitTimeout",
               "type": "string",
               "title": "The sysIpsWaitTimeout schema",
-              "description": "in case of IP update, need to wait till Logicmonitor portal copies system.hostname value into system.ips",
+              "description": "The sysIpsWaitTimeout is a timout for argus to wait till Logicmonitor portal copies system.hostname value into system.ips for updated IP of resource",
               "default": "5m",
               "examples": [
-                "5m"
+                "0h5m0s"
               ],
               "pattern": "^(\\d+h)?(\\d+m)?(\\d+s)?(\\d+[u]s)?(\\d+ns)?$"
             }
@@ -795,7 +795,7 @@
       "$id": "#/properties/monitoring",
       "type": "object",
       "title": "The monitoring schema",
-      "description": "Monitoring settings",
+      "description": "The Monitoring settings",
       "default": {},
       "examples": [
         {
@@ -809,7 +809,7 @@
           "$id": "#/properties/monitoring/properties/disable",
           "type": "array",
           "title": "The disable schema",
-          "description": "Set of resource names to disable monitoring for",
+          "description": "Set of resource names to disable monitoring for.",
           "default": [],
           "examples": [
             []
@@ -827,8 +827,8 @@
     "lm": {
       "$id": "#/properties/lm",
       "type": "object",
-      "title": "The lm schema",
-      "description": "Settings reflect on Logicmonitor Portal",
+      "title": "The Logicmonitor Portal Configurations",
+      "description": "The settings or configurations which reflect on LogicMonitor portal.",
       "default": {},
       "examples": [
         {
@@ -861,8 +861,8 @@
         "lmlogs": {
           "$id": "#/properties/lm/properties/lmlogs",
           "type": "object",
-          "title": "The lmlogs schema",
-          "description": "Logicmonitor Logs collection settings",
+          "title": "The LMLogs schema",
+          "description": "The LogicMonitor Logs collection settings.",
           "default": {},
           "examples": [
             {
@@ -880,8 +880,8 @@
             "k8sevent": {
               "$id": "#/properties/lm/properties/lmlogs/properties/k8sevent",
               "type": "object",
-              "title": "The k8sevent schema",
-              "description": "Kubernetes Events collection configurations",
+              "title": "The Kubernetes Events schema",
+              "description": "The Kubernetes Events collection configurations.",
               "default": {},
               "examples": [
                 {
@@ -895,7 +895,7 @@
                   "$id": "#/properties/lm/properties/lmlogs/properties/k8sevent/properties/enable",
                   "type": "boolean",
                   "title": "The enable schema",
-                  "description": "Setting this to true starts kuberentes events collection",
+                  "description": "Once you enable the property, it starts collecting Kuberentes events.",
                   "default": false,
                   "examples": [
                     false
@@ -907,8 +907,8 @@
             "k8spodlog": {
               "$id": "#/properties/lm/properties/lmlogs/properties/k8spodlog",
               "type": "object",
-              "title": "The k8spodlog schema",
-              "description": "Kubernetes Pod Logs collection configurations",
+              "title": "The k8spodlog schema.",
+              "description": "Kubernetes Pod Logs collection configurations.",
               "default": {},
               "examples": [
                 {
@@ -922,7 +922,7 @@
                   "$id": "#/properties/lm/properties/lmlogs/properties/k8spodlog/properties/enable",
                   "type": "boolean",
                   "title": "The enable schema",
-                  "description": "Setting this to true starts kuberentes pod's logs collection",
+                  "description": "Once you enable the property, it starts Kuberentes Pod's logs collection",
                   "default": false,
                   "examples": [
                     false
@@ -938,7 +938,7 @@
           "$id": "#/properties/lm/properties/resource",
           "type": "object",
           "title": "The resource schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {
@@ -955,7 +955,7 @@
               "$id": "#/properties/lm/properties/resource/properties/globalDeleteAfterDuration",
               "type": "string",
               "title": "The globalDeleteAfterDuration schema",
-              "description": "Global scheduled delete duration to delete resources after, values must if in ISO8601 format",
+              "description": "Global scheduled delete duration to delete resources after, values must be in ISO8601 format",
               "default": "P0DT0H0M0S",
               "examples": [
                 "P0DT0H0M0S"
@@ -966,7 +966,7 @@
               "$id": "#/properties/lm/properties/resource/properties/alerting",
               "type": "object",
               "title": "The alerting schema",
-              "description": "Alerting settings to apply on resource groups, only cluster scoped resources are valid here, other gets ignored",
+              "description": "Alerting settings to apply to resource groups.\nOnly cluster scoped resources are valid here.\n If any Namespace scoped resources are set, then the namespance resources will get ignored.",
               "default": {},
               "examples": [
                 {
@@ -980,7 +980,7 @@
                   "$id": "#/properties/lm/properties/resource/properties/alerting/properties/disable",
                   "type": "array",
                   "title": "The disable schema",
-                  "description": "Set of resources to disable alerting on",
+                  "description": "Set of resources to set disable upon resource groups.\nOnly cluster scoped resources are valid here.\nIf any Namespace scoped resources are set, then the namespance resources will get ignored.",
                   "default": [],
                   "examples": [
                     []
@@ -1019,7 +1019,7 @@
               "$id": "#/properties/lm/properties/resourceGroup/properties/extraProps",
               "type": "object",
               "title": "The extraProps schema",
-              "description": "Extra Properties to add upon resource groups, only cluster scoped resources are valid, for rest others use namespace labels",
+              "description": "Extra properties to add upon resource groups, only cluster scoped resources are valid, for others resources use namespace labels",
               "default": {},
               "examples": [
                 {
@@ -1038,7 +1038,7 @@
                   "$id": "#/properties/lm/properties/resourceGroup/properties/extraProps/properties/cluster",
                   "type": "array",
                   "title": "The cluster schema",
-                  "description": "Properties to apply upon cluster tree root group",
+                  "description": "Properties to apply upon cluster tree root resource group.",
                   "default": [],
                   "examples": [
                     []
@@ -1052,7 +1052,7 @@
                 "nodes": {
                   "$id": "#/properties/lm/properties/resourceGroup/properties/extraProps/properties/nodes",
                   "type": "array",
-                  "title": "Properties to apply upon node resource group",
+                  "title": "Properties to apply upon Nodes resource group.",
                   "description": "",
                   "default": [],
                   "examples": [
@@ -1068,7 +1068,7 @@
                   "$id": "#/properties/lm/properties/resourceGroup/properties/extraProps/properties/etcd",
                   "type": "array",
                   "title": "The etcd schema",
-                  "description": "Properties to apply upon etcd resource group",
+                  "description": "Properties to apply upon ETCD resource group.",
                   "default": [],
                   "examples": [
                     []
@@ -1091,7 +1091,7 @@
       "$id": "#/properties/filters",
       "type": "array",
       "title": "The filters schema",
-      "description": "Set of filter rules to exclude from adding into Logimonitor",
+      "description": "Set of filter rules to exclude from adding into LogicMonitor.",
       "default": [],
       "examples": [
         [
@@ -1113,7 +1113,7 @@
       "$id": "#/properties/selfMonitor",
       "type": "object",
       "title": "The selfMonitor schema",
-      "description": "Configurations to expose self monitor metrics in Openmetrics format",
+      "description": "Configurations to expose self monitor metrics in Openmetrics format.",
       "default": {},
       "examples": [
         {
@@ -1128,7 +1128,7 @@
           "$id": "#/properties/selfMonitor/properties/enable",
           "type": "boolean",
           "title": "The enable schema",
-          "description": "Setting this to true starts exposing self monitor metrics",
+          "description": "Once the property is enabled, self monitor metrics are displayed. ",
           "default": false,
           "examples": [
             false
@@ -1152,7 +1152,7 @@
       "$id": "#/properties/debug",
       "type": "object",
       "title": "The debug schema",
-      "description": "Application debug configurations",
+      "description": "The Application debugging configurations.",
       "default": {},
       "examples": [
         {
@@ -1168,7 +1168,7 @@
           "$id": "#/properties/debug/properties/profiling",
           "type": "object",
           "title": "The profiling schema",
-          "description": "Profile generation configurations",
+          "description": "Profile generation configurations.",
           "default": {},
           "examples": [
             {
@@ -1182,7 +1182,7 @@
               "$id": "#/properties/debug/properties/profiling/properties/enable",
               "type": "boolean",
               "title": "The enable schema",
-              "description": "Setting this to true start application profile generations",
+              "description": "Once the property is set to true, it starts application profile generations.",
               "default": false,
               "examples": [
                 false
@@ -1197,7 +1197,7 @@
       "$id": "#/properties/collector",
       "type": "object",
       "title": "The collector schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Describes the purpose of this instance.",
       "default": {},
       "examples": [
         {
@@ -1239,7 +1239,7 @@
           "$id": "#/properties/collector/properties/replicas",
           "type": "integer",
           "title": "The replicas schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": 1,
           "minimum": 1,
           "examples": [
@@ -1252,7 +1252,7 @@
           "type": "integer",
           "format": "",
           "title": "The version schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "examples": [
             20101
           ]
@@ -1261,7 +1261,7 @@
           "$id": "#/properties/collector/properties/size",
           "type": "string",
           "title": "The size schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": "",
           "enum": [
             "nano",
@@ -1280,7 +1280,7 @@
           "$id": "#/properties/collector/properties/useEA",
           "type": "boolean",
           "title": "The useEA schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": false,
           "examples": [
             false
@@ -1291,7 +1291,7 @@
           "$id": "#/properties/collector/properties/lm",
           "type": "object",
           "title": "The lm schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {
@@ -1306,7 +1306,7 @@
               "$id": "#/properties/collector/properties/lm/properties/groupID",
               "type": "integer",
               "title": "The groupID schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": 1,
               "examples": [
                 1
@@ -1317,7 +1317,7 @@
               "$id": "#/properties/collector/properties/lm/properties/escalationChainID",
               "type": "integer",
               "title": "The escalationChainID schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "examples": [
                 1
               ],
@@ -1329,7 +1329,7 @@
           "$id": "#/properties/collector/properties/image",
           "type": "object",
           "title": "The image schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {
@@ -1357,7 +1357,7 @@
               "$id": "#/properties/collector/properties/image/properties/repository",
               "type": "string",
               "title": "The repository schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": "",
               "examples": [
                 "logicmonitor/collector"
@@ -1367,7 +1367,7 @@
               "$id": "#/properties/collector/properties/image/properties/tag",
               "type": "string",
               "title": "The tag schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": "",
               "examples": [
                 "latest"
@@ -1377,7 +1377,7 @@
               "$id": "#/properties/collector/properties/image/properties/pullPolicy",
               "type": "string",
               "title": "The pullPolicy schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": "",
               "enum": [
                 "Always",
@@ -1396,7 +1396,7 @@
           "$id": "#/properties/collector/properties/proxy",
           "type": "object",
           "title": "The proxy schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {
@@ -1412,7 +1412,7 @@
               "$id": "#/properties/collector/properties/proxy/properties/url",
               "type": "string",
               "title": "The url schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": "",
               "examples": [
                 ""
@@ -1422,7 +1422,7 @@
               "$id": "#/properties/collector/properties/proxy/properties/user",
               "type": "string",
               "title": "The user schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": "",
               "examples": [
                 ""
@@ -1432,7 +1432,7 @@
               "$id": "#/properties/collector/properties/proxy/properties/pass",
               "type": "string",
               "title": "The pass schema",
-              "description": "An explanation about the purpose of this instance.",
+              "description": "Describes the purpose of this instance.",
               "default": "",
               "examples": [
                 ""
@@ -1445,7 +1445,7 @@
           "$id": "#/properties/collector/properties/annotations",
           "type": "object",
           "title": "The annotations schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {}
@@ -1459,7 +1459,7 @@
           "$id": "#/properties/collector/properties/labels",
           "type": "object",
           "title": "The labels schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {}
@@ -1596,23 +1596,23 @@
                       "additionalProperties": {
                         "type": "string"
                       },
-                      "description": "NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+                      "description": "NodeSelector is a selector, which you must set to true for the pod to fit on a node. The selector must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
                       "type": "object"
                     },
                     "priority": {
                       "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/priority",
-                      "description": "The priority value. Various system components use this field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The admission controller populates this field from PriorityClassName. The higher the value, the higher the priority.",
+                      "description": "The priority value. Various system components use the property value field to find the priority of the pod. When Priority Admission Controller is enabled, it prevents users from setting this field. The Admission Controller populates this field from PriorityClassName. The higher the value, the higher the priority.",
                       "format": "int32",
                       "type": "integer"
                     },
                     "priorityClassName": {
                       "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/priorityclassname",
-                      "description": "If specified, indicates the pod's priority. \"system-node-critical\" and \"system-cluster-critical\" are two special keywords which indicate the highest priorities with the former being the highest priority. Any other name must be defined by creating a PriorityClass object with that name. If not specified, the pod priority will be default or zero if there is no default.",
+                      "description": "If specified, indicates the pod's priority. \"system-node-critical\" and \"system-cluster-critical\" are two special keywords that indicate the highest priorities with the former being the highest priority. Any other name must be defined while creating a PriorityClass object with that name. If not specified, the pod priority will be default or zero if there is no default.",
                       "type": "string"
                     },
                     "restartPolicy": {
                       "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/restartpolicy",
-                      "description": "Restart policy for all containers within the pod. One of Always, OnFailure, Never. Default to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy",
+                      "description": "Restart policy for all containers within the pod. One of Always, OnFailure, Never. Set the default value to Always. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy",
                       "type": "string"
                     },
                     "schedulerName": {
@@ -1638,7 +1638,7 @@
                         "properties": {
                           "awsElasticBlockStore": {
                             "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/awselasticblockstore",
-                            "description": "Represents a Persistent Disk resource in AWS.\n\nAn AWS EBS disk must exist before mounting to a container. The disk must also be in the same AWS zone as the kubelet. An AWS EBS disk can only be mounted as read/write once. AWS EBS volumes support ownership management and SELinux relabeling.",
+                            "description": "Represents a Persistent Disk resource in AWS.\n\nYou must exit the AWS EBS disk before mounting to a container. The disk must also be in the same AWS zone as the kubelet. An AWS EBS disk can only be mounted as read/write once. AWS EBS volumes support ownership management and SELinux relabeling.",
                             "properties": {
                               "fsType": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/awselasticblockstore/properties/fstype",
@@ -1647,13 +1647,13 @@
                               },
                               "partition": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/awselasticblockstore/properties/partition",
-                                "description": "The partition in the volume that you want to mount. If omitted, the default is to mount by volume name. Examples: For volume /dev/sda1, you specify the partition as \"1\". Similarly, the volume partition for /dev/sda is \"0\" (or you can leave the property empty).",
+                                "description": "The partition in the volume that you want to mount. If omitted, by default it mounts by volume name. Examples: For volume /dev/sda1, you specify the partition as \"1\". Similarly, the volume partition for /dev/sda is \"0\" (or you can leave the property empty).",
                                 "format": "int32",
                                 "type": "integer"
                               },
                               "readOnly": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/awselasticblockstore/properties/readonly",
-                                "description": "Specify \"true\" to force and set the ReadOnly property in VolumeMounts to \"true\". If omitted, the default is \"false\". More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
+                                "description": "Specify \"true\" to force and set the ReadOnly property in VolumeMounts to \"true\". If omitted, the default is set to \"false\". More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore",
                                 "type": "boolean"
                               },
                               "volumeID": {
@@ -1678,12 +1678,12 @@
                               },
                               "diskName": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/azuredisk/properties/diskname",
-                                "description": "The Name of the data disk in the blob storage",
+                                "description": "The name of the data disk in the blob storage.",
                                 "type": "string"
                               },
                               "diskURI": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/azuredisk/properties/diskuri",
-                                "description": "The URI the data disk in the blob storage",
+                                "description": "The URI of the data disk in the blob storage",
                                 "type": "string"
                               },
                               "fsType": {
@@ -1693,12 +1693,12 @@
                               },
                               "kind": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/azuredisk/properties/kind",
-                                "description": "Expected values Shared: multiple blob disks per storage account  Dedicated: single blob disk per storage account  Managed: azure managed data disk (only in managed availability set). defaults to shared",
+                                "description": "Expected values Shared: multiple blob disks per storage account  Dedicated: single blob disk per storage account  Managed: Azure managed data disk (only in managed availability set). defaults to shared",
                                 "type": "string"
                               },
                               "readOnly": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/azuredisk/properties/readonly",
-                                "description": "Defaults to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts.",
+                                "description": "By default, the propertu is set to false (read/write). ReadOnly here will force the ReadOnly setting in VolumeMounts.",
                                 "type": "boolean"
                               }
                             },
@@ -1720,7 +1720,7 @@
                               },
                               "items": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/items",
-                                "description": "If unspecified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified which is not present in the ConfigMap, the volume setup will error unless it is marked optional. Paths must be relative and may not contain the '..' path or start with '..'.",
+                                "description": "If not specified, each key-value pair in the Data field of the referenced ConfigMap will be projected into the volume as a file whose name is the key and content is the value. If specified, the listed keys will be projected into the specified paths, and unlisted keys will not be present. If a key is specified and is not present in the ConfigMap, the volume setup will display an error unless it is marked optional. Paths must be relative and must not contain the '..' path or start with '..'.",
                                 "items": {
                                   "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/configmap/items/items",
                                   "description": "Maps a string key to a path within a volume.",
@@ -1732,13 +1732,13 @@
                                     },
                                     "mode": {
                                       "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/configmap/items/items/properties/mode",
-                                      "description": "Optional: mode bits to use on this file, must be a value between 0 and 0777. If not specified, the volume defaultMode will be used. This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.",
+                                      "description": "Optional, mode bits to use on this file, must be a value between 0 and 0777. If not specified, the defalut volume for mode will be used. This could create conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set.",
                                       "format": "int32",
                                       "type": "integer"
                                     },
                                     "path": {
                                       "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/configmap/items/items/properties/path",
-                                      "description": "The relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'.",
+                                      "description": "The relative path of the file to map the key to. This may not be an absolute path. May not contain the path element '..'. May not start with the string '..'.",
                                       "type": "string"
                                     }
                                   },
@@ -1769,7 +1769,7 @@
                             "properties": {
                               "medium": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/emptydir/properties/medium",
-                                "description": "What type of storage medium should back this directory. The default is \"\" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir",
+                                "description": "Specifies the type of storage medium should back this directory. The default is \"\" which means to use the node's default medium. Must be an empty string (default) or Memory. More info: https://kubernetes.io/docs/concepts/storage/volumes#emptydir",
                                 "type": "string"
                               },
                               "sizeLimit": {
@@ -1791,7 +1791,7 @@
                               },
                               "type": {
                                 "$id": "#/properties/collector/properties/statefulsetspec/properties/template/properties/spec/properties/volumes/items/properties/hostpath/properties/type",
-                                "description": "Type for HostPath Volume Defaults to \"\" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath",
+                                "description": "Type for HostPath Volume, by default is set to \"\" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath",
                                 "type": "string"
                               }
                             },
@@ -1845,14 +1845,14 @@
         },
         "probe": {
           "$id": "#/properties/collector/properties/probe",
-          "description": "The container probe configuration schema",
+          "description": "The container probe configuration schema.",
           "type": "object",
           "properties": {
             "enabled": {
               "$id": "#/properties/collector/properties/probe/properties/enabled",
               "type": "boolean",
               "default": true,
-              "description": "Enables container probes"
+              "description": "Enables container probes."
             },
             "startup": {
               "$id": "#/properties/collector/properties/probe/properties/startup",
@@ -1860,7 +1860,7 @@
                 "failureThreshold": {
                   "$id": "#/properties/collector/properties/probe/properties/startup/properties/failureThreshold",
                   "type": "integer",
-                  "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+                  "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the Argus startup.",
                   "default": 20,
                   "minimum": 1
                 },
@@ -1900,7 +1900,7 @@
                 "failureThreshold": {
                   "$id": "#/properties/collector/properties/probe/properties/readiness/properties/failureThreshold",
                   "type": "integer",
-                  "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+                  "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the Argus startup",
                   "default": 30,
                   "minimum": 1
                 },
@@ -1924,7 +1924,7 @@
       "$id": "#/properties/kube-state-metrics",
       "type": "object",
       "title": "The kube-state-metrics schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Describes kube-state-metrics helm chart configurations",
       "default": {},
       "examples": [
         {
@@ -1945,7 +1945,7 @@
           "$id": "#/properties/kube-state-metrics/properties/enabled",
           "type": "boolean",
           "title": "The enabled schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the flag to enable kube-state-metrics helm chart installation",
           "default": false,
           "examples": [
             true
@@ -1955,7 +1955,7 @@
           "$id": "#/properties/kube-state-metrics/properties/replicas",
           "type": "integer",
           "title": "The replicas schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the number of kube-state-metrics pod replicas",
           "default": 1,
           "minimum": 0,
           "examples": [
@@ -1966,7 +1966,7 @@
           "$id": "#/properties/kube-state-metrics/properties/collectors",
           "type": "array",
           "title": "The collectors schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the list of collector to enable metrics collection by kube-state-metrics",
           "default": [],
           "examples": [
             [
@@ -1982,8 +1982,8 @@
               {
                 "$id": "#/properties/kube-state-metrics/properties/collectors/items/anyOf/0",
                 "type": "string",
-                "title": "The first anyOf schema",
-                "description": "An explanation about the purpose of this instance.",
+                "title": "Kube-state-metrics collector name schema",
+                "description": "Describes the kube-state-metrics collector name",
                 "default": "",
                 "examples": [
                   "daemonsets",
@@ -2005,7 +2005,7 @@
           "$id": "#/properties/global/properties/accessID",
           "type": "string",
           "title": "Logicmonitor API Token accessID",
-          "description": "The LogicMonitor API key ID.\nNOTE: Always add surrounding double quotes to avoid special character parsing errors",
+          "description": "The LogicMonitor API key ID.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
           "default": "",
           "examples": [
             ""
@@ -2016,7 +2016,7 @@
           "$id": "#/properties/global/properties/accessKey",
           "type": "string",
           "title": "Logicmonitor API Token accessKey",
-          "description": "# The LogicMonitor API key.\nNOTE: Always add surrounding double quotes to avoid special character parsing errors",
+          "description": "The LogicMonitor API key.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
           "default": "",
           "examples": [
             ""
@@ -2027,7 +2027,7 @@
           "$id": "#/properties/global/properties/account",
           "type": "string",
           "title": "Logicmonitor account name",
-          "description": "The LogicMonitor account name.\nValue should be trimmed from URL ___.logicmonitor.com\nexample: say, lmqauat.logicmonitor.com then \"lmqauat\" should be valid here",
+          "description": "The LogicMonitor account name.nValue should be trimmed from URL \"___.logicmonitor.com\"\nexample: lmqauat.logicmonitor.com then \"lmqauat\" must be a valid value.",
           "default": "",
           "examples": [
             "lmqauat"
@@ -2052,7 +2052,7 @@
           "$id": "#/properties/global/properties/image",
           "type": "object",
           "title": "The image schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": {},
           "examples": [
             {
@@ -2065,7 +2065,7 @@
               "$id": "#/properties/global/properties/image/properties/registry",
               "type": "string",
               "title": "The registry schema",
-              "description": "Container Image Registry",
+              "description": "Container Image Registry.",
               "default": "",
               "minLength": 0,
               "examples": [
@@ -2110,7 +2110,7 @@
               "$id": "#/properties/proxy/properties/url",
               "type": "string",
               "title": "url",
-              "description": "Proxy service endpoint",
+              "description": "Proxy service endpoint.",
               "default": "",
               "examples": [
                 ""
@@ -2120,7 +2120,7 @@
               "$id": "#/properties/proxy/properties/user",
               "type": "string",
               "title": "The user schema",
-              "description": "Proxy service user",
+              "description": "User for Proxy service.",
               "default": "",
               "examples": [
                 ""
@@ -2130,7 +2130,7 @@
               "$id": "#/properties/proxy/properties/pass",
               "type": "string",
               "title": "pass",
-              "description": "Proxy service password",
+              "description": "Password for the Proxy service.",
               "default": "",
               "examples": [
                 ""
@@ -2141,7 +2141,7 @@
         "collectorsetServiceNameSuffix": {
           "type": "string",
           "default": "",
-          "description": "Suffix to be added to .Release.name to generate Collectorset controller service URL.\nKeep it empty while installing this chart individually, umbrella chart uses this to generate unique name across"
+          "description": "Suffix to be added to .Release.name to generate Collectorset controller service URL.\nKeep it empty while installing this chart individually, umbrella chart uses this to generate unique name across."
         }
       }
     },
@@ -2149,7 +2149,7 @@
       "$id": "#/properties/nameOverride",
       "type": "string",
       "title": "The nameOverride schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Describes the purpose of this instance.",
       "default": "",
       "examples": [
         ""
@@ -2159,7 +2159,7 @@
       "$id": "#/properties/fullnameOverride",
       "type": "string",
       "title": "The fullnameOverride schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Describes the purpose of this instance.",
       "default": "",
       "examples": [
         ""
@@ -2169,7 +2169,7 @@
       "$id": "#/properties/rbac",
       "type": "object",
       "title": "The rbac schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Describes the purpose of this instance.",
       "default": {},
       "examples": [
         {
@@ -2183,7 +2183,7 @@
           "$id": "#/properties/rbac/properties/create",
           "type": "boolean",
           "title": "The create schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": false,
           "examples": [
             true
@@ -2197,7 +2197,7 @@
       "$id": "#/properties/serviceAccount",
       "type": "object",
       "title": "The serviceAccount schema",
-      "description": "An explanation about the purpose of this instance.",
+      "description": "Describes the purpose of this instance.",
       "default": {},
       "examples": [
         {
@@ -2211,7 +2211,7 @@
           "$id": "#/properties/serviceAccount/properties/create",
           "type": "boolean",
           "title": "The create schema",
-          "description": "An explanation about the purpose of this instance.",
+          "description": "Describes the purpose of this instance.",
           "default": false,
           "examples": [
             true
@@ -2239,7 +2239,7 @@
           "$id": "#/properties/probe/properties/enabled",
           "type": "boolean",
           "default": true,
-          "description": "Enables container probes"
+          "description": "Enables container probes."
         },
         "startup": {
           "$id": "#/properties/probe/properties/startup",
@@ -2247,7 +2247,7 @@
             "failureThreshold": {
               "$id": "#/properties/probe/properties/startup/properties/failureThreshold",
               "type": "integer",
-              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the Argus startup.",
               "default": 30,
               "minimum": 1
             },
@@ -2267,7 +2267,7 @@
             "failureThreshold": {
               "$id": "#/properties/probe/properties/liveness/properties/failureThreshold",
               "type": "integer",
-              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the Argus startup",
               "default": 3,
               "minimum": 1
             },
@@ -2287,7 +2287,7 @@
             "failureThreshold": {
               "$id": "#/properties/probe/properties/readiness/properties/failureThreshold",
               "type": "integer",
-              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the argus startup",
+              "description": "The failureThreshold is maximum count before marking container start failed, typically collector installation time affects the Argus startup",
               "default": 3,
               "minimum": 1
             },
@@ -2406,7 +2406,7 @@
       ]
     },
     "io.k8s.api.core.v1.LocalObjectReference": {
-      "description": "LocalObjectReference contains enough information to let you locate the referenced object inside the same namespace.",
+      "description": "LocalObjectReference contains information to locate the referenced object inside the same namespace.",
       "properties": {
         "name": {
           "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
