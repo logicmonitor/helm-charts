@@ -62,6 +62,7 @@ global:
 
 probe:
   enabled: true
+  grpcContainerProbeEnabled: true
   startup:
     failureThreshold: 3
     periodSeconds: 10
