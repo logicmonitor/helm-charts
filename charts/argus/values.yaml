@@ -185,6 +185,14 @@ kube-state-metrics:
     - replicasets
     - statefulsets
     - persistentvolumes
+    - persistentvolumeclaims
+    - endpoints
+    - cronjobs
+    - jobs
+    - pods
+    - nodes
+    - deployments
+    - services
 
 imagePullSecrets: []
 
