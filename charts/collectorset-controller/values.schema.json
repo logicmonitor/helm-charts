@@ -556,6 +556,12 @@
           "default": true,
           "description": "Enables container probes"
         },
+        "grpcContainerProbeEnabled": {
+          "$id": "#/properties/probe/properties/grpccontainerprobeenabled",
+          "type": "boolean",
+          "default": true,
+          "description": "Flag to indicate whether \"GRPCContainerProbe\" feature on Kubernetes cluster enabled or not. More details: https://kubernetes.io/blog/2022/05/13/grpc-probes-now-in-beta/"
+        },
         "startup": {
           "$id": "#/properties/probe/properties/startup",
           "properties": {

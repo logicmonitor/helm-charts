@@ -40,6 +40,11 @@ helm.sh/chart: {{ include "collectorset-controller.chart" . }}
 app.kubernetes.io/component: custom-resource-controller
 app.kubernetes.io/part-of: {{ template "collectorset-controller.name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{/*
+Adding app property to make it backward compatible in trasition phase.
+New datasources or existing datasources should use app.kubernetes.io/name property in its appliesto script
+*/}}
+app: collectorset-controller
 {{ include "collectorset-controller.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}

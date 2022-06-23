@@ -40,6 +40,11 @@ helm.sh/chart: {{ include "argus.chart" . }}
 app.kubernetes.io/component: discovery-agent
 app.kubernetes.io/part-of: {{ template "argus.name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{/*
+Adding app property to make it backward compatible in trasition phase.
+New datasources or existing datasources should use app.kubernetes.io/name property in its appliesto script
+*/}}
+app: argus
 {{ include "argus.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -116,7 +121,7 @@ Return the appropriate apiVersion for rbac.
 
 
 {{- define "monitoring.disable" }}
-{{ $alwaysDisable := list "configmaps" "secrets" "persistentvolumeclaims" "endpoints" "cronjobs" "jobs" "networkpolicies"}}
+{{ $alwaysDisable := list "configmaps" "secrets" "networkpolicies"}}
 {{ $resultList := ( concat $alwaysDisable $.Values.monitoring.disable | uniq )  }}
 {{- toYaml $resultList | nindent 0}}
 {{- end }}
@@ -137,6 +142,11 @@ Return the appropriate apiVersion for rbac.
 {{ $_ := set $default "app.kubernetes.io/part-of" (include "argus.name" .)}}
 {{- $result := (merge $default .Values.collector.labels)}}
 {{- toYaml $result | nindent 0 }}
+{{/*
+Adding app property to make it backward compatible in trasition phase.
+New datasources or existing datasources should use app.kubernetes.io/name property in its appliesto script
+*/}}
+app: collector
 {{- end }}
 
 {{ define "argus.imagePullSecrets" }}
