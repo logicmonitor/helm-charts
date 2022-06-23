@@ -1,0 +1,68 @@
+{{- if .Values.rbac.create -}}
+---
+apiVersion: {{ template "rbac.apiVersion" . }}
+kind: ClusterRole
+metadata:
+  name: {{ include "collectorset-controller.fullname" . }}
+  labels:
+    {{- include "collectorset-controller.labels" . | nindent 4}}
+  annotations:
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        logicmonitor.com/aggregate-to-collectorset-controller: "true"
+rules: [ ] # The control plane automatically fills in the rules
+---
+kind: ClusterRole
+apiVersion: {{ include "rbac.apiVersion" . }}
+metadata:
+  name: {{ include "collectorset-controller.fullname" . }}-child
+  labels:
+    logicmonitor.com/aggregate-to-collectorset-controller: "true"
+    {{- include "collectorset-controller.labels" . | nindent 4}}
+  annotations:
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - "*"
+  - apiGroups:
+      - "apps"
+    resources:
+      - statefulsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - "*"
+    resources:
+      - collectorsets
+    verbs:
+      - "*"
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - "*"
+---
+apiVersion: {{ template "rbac.apiVersion" . }}
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "collectorset-controller.fullname" . }}
+  labels:
+      {{- include "collectorset-controller.labels" . | nindent 4}}
+  annotations:
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "collectorset-controller.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "collectorset-controller.serviceAccountName" . }}
+    namespace: {{ template "collectorset-controller.namespace" . }}
+{{ end }}
