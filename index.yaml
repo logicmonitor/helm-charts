@@ -3,6 +3,26 @@ entries:
   argus:
   - apiVersion: v2
     appVersion: v8.0.0-ea1
+    created: "2022-06-23T08:11:19.362846469Z"
+    dependencies:
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.7.0
+    description: Automated Kubernetes monitoring
+    digest: 905920e340d71cab425b373dab042253d912c93beba97b1f43037401bb2ef6fa
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: argus
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/argus-3.0.0-ea3/argus-3.0.0-ea3.tgz
+    version: 3.0.0-ea3
+  - apiVersion: v2
+    appVersion: v8.0.0-ea1
     created: "2022-06-17T08:34:55.710268169Z"
     dependencies:
     - condition: kube-state-metrics.enabled
@@ -62,6 +82,21 @@ entries:
     - https://github.com/logicmonitor/helm-charts/releases/download/argus-3.0.0-ea/argus-3.0.0-ea.tgz
     version: 3.0.0-ea
   collectorset-controller:
+  - apiVersion: v2
+    appVersion: v4.0.0-ea
+    created: "2022-06-23T08:11:19.501844676Z"
+    description: Automated collector management
+    digest: 847663a7edceec4d887e377bfe661c58b59e48af917c89761a64efea68d68d01
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: collectorset-controller
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/collectorset-controller-2.0.0-ea2/collectorset-controller-2.0.0-ea2.tgz
+    version: 2.0.0-ea2
   - apiVersion: v2
     appVersion: v4.0.0-ea
     created: "2022-06-17T08:30:22.136817097Z"
@@ -183,4 +218,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-1.0.0-ea/lm-container-1.0.0-ea.tgz
     version: 1.0.0-ea
-generated: "2022-06-17T09:10:59.433210458Z"
+generated: "2022-06-23T08:11:19.501901677Z"
