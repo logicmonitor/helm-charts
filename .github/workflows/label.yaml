@@ -1,0 +1,31 @@
+on: pull_request
+name: Add labels on PR as per changes included in PR
+jobs:
+  apply-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get Labels
+        id: get_labels
+        run: |
+          labels=$(git diff --dirstat=files,0 origin/main | egrep -o 'charts/(\w+\-?\w+)/' | cut -d'/' -f2 | uniq | tr '\n' ',' |  rev | cut -c2- | rev | sed -e 's/,/","/g' -e 's/^/"/g' -e 's/$/"/g')
+          echo "::set-output name=labels::$labels"
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.CHART_RELEASE_TOKEN }}
+          script: |
+            /** el = await github.rest.issues.listLabelsOnIssue({
+               issue_number: context.issue.number,
+               owner: context.repo.owner,
+               repo: context.repo.repo
+             })
+             console.log(el)
+             */
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [ ${{ steps.get_labels.outputs.labels }} ]
+            })
