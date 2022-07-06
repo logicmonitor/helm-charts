@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "title": "LM Container Helm chart Values Schema",
+  "description": "LM Container Helm chart Values Schema",
+  "default": {},
+  "examples": [
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "global": {
+      "$id": "#/properties/global",
+      "description": "Global Properties",
+      "type": "object",
+      "additionalProperties": true
+    },
+    "argus": {
+      "$id": "#/properties/argus",
+      "description": "Argus Helm Chart Configurations",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable Argus chart installation",
+          "default": true,
+          "$id": "#/properties/argus/properties/enabled"
+        }
+      },
+      "additionalProperties": true
+    },
+    "collectorset-controller": {
+      "$id": "#/properties/collectorset-controller",
+      "description": "Collectorset Controller Helm Chart Configurations",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable Collectorset-Controller chart installation",
+          "default": true,
+          "$id": "#/properties/collectorset-controller/properties/enabled"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
