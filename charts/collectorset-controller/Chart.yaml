@@ -1,11 +1,11 @@
 apiVersion: v2
 description: Automated collector management
-icon: https://logicmonitor.github.io/helm-charts-qa/lm_logo.png
+icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
 kubeVersion: '>= 1.16.0-0'
 maintainers:
   - email: argus@logicmonitor.com
     name: LogicMonitor
 name: collectorset-controller
-version: 1.0.0-rt01
-home: https://logicmonitor.github.io/helm-charts-qa
-appVersion: v4.0.0-rc4
+version: 1.0.0
+home: https://logicmonitor.github.io/helm-charts
+appVersion: v4.0.0
