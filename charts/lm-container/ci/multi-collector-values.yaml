@@ -10,6 +10,7 @@ argus:
 
   collector:
     size: nano
+    replicas: 2
   probe:
     enabled: false
 
@@ -22,6 +23,3 @@ collectorset-controller:
   accessKey: "dummy"
   # The LogicMonitor account name.
   account: "dummy"
-global:
-  image:
-    pullPolicy: IfNotPresent

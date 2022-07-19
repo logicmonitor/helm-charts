@@ -1,0 +1,24 @@
+argus:
+  # The LogicMonitor API key ID.
+  accessID: "dummy"
+  # The LogicMonitor API key.
+  accessKey: "dummy"
+  # The LogicMonitor account name.
+  account: "dummy"
+  # A unique name given to the cluster's resource group.
+  clusterName: "dummy"
+
+  collector:
+    size: nano
+  probe:
+    enabled: false
+
+collectorset-controller:
+  ## REQUIRED VALUES
+
+  # The LogicMonitor API key ID.
+  accessID: "dummy"
+  # The LogicMonitor API key.
+  accessKey: "dummy"
+  # The LogicMonitor account name.
+  account: "dummy"
