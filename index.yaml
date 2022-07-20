@@ -2,6 +2,26 @@ apiVersion: v1
 entries:
   argus:
   - apiVersion: v2
+    appVersion: v8.0.0
+    created: "2022-07-20T14:22:10.446079065Z"
+    dependencies:
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.7.0
+    description: Automated Kubernetes monitoring
+    digest: a21fc0de85a2921fb6a420f64b403e72f7cd5dfdd1c116d61e8cf6c4581b3855
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: argus
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/argus-3.0.0/argus-3.0.0.tgz
+    version: 3.0.0
+  - apiVersion: v2
     appVersion: v8.0.0-ea1
     created: "2022-06-23T11:54:55.572979956Z"
     dependencies:
@@ -122,6 +142,21 @@ entries:
     - https://github.com/logicmonitor/helm-charts/releases/download/argus-3.0.0-ea/argus-3.0.0-ea.tgz
     version: 3.0.0-ea
   collectorset-controller:
+  - apiVersion: v2
+    appVersion: v4.0.0
+    created: "2022-07-20T14:22:10.691035624Z"
+    description: Automated collector management
+    digest: 37c200a3af3f22840aa2487129f88697f55a9b84b927b5749c7fe357d1edef88
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: collectorset-controller
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/collectorset-controller-2.0.0/collectorset-controller-2.0.0.tgz
+    version: 2.0.0
   - apiVersion: v2
     appVersion: v4.0.0-ea
     created: "2022-06-23T09:33:24.159516222Z"
@@ -333,4 +368,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-1.0.0-ea/lm-container-1.0.0-ea.tgz
     version: 1.0.0-ea
-generated: "2022-07-06T07:05:37.814367962Z"
+generated: "2022-07-20T14:22:10.691131929Z"
