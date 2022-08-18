@@ -97,6 +97,15 @@ rules:
       - get
       - watch
       - update
+  - apiGroups:
+      - "policy"
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - list
+      - get
+      - watch
+      - update
   - nonResourceURLs:
       - /
       - /healthz
