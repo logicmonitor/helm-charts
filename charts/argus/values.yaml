@@ -193,6 +193,7 @@ kube-state-metrics:
     - nodes
     - deployments
     - services
+    - poddisruptionbudgets
 
 imagePullSecrets: []
 
