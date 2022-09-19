@@ -34,6 +34,9 @@ spec:
   {{- if .Values.collector.proxy.url }}
   proxy:
     url: {{ .Values.collector.proxy.url }}
+  {{- else if .Values.global.proxy.url }}
+  proxy:
+    url: {{ .Values.global.proxy.url }}
   {{- end }}
   {{- if .Values.collector.proxy.user }}
   secretName: {{ include "argus.fullname" . }}-collector

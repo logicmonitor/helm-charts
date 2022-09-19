@@ -18,6 +18,9 @@ data:
     {{- if .Values.proxy.url }}
     proxy:
       url: {{ .Values.proxy.url }}
+    {{ else if .Values.global.proxy.url }}
+    proxy:
+      url: {{ .Values.global.proxy.url }}
     {{- end }}
     ignoreSSL: {{ default false .Values.ignoreSSL }}
     collectorServiceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}-collector
