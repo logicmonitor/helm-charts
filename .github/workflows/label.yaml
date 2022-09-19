@@ -13,6 +13,7 @@ jobs:
           labels=$(git diff --dirstat=files,0 origin/main | egrep -o 'charts/(\w+\-?\w+)/' | cut -d'/' -f2 | uniq | tr '\n' ',' |  rev | cut -c2- | rev | sed -e 's/,/","/g' -e 's/^/"/g' -e 's/$/"/g')
           echo "::set-output name=labels::$labels"
       - uses: actions/github-script@v6
+        if: ${{ steps.get_labels.outputs.labels != '' }}
         with:
           github-token: ${{ secrets.CHART_RELEASE_TOKEN }}
           script: |
