@@ -543,7 +543,7 @@
           "examples": [
             ""
           ],
-          "$comment": "ui:proxyURL"
+          "$comment": "ui:proxyURL-ignore"
         },
         "user": {
           "$id": "#/properties/proxy/properties/user",
@@ -554,7 +554,7 @@
           "examples": [
             ""
           ],
-          "$comment": "ui:proxyUser"
+          "$comment": "ui:proxyUser-ignore"
         },
         "pass": {
           "$id": "#/properties/proxy/properties/pass",
@@ -565,7 +565,7 @@
           "examples": [
             ""
           ],
-          "$comment": "ui:proxyPass"
+          "$comment": "ui:proxyPass-ignore"
         }
       },
       "additionalProperties": false
@@ -2114,7 +2114,8 @@
               "default": "",
               "examples": [
                 ""
-              ]
+              ],
+              "$comment": "ui:proxyURL"
             },
             "user": {
               "$id": "#/properties/proxy/properties/user",
@@ -2124,7 +2125,8 @@
               "default": "",
               "examples": [
                 ""
-              ]
+              ],
+              "$comment": "ui:proxyUser"
             },
             "pass": {
               "$id": "#/properties/proxy/properties/pass",
@@ -2134,7 +2136,8 @@
               "default": "",
               "examples": [
                 ""
-              ]
+              ],
+              "$comment": "ui:proxyPass"
             }
           }
         },

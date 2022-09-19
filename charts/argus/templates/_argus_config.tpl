@@ -57,4 +57,11 @@ alerting:
 {{- if .Values.debug }}
 {{- toYaml .Values.debug | nindent 0 }}
 {{- end }}
+{{- if .Values.proxy.url }}
+proxy:
+  url: {{ .Values.proxy.url }}
+{{- else if .Values.global.proxy.url }}
+proxy:
+  url: {{ .Values.global.proxy.url }}
+{{- end }}
 {{- end -}}
