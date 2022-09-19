@@ -2,12 +2,14 @@
 ## Argus Releases
 | name | version | appVersion | dependencies | Compatible Kubernetes Versions |
 | :---- | :---- | :---- | :---- | :---- |
+| argus | [3.1.1-ea01](https://github.com/logicmonitor/helm-charts/releases/tag/argus-3.1.1-ea01) | [v8.1.0](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=v8.1.0) | <ul> <li>kube-state-metrics@4.7.0 https://prometheus-community.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
 | argus | [3.1.0](https://github.com/logicmonitor/helm-charts/releases/tag/argus-3.1.0) | [v8.1.0](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=v8.1.0) | <ul> <li>kube-state-metrics@4.7.0 https://prometheus-community.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
 | argus | [3.0.0](https://github.com/logicmonitor/helm-charts/releases/tag/argus-3.0.0) | [v8.0.0](https://hub.docker.com/r/logicmonitor/argus/tags?page=1&name=v8.0.0) | <ul> <li>kube-state-metrics@4.7.0 https://prometheus-community.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
 
 ## Collectorset Controller Releases
 | name | version | appVersion | dependencies | Compatible Kubernetes Versions |
 | :---- | :---- | :---- | :---- | :---- |
+| collectorset-controller | [2.0.1-ea01](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-2.0.1-ea01) | [v4.0.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v4.0.0) | <ul>  </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [2.0.0](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-2.0.0) | [v4.0.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v4.0.0) | <ul>  </ul> | >= 1.16.0-0 | 
 
 ## LM Container Releases
