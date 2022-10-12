@@ -3,6 +3,26 @@ entries:
   argus:
   - apiVersion: v2
     appVersion: v8.1.0
+    created: "2022-10-12T10:08:34.444654434Z"
+    dependencies:
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.7.0
+    description: Automated Kubernetes monitoring
+    digest: d9c6301a011ad57d657380661273f6cace0be9eff41a9008e1ea93778eea451c
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: argus
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/argus-3.1.1/argus-3.1.1.tgz
+    version: 3.1.1
+  - apiVersion: v2
+    appVersion: v8.1.0
     created: "2022-09-19T05:51:28.371060832Z"
     dependencies:
     - condition: kube-state-metrics.enabled
@@ -62,6 +82,21 @@ entries:
     - https://github.com/logicmonitor/helm-charts/releases/download/argus-3.0.0/argus-3.0.0.tgz
     version: 3.0.0
   collectorset-controller:
+  - apiVersion: v2
+    appVersion: v4.0.0
+    created: "2022-10-12T10:08:34.587761296Z"
+    description: Automated collector management
+    digest: 95bde9bd03bde773964fdc50f2e7ead53f6fb0c5d8fba5f6f0ec447daf513142
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: collectorset-controller
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/collectorset-controller-2.0.1/collectorset-controller-2.0.1.tgz
+    version: 2.0.1
   - apiVersion: v2
     appVersion: v4.0.0
     created: "2022-09-19T05:51:28.626941377Z"
@@ -217,4 +252,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-1.0.0/lm-container-1.0.0.tgz
     version: 1.0.0
-generated: "2022-09-19T06:09:49.349762662Z"
+generated: "2022-10-12T10:08:34.587806598Z"
