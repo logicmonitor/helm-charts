@@ -42,6 +42,82 @@
         }
       },
       "additionalProperties": true
+    },
+    "kube-state-metrics": {
+      "$id": "#/properties/kube-state-metrics",
+      "type": "object",
+      "title": "The kube-state-metrics schema",
+      "description": "Describes kube-state-metrics helm chart configurations",
+      "default": {},
+      "examples": [
+        {
+          "enabled": true,
+          "replicas": 1,
+          "collectors": [
+            "daemonsets",
+            "replicasets",
+            "statefulsets",
+            "persistentvolumes"
+          ]
+        }
+      ],
+      "required": [
+      ],
+      "properties": {
+        "enabled": {
+          "$id": "#/properties/kube-state-metrics/properties/enabled",
+          "type": "boolean",
+          "title": "The enabled schema",
+          "description": "Describes the flag to enable kube-state-metrics helm chart installation",
+          "default": false,
+          "examples": [
+            true
+          ]
+        },
+        "replicas": {
+          "$id": "#/properties/kube-state-metrics/properties/replicas",
+          "type": "integer",
+          "title": "The replicas schema",
+          "description": "Describes the number of kube-state-metrics pod replicas",
+          "default": 1,
+          "minimum": 0,
+          "examples": [
+            1
+          ]
+        },
+        "collectors": {
+          "$id": "#/properties/kube-state-metrics/properties/collectors",
+          "type": "array",
+          "title": "The collectors schema",
+          "description": "Describes the list of collector to enable metrics collection by kube-state-metrics",
+          "default": [],
+          "examples": [
+            [
+              "daemonsets",
+              "replicasets"
+            ]
+          ],
+          "additionalItems": true,
+          "uniqueItems": true,
+          "items": {
+            "$id": "#/properties/kube-state-metrics/properties/collectors/items",
+            "anyOf": [
+              {
+                "$id": "#/properties/kube-state-metrics/properties/collectors/items/anyOf/0",
+                "type": "string",
+                "title": "Kube-state-metrics collector name schema",
+                "description": "Describes the kube-state-metrics collector name",
+                "default": "",
+                "examples": [
+                  "daemonsets",
+                  "replicasets"
+                ]
+              }
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
     }
   }
 }
