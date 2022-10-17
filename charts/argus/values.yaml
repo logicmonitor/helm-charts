@@ -138,8 +138,10 @@ collector:
     pullPolicy: ""
   ## OPTIONAL VALUES
 
-  # On a collector downloading event, either download the latest EA version or the latest GD version.
-
+  disableLightweightCollector: false
+  # collector application configuration such as agent.conf
+  collectorConf:
+    agentConf: []
   # The Http/s proxy url of the collectors.
   proxy:
     url: ""
@@ -169,31 +171,6 @@ collector:
     readiness:
       failureThreshold: 30
       periodSeconds: 10
-
-# Kube state metrics configuration
-# For further customizing KSM configuration, pls refer https://artifacthub.io/packages/helm/prometheus-community/kube-state-metrics/?modal=values
-kube-state-metrics:
-  # Set enabled to false in case you want to use a custom configured KSM
-  enabled: true
-  # No. of KSM Replicas to be configured
-  selfMonitor:
-    enabled: true
-    telemetryPort: 8081
-  replicas: 1
-  collectors:
-    - daemonsets
-    - replicasets
-    - statefulsets
-    - persistentvolumes
-    - persistentvolumeclaims
-    - endpoints
-    - cronjobs
-    - jobs
-    - pods
-    - nodes
-    - deployments
-    - services
-    - poddisruptionbudgets
 
 imagePullSecrets: []
 
