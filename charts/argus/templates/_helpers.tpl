@@ -121,7 +121,7 @@ Return the appropriate apiVersion for rbac.
 
 
 {{- define "monitoring.disable" }}
-{{ $alwaysDisable := list "secrets" "networkpolicies"}}
+{{ $alwaysDisable := list "networkpolicies" "ingresses"}}
 {{ $resultList := ( concat $alwaysDisable $.Values.monitoring.disable | uniq )  }}
 {{- toYaml $resultList | nindent 0}}
 {{- end }}
