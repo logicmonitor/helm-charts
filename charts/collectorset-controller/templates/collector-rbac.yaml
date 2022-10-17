@@ -36,12 +36,12 @@ rules:
       - replicasets
       - persistentvolumes
       - persistentvolumeclaims
-      - ingresses
       - services
       - endpoints
       - pods/log
       - events
       - configmaps
+      - secrets
     verbs:
       - list
       - get
@@ -73,14 +73,6 @@ rules:
     resources:
       - nodes/stats
     verbs:
-      - get
-  - apiGroups:
-      - "networking.k8s.io"
-    resources:
-      - ingresses
-      # - networkpolicies
-    verbs:
-      - list
       - get
   - apiGroups:
       - "discovery.k8s.io"
