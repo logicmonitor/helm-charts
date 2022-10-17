@@ -59,14 +59,17 @@
     "accessKey",
     "account"
   ],
+  "$comment": "tf:optional",
   "properties": {
     "enabled": {
+      "$comment": "tf:optional",
       "$id": "#/properties/enabled",
       "description": "Defined for umbrella chart but unused here.",
       "type": "boolean",
       "default": true
     },
     "accessID": {
+      "$comment": "tf:optional",
       "$id": "#/properties/accessID",
       "type": "string",
       "title": "The accessID schema",
@@ -77,6 +80,7 @@
       ]
     },
     "accessKey": {
+      "$comment": "tf:optional",
       "$id": "#/properties/accessKey",
       "type": "string",
       "title": "The accessKey schema",
@@ -87,6 +91,7 @@
       ]
     },
     "account": {
+      "$comment": "tf:optional",
       "$id": "#/properties/account",
       "type": "string",
       "title": "The account schema",
@@ -98,6 +103,7 @@
     },
     "log": {
       "$id": "#/properties/log",
+      "$comment": "tf:optional",
       "type": "object",
       "title": "The log schema",
       "description": "An explanation about the purpose of this instance.",
@@ -112,6 +118,7 @@
       ],
       "properties": {
         "level": {
+          "$comment": "tf:optional",
           "$id": "#/properties/log/properties/level",
           "type": "string",
           "title": "The level schema",
@@ -135,6 +142,7 @@
       "additionalProperties": false
     },
     "nameOverride": {
+      "$comment": "tf:optional",
       "$id": "#/properties/nameOverride",
       "type": "string",
       "title": "The nameOverride schema",
@@ -145,6 +153,7 @@
       ]
     },
     "fullnameOverride": {
+      "$comment": "tf:optional",
       "$id": "#/properties/fullnameOverride",
       "type": "string",
       "title": "The fullnameOverride schema",
@@ -155,6 +164,7 @@
       ]
     },
     "serviceAccount": {
+      "$comment": "tf:optional",
       "$id": "#/properties/serviceAccount",
       "type": "object",
       "title": "The serviceAccount schema",
@@ -170,6 +180,7 @@
       ],
       "properties": {
         "create": {
+          "$comment": "tf:optional",
           "$id": "#/properties/serviceAccount/properties/create",
           "type": "boolean",
           "title": "The create schema",
@@ -183,6 +194,7 @@
       "additionalProperties": false
     },
     "rbac": {
+      "$comment": "tf:optional",
       "$id": "#/properties/rbac",
       "type": "object",
       "title": "The rbac schema",
@@ -198,6 +210,7 @@
       ],
       "properties": {
         "create": {
+          "$comment": "tf:optional",
           "$id": "#/properties/rbac/properties/create",
           "type": "boolean",
           "title": "The create schema",
@@ -211,6 +224,7 @@
       "additionalProperties": false
     },
     "image": {
+      "$comment": "tf:optional",
       "$id": "#/properties/image",
       "type": "object",
       "title": "The image schema",
@@ -228,6 +242,7 @@
       ],
       "properties": {
         "registry": {
+          "$comment": "tf:optional",
           "$id": "#/properties/image/properties/registry",
           "type": "string",
           "title": "The registry schema",
@@ -239,6 +254,7 @@
           ]
         },
         "repository": {
+          "$comment": "tf:optional",
           "$id": "#/properties/image/properties/repository",
           "type": "string",
           "title": "The repository schema",
@@ -249,6 +265,7 @@
           ]
         },
         "pullPolicy": {
+          "$comment": "tf:optional",
           "$id": "#/properties/image/properties/pullPolicy",
           "type": "string",
           "title": "The pullPolicy schema",
@@ -265,6 +282,7 @@
           ]
         },
         "tag": {
+          "$comment": "tf:optional",
           "$id": "#/properties/image/properties/tag",
           "type": "string",
           "title": "The tag schema",
@@ -278,6 +296,7 @@
       "additionalProperties": false
     },
     "proxy": {
+      "$comment": "tf:optional",
       "$id": "#/properties/proxy",
       "type": "object",
       "title": "The proxy schema",
@@ -294,6 +313,7 @@
       ],
       "properties": {
         "url": {
+          "$comment": "tf:optional",
           "$id": "#/properties/proxy/properties/url",
           "type": "string",
           "title": "The url schema",
@@ -304,6 +324,7 @@
           ]
         },
         "user": {
+          "$comment": "tf:optional",
           "$id": "#/properties/proxy/properties/user",
           "type": "string",
           "title": "The user schema",
@@ -314,6 +335,7 @@
           ]
         },
         "pass": {
+          "$comment": "tf:optional",
           "$id": "#/properties/proxy/properties/pass",
           "type": "string",
           "title": "The pass schema",
@@ -327,6 +349,7 @@
       "additionalProperties": false
     },
     "nodeSelector": {
+      "$comment": "tf:optional,yamlencode",
       "$id": "#/properties/nodeSelector",
       "type": "object",
       "title": "The nodeSelector schema",
@@ -341,6 +364,7 @@
       "description": "NodeSelector is a selector which must be true for the pod to fit on a node. Selector which must match a node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/"
     },
     "affinity": {
+      "$comment": "tf:optional,yamlencode",
       "$id": "#/properties/affinity",
       "type": "object",
       "title": "The affinity schema",
@@ -352,6 +376,7 @@
       "required": []
     },
     "priorityClassName": {
+      "$comment": "tf:optional",
       "$id": "#/properties/priorityClassName",
       "type": "string",
       "title": "The priorityClassName schema",
@@ -362,6 +387,7 @@
       ]
     },
     "tolerations": {
+      "$comment": "tf:optional,yamlencode",
       "$id": "#/properties/tolerations",
       "type": "array",
       "title": "The tolerations schema",
@@ -378,6 +404,7 @@
       "uniqueItems": true
     },
     "labels": {
+      "$comment": "tf:optional,yamlencode",
       "$id": "#/properties/labels",
       "type": "object",
       "title": "The labels schema",
@@ -392,6 +419,7 @@
       "required": []
     },
     "annotations": {
+      "$comment": "tf:optional,yamlencode",
       "$id": "#/properties/annotations",
       "type": "object",
       "title": "The annotations schema",
@@ -406,6 +434,7 @@
       "required": []
     },
     "ignoreSSL": {
+      "$comment": "tf:optional",
       "$id": "#/properties/ignoreSSL",
       "type": "boolean",
       "title": "The ignoreSSL schema",
@@ -416,6 +445,7 @@
       ]
     },
     "global": {
+      "$comment": "tf:optional",
       "$id": "#/properties/global",
       "type": "object",
       "additionalProperties": true,
@@ -525,6 +555,7 @@
           }
         },
         "collectorsetServiceNameSuffix": {
+          "$comment": "tf:optional",
           "type": "string",
           "default": "",
           "description": "Suffix to be added to .Release.name to generate Collectorset controller service name.\nKeep it empty while installing this chart individually, umbrella chart uses this to generate unique name across"

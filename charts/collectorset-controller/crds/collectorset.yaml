@@ -1141,6 +1141,8 @@ spec:
                   invalid. For ex: 29.101 is invalid, correct input is 29101)'
                   minimum: 0
                   type: integer
+                collectorConfigMapName:
+                  type: string
               required:
                 - replicas
                 - clusterName
