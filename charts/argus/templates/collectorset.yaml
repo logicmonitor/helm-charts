@@ -34,12 +34,15 @@ spec:
   {{- if .Values.collector.proxy.url }}
   proxy:
     url: {{ .Values.collector.proxy.url }}
+  {{- if .Values.collector.proxy.user }}
+  secretName: {{ include "argus.fullname" . }}-collector
+  {{- end }}
   {{- else if .Values.global.proxy.url }}
   proxy:
     url: {{ .Values.global.proxy.url }}
-  {{- end }}
-  {{- if .Values.collector.proxy.user }}
+  {{- if .Values.global.proxy.user }}
   secretName: {{ include "argus.fullname" . }}-collector
+  {{- end }}
   {{- end }}
   labels:
     {{- include "collector.labels" . | nindent 4 }}
@@ -53,3 +56,4 @@ spec:
     {{ toYaml .Values.collector.statefulsetSpec | nindent 4 }}
   {{- end }}
   probe: {{ toYaml .Values.collector.probe | nindent 4 }}
+  collectorConfigMapName: {{ include "argus.fullname" . }}-collector

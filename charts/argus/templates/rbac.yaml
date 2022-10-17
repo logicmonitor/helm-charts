@@ -38,7 +38,7 @@ rules:
       - componentstatuses
       - persistentvolumes
       - persistentvolumeclaims
-      # - secrets
+      - secrets
       - endpoints
     verbs:
       - list
@@ -72,16 +72,6 @@ rules:
       - "autoscaling"
     resources:
       - horizontalpodautoscalers
-    verbs:
-      - list
-      - get
-      - watch
-      - update
-  - apiGroups:
-      - "networking.k8s.io"
-    resources:
-      - ingresses
-      # - networkpolicies
     verbs:
       - list
       - get
