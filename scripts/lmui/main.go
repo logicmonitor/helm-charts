@@ -60,21 +60,23 @@ func dispPaths(m any, p string, output map[string]any) {
 			}
 			if k == "$comment" {
 				val := v.(string)
-				if strings.HasPrefix(val, "ui:") && !strings.HasSuffix(val, "-ignore") {
-					varNm := strings.TrimPrefix(val, "ui:")
-					if e, ok := output[varNm]; ok {
-						switch c := e.(type) {
-						case []string:
-							c = append(c, p)
-							output[varNm] = c
-						case string:
-							var arr []string
-							arr = append(arr, c)
-							arr = append(arr, p)
-							output[varNm] = arr
+				for _, item := range strings.Split(val, " ") {
+					if strings.HasPrefix(item, "ui:") && !strings.HasSuffix(item, "-ignore") {
+						varNm := strings.TrimPrefix(item, "ui:")
+						if e, ok := output[varNm]; ok {
+							switch c := e.(type) {
+							case []string:
+								c = append(c, p)
+								output[varNm] = c
+							case string:
+								var arr []string
+								arr = append(arr, c)
+								arr = append(arr, p)
+								output[varNm] = arr
+							}
+						} else {
+							output[varNm] = p
 						}
-					} else {
-						output[varNm] = p
 					}
 				}
 			}
