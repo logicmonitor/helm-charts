@@ -211,4 +211,3 @@ probe:
   readiness:
     failureThreshold: 3
     periodSeconds: 10
-    
