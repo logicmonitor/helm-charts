@@ -40,6 +40,17 @@ rules:
       - persistentvolumeclaims
       - secrets
       - endpoints
+      - limitranges
+      - resourcequotas
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  - apiGroups:
+      - "storage.k8s.io"
+    resources:
+      - storageclasses
     verbs:
       - list
       - get
@@ -72,6 +83,15 @@ rules:
       - "autoscaling"
     resources:
       - horizontalpodautoscalers
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  - apiGroups:
+      - "networking.k8s.io"
+    resources:
+      - networkpolicies
     verbs:
       - list
       - get

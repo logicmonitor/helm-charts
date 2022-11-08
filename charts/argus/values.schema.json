@@ -1532,6 +1532,21 @@
           },
           "required": []
         },
+        "env": {
+            "$comment": "tf:optional,yamlencode",
+            "$id": "#/properties/collector/properties/env",
+            "type": "object",
+            "title": "The env schema",
+            "description": "Environment Variables to inject in collector pod",
+            "default": {},
+            "examples": [
+              {}
+            ],
+            "additionalProperties": {
+              "type": "string"
+            },
+            "required": []
+          },
         "statefulsetSpec": {
           "$comment": "tf:optional",
           "$id": "#/properties/collector/properties/statefulsetspec",

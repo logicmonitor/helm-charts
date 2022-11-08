@@ -15,10 +15,14 @@ trimmedCollectorAgentConf:
 
 
 {{ define "collector-conf" }}
+{{ $deniedProps := list "company" "company.uuid" "credential" "id" "server" }}
 {{ $result := list }}
 
 {{- $keys := dict }}
 {{- range .Values.collector.collectorConf.agentConf }}
+{{- if has .key $deniedProps }}
+{{- fail (printf "\"%s\" configuration parameter is not allowed to modify in agent.conf" .key) }}
+{{- end }}
 {{- $_ := set $keys .key true }}
 {{- end }}
 
