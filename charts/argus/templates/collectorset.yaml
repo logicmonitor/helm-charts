@@ -10,7 +10,7 @@ metadata:
 spec:
   image:
     registry: {{ .Values.collector.image.registry | default .Values.global.image.registry }}
-    repository: {{ required "A valid .Values.collector.imageRepository entry is required!" .Values.collector.image.repository }}
+    repository: {{ include "collector-image" . }}
     tag: {{ required "A valid .Values.collector.imageTag entry is required!" .Values.collector.image.tag }}
     pullPolicy: {{ .Values.collector.image.pullPolicy | default (.Values.global.image.pullPolicy | default "Always") }}
   policy:
@@ -47,8 +47,12 @@ spec:
   labels:
     {{- include "collector.labels" . | nindent 4 }}
   {{- if .Values.collector.annotations}}
-    annotations:
+  annotations:
     {{- toYaml .Values.collector.annotations| nindent 4 }}
+  {{- end }}
+  {{- if .Values.collector.env }}
+  env:
+    {{- toYaml .Values.collector.env | nindent 4 }}
   {{- end }}
 
   {{- if .Values.collector.statefulsetSpec }}
