@@ -109,3 +109,24 @@ Return the appropriate apiVersion for rbac.
 {{ $result := (concat .Values.imagePullSecrets .Values.global.imagePullSecrets | uniq)}}
 {{ toYaml $result | nindent 0 }}
 {{ end }}
+
+
+{{- define "csc-image" -}}
+{{- $registry := "" -}}
+{{- $repo := "logicmonitor" -}}
+{{- if .Values.image.registry -}}
+{{- $registry = .Values.image.registry -}}
+{{- else if .Values.global.image.registry -}}
+{{- $registry = .Values.global.image.registry -}}
+{{- end -}}
+{{- if .Values.image.repository -}}
+{{- $repo = .Values.image.repository -}}
+{{- else if .Values.global.image.repository -}}
+{{- $repo = .Values.global.image.repository -}}
+{{- end -}}
+{{- if ne $registry "" -}}
+"{{ $registry }}/{{ $repo }}/{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+{{- else -}}
+"{{ $repo }}/{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+{{- end -}}
+{{- end -}}

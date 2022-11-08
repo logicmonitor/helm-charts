@@ -261,7 +261,18 @@
           "description": "An explanation about the purpose of this instance.",
           "default": "",
           "examples": [
-            "logicmonitor/collectorset-controller"
+            "logicmonitor"
+          ]
+        },
+        "name": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/image/properties/name",
+          "type": "string",
+          "title": "The name schema",
+          "description": "An explanation about the purpose of this instance.",
+          "default": "",
+          "examples": [
+            "collectorset-controller"
           ]
         },
         "pullPolicy": {
@@ -486,6 +497,18 @@
               "minLength": 0,
               "examples": [
                 "382028353997.dkr.ecr.us-west-2.amazonaws.com"
+              ]
+            },
+            "repository": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/global/properties/image/properties/repository",
+              "type": "string",
+              "title": "The repository schema",
+              "description": "Container Image Repository.",
+              "default": "",
+              "minLength": 0,
+              "examples": [
+                "logicmonitor"
               ]
             },
             "pullPolicy": {

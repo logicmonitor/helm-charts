@@ -47,6 +47,11 @@ spec:
                   invalid. For ex: 29.101 is invalid, correct input is 29101)'
                   minimum: 0
                   type: integer
+                env:
+                  additionalProperties:
+                    type: string
+                  description: The Environment Variables to inject into the collector pod
+                  type: object
                 escalationChainID:
                   description: The escalation chain Id of the collectors
                   minimum: 0
