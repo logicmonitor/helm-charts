@@ -121,7 +121,7 @@ Return the appropriate apiVersion for rbac.
 
 
 {{- define "monitoring.disable" }}
-{{ $alwaysDisable := list "networkpolicies" "ingresses"}}
+{{ $alwaysDisable := list "ingresses"}}
 {{ $resultList := ( concat $alwaysDisable $.Values.monitoring.disable | uniq )  }}
 {{- toYaml $resultList | nindent 0}}
 {{- end }}
@@ -153,3 +153,35 @@ app: collector
 {{ $result := (concat .Values.imagePullSecrets .Values.global.imagePullSecrets | uniq)}}
 {{ toYaml $result | nindent 0 }}
 {{ end }}
+
+
+{{- define "argus-image" -}}
+{{- $registry := "" -}}
+{{- $repo := "logicmonitor" -}}
+{{- if .Values.image.registry -}}
+{{- $registry = .Values.image.registry -}}
+{{- else if .Values.global.image.registry -}}
+{{- $registry = .Values.global.image.registry -}}
+{{- end -}}
+{{- if .Values.image.repository -}}
+{{- $repo = .Values.image.repository -}}
+{{- else if .Values.global.image.repository -}}
+{{- $repo = .Values.global.image.repository -}}
+{{- end -}}
+{{- if ne $registry "" -}}
+"{{ $registry }}/{{ $repo }}/{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+{{- else -}}
+"{{ $repo }}/{{ .Values.image.name }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+{{- end -}}
+{{- end -}}
+
+
+{{- define "collector-image" -}}
+{{- $repo := "logicmonitor" -}}
+{{- if .Values.collector.image.repository -}}
+{{- $repo = .Values.collector.image.repository -}}
+{{- else if .Values.global.image.repository -}}
+{{- $repo = .Values.global.image.repository -}}
+{{- end -}}
+"{{ $repo }}/{{ .Values.collector.image.name }}"
+{{- end -}}

@@ -256,10 +256,22 @@
           "type": "string",
           "title": "Argus Image Repository Schema",
           "description": "The Docker Repository Name for Argus Image",
-          "default": "logicmonitor/argus",
+          "default": "logicmonitor",
+          "minLength": 0,
+          "examples": [
+            "logicmonitor"
+          ]
+        },
+        "name": {
+          "$id": "#/properties/image/properties/name",
+          "$comment": "tf:optional",
+          "type": "string",
+          "title": "Argus Image Name Schema",
+          "description": "The Docker Argus Image Name",
+          "default": "argus",
           "minLength": 1,
           "examples": [
-            "logicmonitor/argus"
+            "argus"
           ]
         },
         "pullPolicy": {
@@ -1415,7 +1427,18 @@
               "description": "Describes the purpose of this instance.",
               "default": "",
               "examples": [
-                "logicmonitor/collector"
+                "logicmonitor"
+              ]
+            },
+            "name": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/collector/properties/image/properties/name",
+              "type": "string",
+              "title": "The collector image name schema",
+              "description": "Describes the purpose of this instance.",
+              "default": "",
+              "examples": [
+                "collector"
               ]
             },
             "tag": {
@@ -1523,6 +1546,21 @@
           "type": "object",
           "title": "The labels schema",
           "description": "Describes the purpose of this instance.",
+          "default": {},
+          "examples": [
+            {}
+          ],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "required": []
+        },
+        "env": {
+          "$comment": "tf:optional,yamlencode",
+          "$id": "#/properties/collector/properties/env",
+          "type": "object",
+          "title": "The env schema",
+          "description": "Environment Variables to inject in collector pod",
           "default": {},
           "examples": [
             {}
@@ -2097,6 +2135,18 @@
                 "382028353997.dkr.ecr.us-west-2.amazonaws.com"
               ]
             },
+            "repository": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/global/properties/image/properties/repository",
+              "type": "string",
+              "title": "The repository schema",
+              "description": "Container Image Repository.",
+              "default": "",
+              "minLength": 0,
+              "examples": [
+                "logicmonitor"
+              ]
+            },
             "pullPolicy": {
               "$comment": "tf:optional",
               "$id": "#/properties/global/properties/image/properties/pullpolicy",
@@ -2441,6 +2491,7 @@
       }
     },
     "toleration": {
+      "$comment": "",
       "oneOf": [
         {
           "properties": {
