@@ -42,6 +42,7 @@ rules:
       - endpoints
       - limitranges
       - resourcequotas
+      - serviceaccounts
     verbs:
       - list
       - get
@@ -80,6 +81,15 @@ rules:
       - watch
       - update
   - apiGroups:
+      - "scheduling.k8s.io"
+    resources:
+      - priorityclasses
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  - apiGroups:
       - "autoscaling"
     resources:
       - horizontalpodautoscalers
@@ -92,6 +102,16 @@ rules:
       - "networking.k8s.io"
     resources:
       - networkpolicies
+    verbs:
+      - list
+      - get
+      - watch
+      - update
+  - apiGroups:
+      - "rbac.authorization.k8s.io"
+    resources:
+      - clusterroles
+      - clusterrolebindings
     verbs:
       - list
       - get
