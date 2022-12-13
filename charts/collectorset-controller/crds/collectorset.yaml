@@ -567,6 +567,11 @@ spec:
           properties:
             spec:
               properties:
+                env:
+                  additionalProperties:
+                    type: string
+                  description: The Environment Variables to inject into the collector pod
+                  type: object
                 annotations:
                   additionalProperties:
                     type: string

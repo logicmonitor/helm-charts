@@ -44,6 +44,7 @@ rules:
       - secrets
       - limitranges
       - resourcequotas
+      - serviceaccounts
     verbs:
       - list
       - get
@@ -78,9 +79,24 @@ rules:
       - list
       - get
   - apiGroups:
+      - "scheduling.k8s.io"
+    resources:
+      - priorityclasses
+    verbs:
+      - list
+      - get
+  - apiGroups:
       - "networking.k8s.io"
     resources:
       - networkpolicies
+    verbs:
+      - list
+      - get
+  - apiGroups:
+      - "rbac.authorization.k8s.io"
+    resources:
+      - clusterroles
+      - clusterrolebindings
     verbs:
       - list
       - get
