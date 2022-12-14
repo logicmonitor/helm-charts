@@ -13,6 +13,7 @@
 ## Collectorset Controller Releases
 | name | version | appVersion | dependencies | Compatible Kubernetes Versions |
 | :---- | :---- | :---- | :---- | :---- |
+| collectorset-controller | [4.0.1](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-4.0.1) | [v6.0.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v6.0.0) | <ul>  </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [3.0.0](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-3.0.0) | [v4.1.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v4.1.0) | <ul>  </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [2.1.0](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-2.1.0) | [v4.1.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v4.1.0) | <ul>  </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [2.0.1](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-2.0.1) | [v4.0.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v4.0.0) | <ul>  </ul> | >= 1.16.0-0 | 
