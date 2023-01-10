@@ -140,6 +140,11 @@ collector:
     pullPolicy: ""
   ## OPTIONAL VALUES
 
+  securityContext:
+    capabilities:
+      add: []
+      drop: []
+  podSecurityContext: {}
   disableLightweightCollector: false
   # collector application configuration such as agent.conf
   collectorConf:
@@ -177,6 +182,14 @@ collector:
       periodSeconds: 10
 
 imagePullSecrets: []
+podSecurityContext:
+  fsGroup: 65534
+  runAsGroup: 65534
+  runAsUser: 65534
+securityContext:
+  capabilities:
+    add: []
+    drop: []
 
 global:
   accessID: ""

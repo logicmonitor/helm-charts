@@ -1,10 +1,10 @@
 {{- if .Values.rbac.create -}}
 ---
-apiVersion: {{ template "rbac.apiVersion" . }}
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
 kind: ClusterRole
 metadata:
-  name: {{ include "argus.fullname" . }}
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "argus.labels" . | nindent 4 }}
   annotations:
@@ -16,10 +16,10 @@ aggregationRule:
 rules: [ ] # The control plane automatically fills in the rules
 ---
 kind: ClusterRole
-apiVersion: {{ template "rbac.apiVersion" . }}
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
 metadata:
-  name: {{ include "argus.fullname" . }}-child
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}-child
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     logicmonitor.com/aggregate-to-argus: "true"
     {{- include "argus.labels" . | nindent 4 }}
@@ -112,6 +112,8 @@ rules:
     resources:
       - clusterroles
       - clusterrolebindings
+      - roles
+      - rolebindings
     verbs:
       - list
       - get
@@ -136,6 +138,15 @@ rules:
       - get
       - watch
       - update
+  - apiGroups:
+      - "apiextensions.k8s.io"
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - list
+      - get
+      - watch
+      - update
   - nonResourceURLs:
       - /
       - /healthz
@@ -143,11 +154,11 @@ rules:
     verbs:
       - get
 ---
-apiVersion: {{ template "rbac.apiVersion" . }}
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "argus.fullname" . }}
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
 {{- if .Values.labels}}
   labels:
 {{ toYaml .Values.labels| indent 4 }}
@@ -159,9 +170,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "argus.fullname" . }}
+  name: {{ include "lmutil.fullname" . }}
 subjects:
   - kind: ServiceAccount
-    name: {{ include "argus.serviceAccountName" . }}
-    namespace: {{ template "argus.namespace" . }}
+    name: {{ include "lmutil.serviceAccountName" . }}
+    namespace: {{ template "lmutil.release.namespace" . }}
 {{- end -}}
