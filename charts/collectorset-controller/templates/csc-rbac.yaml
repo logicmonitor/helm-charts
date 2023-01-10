@@ -1,9 +1,9 @@
 {{- if .Values.rbac.create -}}
 ---
-apiVersion: {{ template "rbac.apiVersion" . }}
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
 kind: ClusterRole
 metadata:
-  name: {{ include "collectorset-controller.fullname" . }}
+  name: {{ include "lmutil.fullname" . }}
   labels:
     {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
@@ -15,9 +15,9 @@ aggregationRule:
 rules: [ ] # The control plane automatically fills in the rules
 ---
 kind: ClusterRole
-apiVersion: {{ include "rbac.apiVersion" . }}
+apiVersion: {{ include "lmutil.rbac.apiVersion" . }}
 metadata:
-  name: {{ include "collectorset-controller.fullname" . }}-child
+  name: {{ include "lmutil.fullname" . }}-child
   labels:
     logicmonitor.com/aggregate-to-collectorset-controller: "true"
     {{- include "collectorset-controller.labels" . | nindent 4}}
@@ -49,10 +49,10 @@ rules:
     verbs:
       - "*"
 ---
-apiVersion: {{ template "rbac.apiVersion" . }}
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "collectorset-controller.fullname" . }}
+  name: {{ include "lmutil.fullname" . }}
   labels:
       {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
@@ -60,9 +60,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ include "collectorset-controller.fullname" . }}
+  name: {{ include "lmutil.fullname" . }}
 subjects:
   - kind: ServiceAccount
     name: {{ include "collectorset-controller.serviceAccountName" . }}
-    namespace: {{ template "collectorset-controller.namespace" . }}
+    namespace: {{ template "lmutil.release.namespace" . }}
 {{ end }}

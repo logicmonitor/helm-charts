@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "collectorset-controller.fullname" . }}
-  namespace: {{ template "collectorset-controller.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
@@ -12,13 +12,6 @@ metadata:
     strategy.spinnaker.io/versioned: "false"
     {{- include "collectorset-controller.annotations" . | nindent 4}}
 data:
-  debug-info: |
-    capabilities:
-      {{- toYaml .Capabilities | nindent 6 }}
-    release:
-      {{- toYaml .Release | nindent 6 }}
-    values:
-      {{- toYaml .Values | nindent 6 }}
   config.yaml: |
     log:
       {{- toYaml .Values.log | nindent 6 }}
@@ -31,4 +24,4 @@ data:
     {{- end }}
     ignoreSSL: {{ default false .Values.ignoreSSL }}
     collectorServiceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}-collector
-    secretName: {{ include "collectorset-controller.fullname" . }}
+    secretName: {{ include "lmutil.fullname" . }}

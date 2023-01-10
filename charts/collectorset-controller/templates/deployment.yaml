@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "collectorset-controller.fullname" . }}
-  namespace: {{ template "collectorset-controller.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
@@ -13,14 +13,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "collectorset-controller.selectorLabels" . | nindent 6 }}
+      {{- include "lmutil.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         {{- include "collectorset-controller.labels" . | nindent 8 }}
       annotations:
-        {{- include "collectorset-controller.annotations" . | nindent 8}}
+        {{- include "collectorset-controller.annotations" . | nindent 8 }}
     spec:
+      securityContext: {{ toYaml .Values.podSecurityContext | nindent 8 }}
       serviceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}
     {{- with .Values.affinity }}
       affinity:
@@ -38,6 +39,7 @@ spec:
     {{- end }}
       containers:
         - name: collectorset-controller
+          securityContext: {{ toYaml .Values.securityContext | nindent 12 }}
           image: {{ include "csc-image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default (.Values.global.image.pullPolicy | default "Always") }}
           {{ if and ( .Values.probe.enabled) ( .Values.probe.grpcContainerProbeEnabled ) ( semverCompare ">=1.24.0-0" .Capabilities.KubeVersion.Version )}}
@@ -82,35 +84,35 @@ spec:
             - name: ACCESS_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   key: accessID
             - name: ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   key: accessKey
             - name: ACCOUNT
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   key: account
             - name: ETCD_DISCOVERY_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   key: etcdDiscoveryToken
         {{- if .Values.proxy.user }}
             - name: PROXY_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   key: proxyUser
         {{- end }}
         {{- if .Values.proxy.pass }}
             - name: PROXY_PASS
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   key: proxyPass
         {{- end }}
           volumeMounts:
@@ -122,7 +124,7 @@ spec:
           projected:
             sources:
               - configMap:
-                  name: {{ include "collectorset-controller.fullname" . }}
+                  name: {{ include "lmutil.fullname" . }}
                   items:
                     - key: config.yaml
                       path: config.yaml
