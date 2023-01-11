@@ -62,6 +62,14 @@ global:
     pullPolicy: Always
   imagePullSecrets: []
 
+podSecurityContext:
+  fsGroup: 65534
+  runAsGroup: 65534
+  runAsUser: 65534
+securityContext:
+  capabilities:
+    add: []
+    drop: []
 probe:
   enabled: true
   grpcContainerProbeEnabled: true

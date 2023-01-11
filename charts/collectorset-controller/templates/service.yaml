@@ -4,16 +4,16 @@ metadata:
   {{ if .Values.global.collectorsetServiceNameSuffix }}
   name: {{ (printf "%s-%s" .Release.Name .Values.global.collectorsetServiceNameSuffix) | trunc 63 | trimSuffix "-" }}
   {{ else }}
-  name: {{ include "collectorset-controller.fullname" . }}
+  name: {{ include "lmutil.fullname" . }}
   {{ end }}
-  namespace: {{ template "collectorset-controller.namespace" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "collectorset-controller.labels" . | nindent 4}}
   annotations:
     {{- include "collectorset-controller.annotations" . | nindent 4}}
 spec:
   selector:
-    {{- include "collectorset-controller.selectorLabels" . | nindent 4}}
+    {{- include "lmutil.selectorLabels" . | nindent 4}}
   ports:
     - protocol: TCP
       port: 50000
