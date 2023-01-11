@@ -43,6 +43,24 @@
       },
       "additionalProperties": true
     },
+    "lmutil": {
+      "$id": "#/properties/lmutil",
+      "additionalProperties": true
+    },
+    "lm-logs": {
+      "$id": "#/properties/lm-logs",
+      "description": "LM Logs Helm Chart Configurations",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable LM Logs chart installation",
+          "default": true,
+          "$id": "#/properties/lm-logs/properties/enabled"
+        }
+      },
+      "additionalProperties": true
+    },
     "kube-state-metrics": {
       "$id": "#/properties/kube-state-metrics",
       "type": "object",

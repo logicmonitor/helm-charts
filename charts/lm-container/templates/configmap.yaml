@@ -1,10 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "lm-container.fullname" . }}
-  namespace: {{ template "lm-container.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
-    logicmonitor.com/version: v3
     {{- include "lm-container.labels" . | nindent 4 }}
   annotations:
     helm-chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -20,3 +19,4 @@ data:
       {{- toYaml .Release | nindent 6 }}
     values:
       {{- toYaml .Values | nindent 6 }}
+    platform: {{ include "lmutil.get-platform" . }}
