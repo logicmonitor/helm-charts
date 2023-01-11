@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "argus.fullname" . }}-collector
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}-collector
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "argus.labels" . | nindent 4 }}
   annotations:

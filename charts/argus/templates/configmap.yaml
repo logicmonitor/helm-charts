@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "argus.fullname" . }}
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     logicmonitor.com/version: v3
     {{- include "argus.labels" . | nindent 4 }}
@@ -13,13 +13,6 @@ metadata:
     strategy.spinnaker.io/versioned: "false"
     {{- include "argus.annotations" . | nindent 4 }}
 data:
-  debug-info: |
-    capabilities:
-      {{- toYaml .Capabilities | nindent 6 }}
-    release:
-      {{- toYaml .Release | nindent 6 }}
-    values:
-      {{- toYaml .Values | nindent 6 }}
   config.yaml: |
     {{- include "argus-config" . | fromYaml | toYaml | nindent 4 }}
   filters-config.yaml: |

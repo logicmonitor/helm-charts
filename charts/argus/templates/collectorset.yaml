@@ -1,8 +1,8 @@
 apiVersion: logicmonitor.com/v1beta1
 kind: CollectorSet
 metadata:
-  name: {{ include "argus.fullname" . }}
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "argus.labels" . | nindent 4 }}
   annotations:
@@ -35,13 +35,13 @@ spec:
   proxy:
     url: {{ .Values.collector.proxy.url }}
   {{- if .Values.collector.proxy.user }}
-  secretName: {{ include "argus.fullname" . }}-collector
+  secretName: {{ include "lmutil.fullname" . }}-collector
   {{- end }}
   {{- else if .Values.global.proxy.url }}
   proxy:
     url: {{ .Values.global.proxy.url }}
   {{- if .Values.global.proxy.user }}
-  secretName: {{ include "argus.fullname" . }}-collector
+  secretName: {{ include "lmutil.fullname" . }}-collector
   {{- end }}
   {{- end }}
   labels:
@@ -60,4 +60,6 @@ spec:
     {{ toYaml .Values.collector.statefulsetSpec | nindent 4 }}
   {{- end }}
   probe: {{ toYaml .Values.collector.probe | nindent 4 }}
-  collectorConfigMapName: {{ include "argus.fullname" . }}-collector
+  collectorConfigMapName: {{ include "lmutil.fullname" . }}-collector
+  securityContext: {{ include "collector-csp" . | nindent 4 }}
+  podSecurityContext: {{ include "collector-psp" . | nindent 4 }}

@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "argus.fullname" . }}
-  namespace: {{ template "argus.namespace" . }}
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
   labels:
     {{- include "argus.labels" . | nindent 4 }}
   annotations:
@@ -24,4 +24,4 @@ spec:
       name: profiling
   {{- end }}
   selector:
-    {{- include "argus.selectorLabels" . | nindent 4 }}
+    {{- include "lmutil.selectorLabels" . | nindent 4 }}
