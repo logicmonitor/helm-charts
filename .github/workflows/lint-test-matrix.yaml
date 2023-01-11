@@ -9,30 +9,30 @@ jobs:
       matrix:
         # k8sVersion: [v1.24.0, v1.23.5, v1.22.7, v1.21.10, v1.20.15, v1.19.16, v1.17.17, v1.16.15, v1.15.12, v1.14.10 ]
         # k8sVersion: [v1.24.0, v1.23.5, v1.22.7, v1.21.10, v1.20.15, v1.19.16, v1.18.20, v1.17.17, v1.16.15, v1.15.12, v1.14.10, v1.13.12]
-        k8sVersion: [ v1.25.2, v1.24.6, v1.23.12, v1.22.15, v1.21.14, v1.20.15 ]
+        k8sVersion: [ v1.26.0, v1.25.3, v1.24.7, v1.23.13, v1.22.15, v1.21.14, v1.20.15 ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v3
         with:
-          version: v3.4.0
+          version: v3.10.3
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: 3.11
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.0.1
+        uses: helm/chart-testing-action@v2.3.1
 
       - name: Setup go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.17
+          go-version: 1.19
       - name: install masterminds/vert
         run: go install github.com/Masterminds/vert@latest
       - name: setup yq
@@ -53,12 +53,20 @@ jobs:
           if [[ -n "$arguschanged" ]]; then
             echo "::set-output name=arguschanged::true"
           fi
+          lmutilchanged=$(ct list-changed --config ct.yaml || "no change" | grep lmutil)
+          if [[ -n "$lmutilchanged" ]]; then
+            echo "::set-output name=lmutilchanged::true"
+          fi
 
       - name: Run chart-testing (lint)
-        run: ct lint --config ct.yaml
+        run: ct lint --config ct.yaml --excluded-charts lmutil
+
+      - name: Run chart-testing (lint) - lmutil
+        if: steps.list-changed.outputs.lmutilchanged == 'true'
+        run: ct lint --validate-yaml=false --config ct.yaml --charts charts/lmutil
 
       - name: Create kind cluster
-        uses: helm/kind-action@v1.3.0
+        uses: helm/kind-action@v1.5.0
         with:
           config: kind-conf.yaml
           node_image: kindest/node:${{ matrix.k8sVersion }}
@@ -100,7 +108,7 @@ jobs:
                 echo "installation failed as per constraint"
               fi
             fi
-          done < <(ct list-changed --config ct.yaml | egrep -v argus)
+          done < <(ct list-changed --config ct.yaml | egrep -v "argus|lmutil")
 
       - name: Run chart-testing (install) - only argus
         if: steps.list-changed.outputs.arguschanged == 'true'

@@ -25,7 +25,14 @@ jobs:
           echo "::set-output name=chartname::$chartname"
           echo "::set-output name=chartversion::$chartversion"
 
+      - name: check values.yaml exists
+        id: values_yaml_exists
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "./charts/${{ steps.get_chart.outputs.chartname }}/values.yaml"
+
       - name: add values.yaml to release asset
+        if: steps.values_yaml_exists.outputs.files_exists == 'true'
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ github.token }}
