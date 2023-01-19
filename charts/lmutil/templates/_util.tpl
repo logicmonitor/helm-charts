@@ -132,14 +132,14 @@ This takes an array of three values:
 {{- toYaml (merge $overrides $tpl) -}}
 {{- end -}}
 
-{{- define "lmutil.default-pod-sec-context-nonroot" }}
+{{- define "lmutil.custom-pod-sec-context-nonroot" }}
 {{- toYaml .Values.podSecurityContext | nindent 0 }}
 {{- end }}
 {{- define "lmutil.pod-sec-context-nonroot" -}}
 {{- include "lmutil.merge" (append . "lmutil.default-pod-sec-context-nonroot" ) -}}
 {{- end -}}
 
-{{- define "lmutil.default-container-sec-context-nonroot" }}
+{{- define "lmutil.custom-container-sec-context-nonroot" }}
 {{- toYaml .Values.securityContext | nindent 0 }}
 {{- end }}
 {{- define "lmutil.container-sec-context-nonroot" -}}
