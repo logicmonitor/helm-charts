@@ -9,3 +9,6 @@ charts/collectorset-controller/   @vkumbhar94  @rohitphatak @shubhashri12 @sagar
 
 # lm-container directory owners
 charts/lm-container/    @vkumbhar94 @rohitphatak @shubhashri12 @sagarmamdapure @kedarjapan @bpuri7
+
+# releasemanager directory owners
+charts/releasemanager/ @kaladaOpuiyo
