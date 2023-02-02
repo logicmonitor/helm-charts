@@ -1,0 +1,27 @@
+{{- if .Values.ingress }}
+{{- if .Values.ingress.hosts }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ template "releasemanager.name" $ }}
+spec:
+  tls:
+  - hosts:
+{{- range $host := .Values.ingress.hosts }}
+      - {{ $host }}
+{{- end }}
+  rules:
+{{- range $host := .Values.ingress.hosts }}
+  - host: {{ $host }}
+    http:
+      paths:
+        - path: /
+          pathType: Prefix 
+          backend:
+            service:
+              name: {{ template "releasemanager.name" $ }}
+              port:
+                number: 8080
+{{- end }}
+{{- end }}
+{{- end }}
