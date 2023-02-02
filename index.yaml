@@ -611,4 +611,18 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lmutil-0.1.1/lmutil-0.1.1.tgz
     version: 0.1.1
-generated: "2023-01-19T13:28:48.59299815Z"
+  releasemanager:
+  - apiVersion: v1
+    created: "2023-02-02T09:18:11.399654096Z"
+    description: Release Manager provides a long-running application that will periodically
+      poll for releases in your cluster.
+    digest: f5954708f74452273c9413842852c0e64e5d6c1a55e99c9ec7fb11d4fe085c1f
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    maintainers:
+    - email: techops@logicmonitor.com
+      name: LogicMonitor
+    name: releasemanager
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/releasemanager-0.3.0/releasemanager-0.3.0.tgz
+    version: 0.3.0
+generated: "2023-02-02T09:18:11.399997525Z"
