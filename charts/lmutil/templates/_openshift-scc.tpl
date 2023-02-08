@@ -8,6 +8,16 @@ These templates take following arguments:
 {{- $top := first . -}}
 {{- $name := (index . 1) -}}
 {{- $saUsers := (index . 2) -}}
+{{- $caps := (list) -}}
+{{- if gt (len .) 3 }}
+{{- $caps = concat $caps (index . 3) -}}
+{{- end }}
+{{- if not (has "NET_RAW" $caps) }}
+{{- $caps = append $caps "NET_RAW" }}
+{{- end }}
+{{- if not (has "NET_BIND_SERVICE" $caps) }}
+{{- $caps = append $caps "NET_BIND_SERVICE" }}
+{{- end }}
 {{- if and (eq (include "lmutil.is-openshift" $top) "true") ($top.Capabilities.APIVersions.Has "security.openshift.io/v1") -}}
 allowHostDirVolumePlugin: false
 allowHostIPC: false
@@ -16,9 +26,7 @@ allowHostPID: false
 allowHostPorts: false
 allowPrivilegeEscalation: false
 allowPrivilegedContainer: false
-allowedCapabilities:
-  - NET_BIND_SERVICE
-  - NET_RAW
+allowedCapabilities: {{ toYaml $caps | nindent 2 }}
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
 fsGroup:
@@ -77,6 +85,13 @@ These templates take following arguments:
 {{- $top := first . -}}
 {{- $name := (index . 1) -}}
 {{- $saUsers := (index . 2) -}}
+{{- $caps := (list) -}}
+{{- if gt (len .) 3 }}
+{{- $caps = concat $caps (index . 3) -}}
+{{- end }}
+{{- if not (has "NET_RAW" $caps) }}
+{{- $caps = append $caps "NET_RAW" }}
+{{- end }}
 {{- if and (eq (include "lmutil.is-openshift" $top) "true") ($top.Capabilities.APIVersions.Has "security.openshift.io/v1") -}}
 allowHostDirVolumePlugin: false
 allowHostIPC: false
@@ -85,8 +100,7 @@ allowHostPID: false
 allowHostPorts: false
 allowPrivilegeEscalation: true
 allowPrivilegedContainer: false
-allowedCapabilities:
-  - NET_RAW
+allowedCapabilities: {{ toYaml $caps | nindent 2 }}
 apiVersion: security.openshift.io/v1
 defaultAddCapabilities: null
 fsGroup:
