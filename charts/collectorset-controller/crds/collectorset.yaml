@@ -909,6 +909,17 @@ spec:
                         takes precedence.
                       format: int64
                       type: integer
+                    seccompProfile:
+                      type: object
+                      properties:
+                        localhostProfile:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                            - Unconfined
+                            - RuntimeDefault
+                            - Localhost
                     seLinuxOptions:
                       description: SELinuxOptions are the labels to be applied to the
                         container
