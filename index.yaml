@@ -147,6 +147,25 @@ entries:
     version: 3.0.0
   collectorset-controller:
   - apiVersion: v2
+    appVersion: v6.2.0
+    created: "2023-02-15T06:06:54.801547678Z"
+    dependencies:
+    - name: lmutil
+      repository: https://logicmonitor.github.io/helm-charts
+      version: 0.1.6
+    description: Automated collector management
+    digest: 6ba76d8885ce411ea4c4343d016414cf792c6128eae48fe5d3de390d46e77f79
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: collectorset-controller
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/collectorset-controller-4.2.0/collectorset-controller-4.2.0.tgz
+    version: 4.2.0
+  - apiVersion: v2
     appVersion: v6.1.0
     created: "2023-01-11T07:45:38.036656069Z"
     dependencies:
@@ -639,4 +658,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/releasemanager-0.3.0/releasemanager-0.3.0.tgz
     version: 0.3.0
-generated: "2023-02-08T10:52:33.509578848Z"
+generated: "2023-02-15T06:06:54.801929579Z"
