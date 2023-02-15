@@ -62,10 +62,7 @@ global:
     pullPolicy: Always
   imagePullSecrets: []
 
-podSecurityContext:
-  fsGroup: 65534
-  runAsGroup: 65534
-  runAsUser: 65534
+podSecurityContext: {}
 securityContext:
   capabilities:
     add: []
