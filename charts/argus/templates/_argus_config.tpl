@@ -51,6 +51,9 @@ selfMonitor:
 monitoring:
   disable:
     {{- include "monitoring.disable" . | nindent 4 }}
+  annotations:
+    ignore:
+      {{- include "monitoring.annotations.ignore" . | nindent 6}}
 alerting:
   disable:
     {{- include "alerting.disable" . | nindent 4 }}
