@@ -1,0 +1,8 @@
+{{- /*
+hard coded "kube-state-metrics" service account name here,
+don't have intelligent solution at the moment to dynamically change according to child chart,
+importvalues dependency doesn't work
+*/ -}}
+{{- $saUsers := list (printf "%s:%s" (include "lmutil.release.namespace" .) (printf "%s-kube-state-metrics" .Release.Name)) -}}
+{{- $params := list . "lm-nonroot-v2-kube-state-metrics" $saUsers -}}
+{{- include "lmutil.openshift-scc-nonroot-v2" $params -}}
