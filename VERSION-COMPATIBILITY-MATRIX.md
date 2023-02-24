@@ -1,4 +1,4 @@
-# VERSION SKEW MATRIX
+# VERSION COMPATIBILITY MATRIX
 ## Argus Releases
 | name | version | appVersion | dependencies | Compatible Kubernetes Versions |
 | :---- | :---- | :---- | :---- | :---- |
