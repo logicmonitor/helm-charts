@@ -904,6 +904,13 @@
       "default": {},
       "examples": [
         {
+          "opsNotes": {
+            "secrets": {
+              "helmCharts": {
+                "enabled": false
+              }
+            }
+          },
           "lmlogs": {
             "k8sevent": {
               "enable": false
@@ -930,6 +937,75 @@
       "required": [
       ],
       "properties": {
+        "opsNotes": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/lm/properties/opsNotes",
+          "type": "object",
+          "title": "The OpsNotes schema",
+          "description": "The LogicMonitor OpsNotes settings.",
+          "default": {},
+          "examples": [
+            {
+              "secrets": {
+                "helmCharts": {
+                  "enabled": false
+                }
+              }
+            }
+          ],
+          "required": [
+          ],
+          "properties": {
+            "secrets": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/lm/properties/opsNotes/secrets",
+              "type": "object",
+              "title": "The OpsNotes schema - for K8s secrets",
+              "description": "The LogicMonitor OpsNotes settings - for K8s secrets",
+              "default": {},
+              "examples": [
+                {
+                  "helmCharts": {
+                    "enabled": false
+                  }
+                }
+              ],
+              "required": [
+              ],
+              "properties": {
+                "helmCharts": {
+                  "$comment": "tf:optional",
+                  "$id": "#/properties/lm/properties/opsNotes/helmCharts",
+                  "type": "object",
+                  "title": "The OpsNotes schema for helm charts releases",
+                  "description": "The LogicMonitor OpsNotes settings for helm chart releases",
+                  "default": {},
+                  "examples": [
+                    {
+                      "enabled": false
+                    }
+                  ],
+                  "required": [
+                  ],
+                  "properties": {
+                    "enabled": {
+                      "$comment": "tf:optional",
+                      "$id": "#/properties/lm/properties/opsNotes/helmCharts/enabled",
+                      "type": "boolean",
+                      "title": "The OpsNotes settings for helm chart releases",
+                      "description": "Flag to enable opsnotes for helm chart releases",
+                      "default": {},
+                      "examples": [
+                      ],
+                      "required": [
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "lmlogs": {
           "$comment": "tf:optional",
           "$id": "#/properties/lm/properties/lmlogs",

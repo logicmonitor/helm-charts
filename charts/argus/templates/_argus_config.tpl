@@ -57,6 +57,9 @@ monitoring:
 alerting:
   disable:
     {{- include "alerting.disable" . | nindent 4 }}
+lm:
+  opsNotes:
+    {{- toYaml .Values.lm.opsNotes | nindent 4}}
 {{- if .Values.debug }}
 {{- toYaml .Values.debug | nindent 0 }}
 {{- end }}
