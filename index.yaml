@@ -352,6 +352,44 @@ entries:
     version: 2.0.0
   lm-container:
   - apiVersion: v2
+    created: "2023-03-30T07:08:32.392608653Z"
+    dependencies:
+    - condition: argus.enabled
+      name: argus
+      repository: https://logicmonitor.github.io/helm-charts
+      tags:
+      - logicmonitor
+      - argus
+      - monitoring
+      version: 5.4.0
+    - condition: collectorset-controller.enabled
+      name: collectorset-controller
+      repository: https://logicmonitor.github.io/helm-charts
+      tags:
+      - logicmonitor
+      - collectorset-controller
+      - monitoring
+      version: 4.3.0
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.20.0
+    - name: lmutil
+      repository: https://logicmonitor.github.io/helm-charts
+      version: 0.1.6
+    description: A Helm chart for Logicmonitor's Kubernetes monitoring solutions
+    digest: be2ed2383111933d79c58ae4bd758fb9716892f665cb7d863a4f8d6a3166d4d3
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: lm-container
+    type: application
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-3.4.0/lm-container-3.4.0.tgz
+    version: 3.4.0
+  - apiVersion: v2
     created: "2023-03-08T15:01:33.121185479Z"
     dependencies:
     - condition: argus.enabled
@@ -810,4 +848,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/releasemanager-0.3.0/releasemanager-0.3.0.tgz
     version: 0.3.0
-generated: "2023-03-30T05:39:27.566936212Z"
+generated: "2023-03-30T07:08:32.392891993Z"
