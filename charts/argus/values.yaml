@@ -95,6 +95,10 @@ monitoring:
   annotations:
     ignore: []
 lm:
+  opsNotes:
+    secrets:
+      helmCharts:
+        enabled: false
   lmlogs:
     k8sevent:
       enable: false
