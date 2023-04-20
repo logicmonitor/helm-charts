@@ -54,6 +54,9 @@ monitoring:
   annotations:
     ignore:
       {{- include "monitoring.annotations.ignore" . | nindent 6}}
+  labels:
+    ignore:
+      {{- toYaml .Values.monitoring.labels.ignore | nindent 6}}
 alerting:
   disable:
     {{- include "alerting.disable" . | nindent 4 }}

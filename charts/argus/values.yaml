@@ -94,6 +94,9 @@ monitoring:
   # annotations to be ignored while performing an update operation
   annotations:
     ignore: []
+  # labels to be ignored while performing an update operation
+  labels:
+    ignore: []
 lm:
   opsNotes:
     secrets:

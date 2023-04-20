@@ -891,6 +891,36 @@
           },
           "additionalItems": false,
           "items": true
+        },
+        "labels": {
+          "$comment": "tf:optional,yamlencode",
+          "id": "#/properties/monitoring/properties/labels",
+          "type": "object",
+          "title": "Labels settings",
+          "description": "Label settings",
+          "default": [],
+          "examples": [
+            {
+              "ignore": []
+            }
+          ],
+          "properties": {
+            "ignore": {
+              "$comment": "tf:optional,yamlencode",
+              "id": "#/properties/monitoring/properties/labels/ignore",
+              "title": "Ignored Labels for update events",
+              "description": "Labels Rules to ignore them while update operation is being performed",
+              "type": "array",
+              "additionalItems": false,
+              "items": {
+                "$id": "#/properties/monitoring/properties/labels/ignore/items",
+                "type": "string"
+              },
+              "uniqueItems": true
+            }
+          },
+          "additionalItems": false,
+          "items": true
         }
       },
       "additionalProperties": false
