@@ -33,7 +33,6 @@ rules:
       - nodes/proxy
       - nodes/metrics
       - componentstatuses
-      - replicasets
       - persistentvolumes
       - persistentvolumeclaims
       - services
@@ -68,6 +67,9 @@ rules:
       - "extensions"
     resources:
       - deployments
+      - replicasets
+      - daemonsets
+      - statefulsets
     verbs:
       - list
       - get
