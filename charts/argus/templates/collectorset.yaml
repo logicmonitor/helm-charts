@@ -61,5 +61,6 @@ spec:
   {{- end }}
   probe: {{ toYaml .Values.collector.probe | nindent 4 }}
   collectorConfigMapName: {{ include "lmutil.fullname" . }}-collector
+  affinity: {{ include "argus.collector-affinity" . | nindent 4 }}
   securityContext: {{ include "argus.collector-container-sec-context-nonroot" (list . "argus.custom-collector-container-sec-context-nonroot") | nindent 4 }}
   podSecurityContext: {{ include "argus.collector-pod-sec-context-nonroot" (list . "argus.custom-collector-pod-sec-context-nonroot") | nindent 4 }}
