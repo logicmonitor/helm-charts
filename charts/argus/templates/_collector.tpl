@@ -51,6 +51,29 @@ runAsNonRoot: false
 {{- end }}
 {{- end }}
 
+{{- define "argus.collector-affinity" }}
+{{ if .Values.collector.affinity }}
+  {{- toYaml .Values.collector.affinity | nindent 4 }}
+{{ else if not .Values.collector.allowMultipleCollectorsOnNode }}
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: collectorset
+            app.kubernetes.io/instance: {{ include "lmutil.fullname" . }}
+        topologyKey: kubernetes.io/hostname
+{{ else }}
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 50
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: collectorset
+              app.kubernetes.io/instance: {{ include "lmutil.fullname" . }}
+          topologyKey : kubernetes.io/hostname
+{{ end }}
+{{- end }}
 
 {{- define "argus.collector-default-container-sec-context-nonroot" }}
 {{- if eq (include "lmutil.is-openshift" .) "true" }}
