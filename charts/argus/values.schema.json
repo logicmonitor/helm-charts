@@ -12,6 +12,7 @@
       "account": "",
       "clusterName": "",
       "clusterTreeParentID": 1,
+      "enableLegacyResourceTree": false,
       "image": {
         "repository": "logicmonitor/argus",
         "pullPolicy": "",
@@ -220,6 +221,17 @@
         1
       ],
       "$comment": "ui:clusterGroupID tf:optional"
+    },
+    "enableLegacyResourceTree" : {
+      "$comment": "tf:optional",
+      "$id": "#/properties/enableLegacyResourceTree",
+      "type": "boolean",
+      "title": "The enableLegacyResourceTree param",
+      "description": "Set flag to enable legacy resource tree structure.",
+      "default": false,
+      "examples": [
+        false
+      ]
     },
     "image": {
       "$id": "#/properties/image",
