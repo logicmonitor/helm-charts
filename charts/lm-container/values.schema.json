@@ -13,11 +13,47 @@
       "$id": "#/properties/global",
       "description": "Global Properties",
       "type": "object",
+      "properties": {
+        "accessID": {
+          "$id": "#/properties/accessID",
+          "type": "string",
+          "title": "Logicmonitor API Token accessID",
+          "description": "The LogicMonitor API key ID.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:accessId-ignore tf:optional"
+        },
+        "accessKey": {
+          "$id": "#/properties/accessKey",
+          "type": "string",
+          "title": "Logicmonitor API Token accessKey",
+          "description": "The LogicMonitor API key.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:accessKey-ignore tf:optional"
+        },
+        "account": {
+          "$id": "#/properties/account",
+          "type": "string",
+          "title": "Logicmonitor account name",
+          "description": "The LogicMonitor account name.nValue should be trimmed from URL \"___.logicmonitor.com\"\nexample: lmqauat.logicmonitor.com then \"lmqauat\" must be a valid value.",
+          "default": "",
+          "examples": [
+            "lmqauat"
+          ],
+          "$comment": "ui:account-ignore tf:optional"
+        }
+      },
       "additionalProperties": true
     },
     "argus": {
       "$id": "#/properties/argus",
-      "description": "Argus Helm Chart Configurations",
+      "title": "Argus Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/argus?modal=values-schema for schema",
+      "description": "Argus Helm Chart Configurations, for detailed schema visit https://artifacthub.io/packages/helm/logicmonitor-helm-charts/argus?modal=values-schema",
       "type": "object",
       "properties": {
         "enabled": {
@@ -25,13 +61,37 @@
           "description": "Enable Argus chart installation",
           "default": true,
           "$id": "#/properties/argus/properties/enabled"
+        },
+        "clusterName": {
+          "$id": "#/properties/clusterName",
+          "type": "string",
+          "title": "Friendly Cluster Name",
+          "description": "The unique name to give to the cluster's resource group.\nNOTE: You must not change the name once the application is deployed in the cluster. If changed, breaks correlation at multiple places\nexample: Organised Resource group name of Kubernetes resource tree, is generated as \"Kubernetes Cluster: <clusterName>\"",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:clusterName tf:"
+        },
+        "clusterTreeParentID": {
+          "$id": "#/properties/clusterTreeParentID",
+          "type": "integer",
+          "title": "The clusterTreeParentID",
+          "description": "clusterTreeParentID is a parent static resource group ID under which the organised Kubernetes resource tree gets created.\nA static resource group with the mentioned ID should exit beforehand.",
+          "default": 1,
+          "minimum": 1,
+          "examples": [
+            1
+          ],
+          "$comment": "ui:clusterGroupID tf:optional"
         }
       },
       "additionalProperties": true
     },
     "collectorset-controller": {
       "$id": "#/properties/collectorset-controller",
-      "description": "Collectorset Controller Helm Chart Configurations",
+      "title": "Collectorset Controller Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/collectorset-controller?modal=values-schema for schema",
+      "description": "Collectorset Controller Helm Chart Configurations for detailed schema visit https://artifacthub.io/packages/helm/logicmonitor-helm-charts/collectorset-controller?modal=values-schema",
       "type": "object",
       "properties": {
         "enabled": {
