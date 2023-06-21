@@ -6,11 +6,79 @@ maintainers:
   - email: argus@logicmonitor.com
     name: LogicMonitor
 name: collectorset-controller
-version: 5.0.0
+version: 5.1.0
 home: https://logicmonitor.github.io/helm-charts
-appVersion: v7.0.0
+appVersion: v7.1.0
 dependencies:
   - name: lmutil
     repository: https://logicmonitor.github.io/helm-charts
     # repository: file://../lmutil
     version: 0.1.6
+annotations:
+  artifacthub.io/crds: |
+    - kind: CollectorSet
+      version: v1beta1
+      name: collectorsets.logicmonitor.com
+      displayName: CollectorSet crd
+      description: CollectorSet is used by argus to manage collector ids for monitored resources
+  artifacthub.io/crdsExamples: |
+    - apiVersion: logicmonitor.com/v1beta1
+      kind: CollectorSet
+      metadata:
+        name: lmc-argus
+        namespace: lm-portal
+      spec:
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/instance: lmc-argus
+                      app.kubernetes.io/name: collectorset
+                  topologyKey: kubernetes.io/hostname
+                weight: 50
+        annotations: {}
+        clusterName: docker-desktop
+        collectorConfigMapName: lmc-argus-collector
+        groupID: 0
+        image:
+          pullPolicy: Always
+          registry: ""
+          repository: logicmonitor/collector
+          tag: latest
+        labels:
+          app: collector
+          app.kubernetes.io/part-of: argus
+        podSecurityContext: {}
+        policy:
+          distributionStrategy: RoundRobin
+          orchestrator: Kubernetes
+        probe:
+          enabled: true
+          liveness:
+            failureThreshold: 30
+            periodSeconds: 10
+          readiness:
+            failureThreshold: 30
+            periodSeconds: 10
+          startup:
+            failureThreshold: 30
+            periodSeconds: 20
+        proxy:
+          url: ""
+        replicas: 1
+        secretName: ""
+        securityContext:
+          capabilities:
+            add: []
+            drop: []
+        size: small
+        statefulsetspec:
+          template:
+            spec:
+              nodeSelector: {}
+              priorityClassName: ""
+              tolerations: []
+        useEA: true
+        version: 0
