@@ -18,6 +18,9 @@ clusterName: ""
 # clusterTreeParentID is a parent group ID underneath the organised kubernetes resource tree gets created
 clusterTreeParentID: 1
 
+# enableLegacyResourceTree is a flag to restore legacy resource tree structure
+enableLegacyResourceTree: false
+
 ## OPTIONAL VALUES - used for Kubernetes Manifest files
 image:
   registry: ""
