@@ -91,6 +91,7 @@ rules:
       - "networking.k8s.io"
     resources:
       - networkpolicies
+      - ingresses
     verbs:
       - list
       - get
