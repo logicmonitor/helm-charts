@@ -43,7 +43,7 @@ logicmonitor.com/provider: lm-container
 
 
 {{- define "monitoring.disable" }}
-{{ $alwaysDisable := list "ingresses"}}
+{{ $alwaysDisable := list }}
 {{ $resultList := ( concat $alwaysDisable $.Values.monitoring.disable | uniq )  }}
 {{- toYaml $resultList | nindent 0}}
 {{- end }}
