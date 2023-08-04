@@ -1,0 +1,27 @@
+{
+  "accessId": "$.global.accessID",
+  "accessKey": "$.global.accessKey",
+  "account": "$.global.account",
+  "clusterGroupID": [
+    "$.argus.clusterTreeParentID",
+    "$.argus.clusterTreeParentID"
+  ],
+  "clusterName": [
+    "$.argus.clusterName",
+    "$.argus.clusterName"
+  ],
+  "collectorEscalationChainID": "$.argus.collector.lm.escalationChainID",
+  "collectorGroupID": "$.argus.collector.lm.groupID",
+  "collectorReplicas": "$.argus.collector.replicas",
+  "collectorSize": "$.argus.collector.size",
+  "collectorUseEA": "$.argus.collector.useEA",
+  "enableRBAC": "$.argus.rbac.create",
+  "etcdDiscoveryToken": "$.argus.etcdDiscoveryToken",
+  "excludeRules": "$.argus.filters",
+  "k8sEventEnable": "$.argus.lm.lmlogs.k8sevent.enable",
+  "k8sPodLogEnable": "$.argus.lm.lmlogs.k8spodlog.enable",
+  "proxyPass": "$.global.proxy.pass",
+  "proxyURL": "$.global.proxy.url",
+  "proxyUser": "$.global.proxy.user",
+  "resourceGroupID": "$.argus.resourceContainerID"
+}
