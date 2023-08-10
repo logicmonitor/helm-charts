@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "fluentbit.serviceAccountName" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
+  labels:
+    {{ include "lmotel.labels" . | nindent 4 }}
+  annotations:
+    {{- include "lmotel.annotations" . | nindent 4 }}
+---
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
+kind: ClusterRole
+metadata:
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
+  labels:
+    {{ include "lmotel.labels" . | nindent 4 }}
+  annotations:
+    {{- include "lmotel.annotations" . | nindent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+kind: ClusterRoleBinding
+apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
+metadata:
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
+  labels:
+    {{ include "lmotel.labels" . | nindent 4 }}
+  annotations:
+    {{- include "lmotel.annotations" . | nindent 4 }}
+roleRef:
+  kind: ClusterRole
+  name: {{ include "lmutil.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: {{ include "fluentbit.serviceAccountName" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}

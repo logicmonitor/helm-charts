@@ -1,0 +1,103 @@
+{{- if eq .Values.logs.enable true}}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ include "lmutil.release.namespace" . }}
+  labels:
+    {{ include "lmotel.labels" . | nindent 4 }}
+  annotations:
+    {{ include "lmotel.annotations" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "lmutil.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "lmotel.labels" . | nindent 8 }}
+      annotations:
+        {{ include "lmotel.annotations" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "fluentbit.serviceAccountName" . }}
+      containers:
+        - name: lmotel
+          securityContext:
+            {{- toYaml .Values.logs.securityContext | nindent 12 }}
+          image: {{ include "lmotel-logs-image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "Always" }}
+          {{ with .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{ end }}
+          {{- if .Values.arguments}}
+          args:  
+            {{ range .Values.arguments }}
+              - {{ . }}
+            {{ end }}
+          {{- end }}
+          env:
+            - name: LOGICMONITOR_ACCOUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "lmutil.fullname" . }} 
+                  key: lm_account
+            - name: LOGICMONITOR_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "lmutil.fullname" . }}
+                  key: lm_bearer_token
+                  optional: true
+            - name: LOGICMONITOR_ACCESS_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "lmutil.fullname" . }}
+                  key: lm_access_id
+                  optional: true
+            - name: LOGICMONITOR_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "lmutil.fullname" . }}
+                  key: lm_access_key
+                  optional: true                
+            - name: LOGICMONITOR_OTEL_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "lmutil.fullname" . }}
+                  key: lm_otel_name                  
+            - name: LOGICMONITOR_OTEL_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "lmutil.fullname" . }}
+                  key: lm_version
+                  optional: true
+            - name: LOGICMONITOR_OTEL_NAMESPACE
+              value: {{ include "lmutil.release.namespace" . }}
+          {{- if .Values.external_config.lmconfig }}
+          args: 
+            - --config
+            - lmconfig.yaml
+            {{- if .Values.arguments}}  
+            {{ range .Values.arguments }}
+            - {{ . }}
+            {{ end }}
+            {{- end }}
+          {{- end }}
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- if .Values.external_config.lmconfig}}
+            - name: lmotel-conf
+              mountPath: lmconfig.yaml
+              subPath: lmconfig.yaml
+            {{- end }}
+      volumes:
+        {{- toYaml .Values.volumes | nindent 8 }}
+        {{- if .Values.external_config.lmconfig }}
+        - name: lmotel-conf
+          configMap:
+            name: {{ include "lmutil.fullname" . }}
+            items:
+              - key: lmconfig.yaml
+                path: lmconfig.yaml
+        {{- end }}
+{{- end }}

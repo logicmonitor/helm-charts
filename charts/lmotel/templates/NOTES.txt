@@ -1,0 +1,24 @@
+=========================================================================================================
+
+1. Selectors to list/select kubernetes resources:
+    
+$ export LMOTEL_SELECTOR="app.kubernetes.io/name=lmotel,app.kubernetes.io/instance={{ .Release.Name }}"
+
+Add above export commands in ~/.zshrc or ~/.bashrc to autoload.
+
+Replace Selector variable in following commands as per required selection:
+List Pods:
+    $ kubectl get pods -l $LMOTEL_SELECTOR -n {{ .Release.Namespace }}
+
+Get Logs:
+    $ kubectl logs -l $LMOTEL_SELECTOR -n {{ .Release.Namespace }}
+> Add -f option to follow logs
+
+You can run `helm get notes {{.Release.Name}} -n {{ .Release.Namespace }}` to print notes again.
+
+=========================================================================================================
+
+2. For sending traces from application, configure the exporter endpoint:
+For example:
+- name: OTEL_EXPORTER_OTLP_ENDPOINT
+  value: "{{ .Values.service.name }}:<port>"
