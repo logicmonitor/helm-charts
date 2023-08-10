@@ -1,0 +1,9 @@
+lm:
+  # The LogicMonitor API key ID.
+  access_id: "dummy"
+  # The LogicMonitor API key.
+  access_key: "dummy"
+  # The LogicMonitor account name.
+  account: "dummy"
+  # The LMOTEL Collector name.
+  otel_name: "dummy"

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "lmutil.fullname" . }}
+  namespace: {{ template "lmutil.release.namespace" . }}
+  labels:
+    {{- include "lmotel.labels" . | nindent 4 }}
+  annotations:
+    helm-chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    helm-revision: "{{ .Release.Revision }}"
+    {{- include "lmotel.annotations" . | nindent 4 }}
+data:
+  lm_account: {{ if .Values.lm.account }} {{ .Values.lm.account }} {{ else }} {{ required "A valid .Values.lm.account or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
+  lm_otel_name: {{ required "A valid .Values.lm.otel_name entry is required!" .Values.lm.otel_name }}
+  {{- if or (.Values.lm.access_id) (.Values.global.accessID)}}
+  lm_access_id: {{ if .Values.lm.access_id }} {{ .Values.lm.access_id }} {{ else }} {{ .Values.global.accessID  }} {{ end }}
+  {{ end }}  
+  {{- if .Values.lm.otel_version}}
+  lm_version: {{ .Values.lm.otel_version | quote }}
+  {{ end }}
+  {{- if .Values.external_config.lmconfig}}
+  lmconfig.yaml: {{ toYaml .Values.external_config.lmconfig | indent 4 }}
+  {{- end }}
