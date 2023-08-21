@@ -6,9 +6,9 @@ maintainers:
   - email: argus@logicmonitor.com
     name: LogicMonitor
 name: collectorset-controller
-version: 5.3.0
+version: 5.4.0
 home: https://logicmonitor.github.io/helm-charts
-appVersion: v7.2.0
+appVersion: v7.3.0
 dependencies:
   - name: lmutil
     repository: https://logicmonitor.github.io/helm-charts
