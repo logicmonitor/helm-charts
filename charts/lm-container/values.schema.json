@@ -121,6 +121,20 @@
       },
       "additionalProperties": true
     },
+    "lmotel": {
+      "$id": "#/properties/lmotel",
+      "description": "LMOTEL Helm Chart Configurations",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable LMOTEL Helm Chart installation",
+          "default": false,
+          "$id": "#/properties/lmotel/properties/enabled"
+        }
+      },
+      "additionalProperties": true
+    },
     "kube-state-metrics": {
       "$id": "#/properties/kube-state-metrics",
       "type": "object",
