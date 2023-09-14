@@ -31,18 +31,22 @@ spec:
   {{- if .Values.collector.useEA }}
   useEA: {{ .Values.collector.useEA }}
   {{- end }}
+  {{/*  TODO: create a function for the below logic */}}
+  {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace .Values.global.userDefinedSecret) | default dict }}
+  {{- $secretData := (get $secretObj "data") | default dict }}
+  {{- if or $secretData.collectorProxyUser $secretData.proxyUser }}
+  secretName: {{ .Values.global.userDefinedSecret }}
+  {{- else if and (not (empty .Values.collector.proxy.user)) (empty .Values.global.userDefinedSecret ) }}
+  secretName: {{ include "lmutil.fullname" . }}-collector
+  {{- else if and (not (empty .Values.global.proxy.user)) (empty .Values.global.userDefinedSecret ) }}
+  secretName: {{ include "lmutil.fullname" . }}-collector
+  {{- end }}
   {{- if .Values.collector.proxy.url }}
   proxy:
     url: {{ .Values.collector.proxy.url }}
-  {{- if .Values.collector.proxy.user }}
-  secretName: {{ include "lmutil.fullname" . }}-collector
-  {{- end }}
   {{- else if .Values.global.proxy.url }}
   proxy:
     url: {{ .Values.global.proxy.url }}
-  {{- if .Values.global.proxy.user }}
-  secretName: {{ include "lmutil.fullname" . }}-collector
-  {{- end }}
   {{- end }}
   labels:
     {{- include "collector.labels" . | nindent 4 }}

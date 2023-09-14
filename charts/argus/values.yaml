@@ -216,6 +216,7 @@ global:
     repository: ""
     pullPolicy: Always
   collectorsetServiceNameSuffix: ""
+  userDefinedSecret: ""
   imagePullSecrets: []
 
 nameOverride: ""

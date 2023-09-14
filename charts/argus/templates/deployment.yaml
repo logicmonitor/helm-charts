@@ -82,37 +82,4 @@ spec:
               value: {{ template "lmutil.name" . }}
             - name: APP_KUBERNETES_IO_INSTANCE
               value: {{ .Release.Name }}
-            - name: ACCESS_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "lmutil.fullname" . }}
-                  key: accessID
-            - name: ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "lmutil.fullname" . }}
-                  key: accessKey
-            - name: ACCOUNT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "lmutil.fullname" . }}
-                  key: account
-            - name: ETCD_DISCOVERY_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "lmutil.fullname" . }}
-                  key: etcdDiscoveryToken
-        {{- if .Values.proxy.user }}
-            - name: PROXY_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "lmutil.fullname" . }}
-                  key: proxyUser
-        {{- end }}
-        {{- if .Values.proxy.pass }}
-            - name: PROXY_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "lmutil.fullname" . }}
-                  key: proxyPass
-        {{- end }}
+        {{ include "lm-credentials-and-proxy-details" . | nindent 12 }}
