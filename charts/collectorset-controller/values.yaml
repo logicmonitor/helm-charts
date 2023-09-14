@@ -60,6 +60,7 @@ global:
     registry: ""
     repository: ""
     pullPolicy: Always
+  userDefinedSecret: ""
   imagePullSecrets: []
 
 podSecurityContext: {}

@@ -43,6 +43,7 @@
         "accessKey": "",
         "account": "",
         "collectorsetServiceNameSuffix": "",
+        "userDefinedSecret": "",
         "proxy": {
           "url": "",
           "user": "",
@@ -582,6 +583,13 @@
           "type": "string",
           "default": "",
           "description": "Suffix to be added to .Release.name to generate Collectorset controller service name.\nKeep it empty while installing this chart individually, umbrella chart uses this to generate unique name across"
+        },
+        "userDefinedSecret": {
+          "$id": "#/properties/global/properties/userDefinedSecret",
+          "$comment": "tf:optional",
+          "type": "string",
+          "default": "",
+          "description": "User can provide LM credentials in a Secret instead of plain text. The secret should contain 'accessID', 'accessKey', 'account' along with optional params e.g. 'etcdDiscoveryToken', proxy credentials"
         }
       }
     },
