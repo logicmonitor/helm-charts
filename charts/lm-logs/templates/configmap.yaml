@@ -1,0 +1,99 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "fluentd.fullname" . }}
+  labels:
+    {{- include "fluentd.labels" . | nindent 4 }}
+  annotations:
+    {{- include "fluentd.annotations" . | nindent 4 }}
+data:
+  fluent.conf: |
+    @include kubernetes.conf
+
+    <system>
+      log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
+    </system>
+
+    <filter kubernetes.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        message ${record["log"]} ${record["message"]}
+        timestamp ${record["time"]}
+        {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
+        {{ include "kubernetes.cluster_name" . | nindent 8 }}
+        {{- end}}
+        {{- if  .Values.fluent.device_less_logs }}
+        resource.service.name ${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") :  record.dig("kubernetes","container_name") != nil ?  record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") :  "unknown" }
+        resource.service.namespace ${record["kubernetes"]["namespace_name"]}
+        {{- end}}
+      </record>
+      remove_keys log
+    </filter>
+
+    <match kubernetes.**>
+      @type lm
+      company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
+      resource_mapping {"kubernetes.pod_name": "auto.name"}
+      access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
+      access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}
+      debug false
+      compression gzip
+      include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
+      device_less_logs {{ .Values.fluent.device_less_logs | default false }}
+      <buffer>
+        @type memory
+        flush_interval {{ .Values.fluent.buffer.memory.flush_interval | default "1s" }}
+        chunk_limit_size {{ .Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
+        flush_thread_count {{ .Values.fluent.buffer.memory.flush_thread_count | default "8"}}
+      </buffer>
+    </match>
+  kubernetes.conf: |
+    <source>
+      @type tail
+      @id in_tail_container_logs
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag "#{ENV['FLUENT_CONTAINER_TAIL_TAG'] || 'kubernetes.*'}"
+      exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/{{ .Chart.Name }}*.log' }"
+      <parse>
+        @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'multi_format'}"
+        <pattern>
+          format json
+          keep_time_key true
+          time_format %Y-%m-%dT%H:%M:%S.%NZ
+        </pattern>
+        <pattern>
+          format syslog
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </source>
+
+    <filter kubernetes.**>
+      @type concat
+      key log
+      seperator ""
+      multiline_start_regexp {{ .Values.kubernetes.multiline_start_regexp }}
+      timeout_label @NORMAL
+    </filter>
+
+    <label @NORMAL>
+      <match kubernetes.**>
+        @type stdout
+      </match>
+    </label>
+
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      @id filter_kube_metadata
+      kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
+      verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
+      ca_file "#{ENV['KUBERNETES_CA_FILE']}"
+      skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
+      skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
+      skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
+      skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
+    </filter>

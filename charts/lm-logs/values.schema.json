@@ -1,0 +1,502 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Lm-Logs Helm Chart Configuration Schema",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "$id": "#/properties/enabled",
+      "description": "Defined for umbrella chart but unused here.",
+      "type": "boolean",
+      "default": true,
+      "$comment": "tf:optional"
+    },
+    "image": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "repository": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/image/properties/repository",
+          "type": "string",
+          "default": "logicmonitor/lm-logs-k8s-fluentd",
+          "examples": [
+            "logicmonitor/lm-logs-k8s-fluentd"
+          ]
+        },
+        "pullPolicy": {
+          "$id": "#/properties/image/properties/pullPolicy",
+          "$comment": "tf:optional",
+          "type": "string",
+          "description": "Overrides the image pullPolicy.\nDefaults to \"Always\".",
+          "default": "Always",
+          "enum": [
+            "Always",
+            "IfNotPresent",
+            "Never",
+            ""
+          ],
+          "examples": [
+            "Always"
+          ]
+        },
+        "tag": {
+          "$id": "#/properties/image/properties/tag",
+          "$comment": "tf:optional",
+          "type": "string",
+          "description": "The \"logicmonitor/lm-logs-k8s-fluentd\" Docker Image Tag.\nOverrides the image tag whose default is the chart appVersion.",
+          "default": "",
+          "examples": [
+            ""
+          ]
+        }
+      }
+    },
+    "lm_access_id": {
+      "$id": "#/properties/lm_access_id",
+      "type": "string",
+      "title": "Logicmonitor API Token accessID",
+      "description": "The LogicMonitor API key ID.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+      "default": "",
+      "examples": [
+        ""
+      ],
+      "$comment": "ui:lm_access_id-ignore tf:optional"
+    },
+    "lm_access_key": {
+      "$id": "#/properties/lm_access_key",
+      "type": "string",
+      "title": "Logicmonitor API Token accessKey",
+      "description": "The LogicMonitor API key.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+      "default": "",
+      "examples": [
+        ""
+      ],
+      "$comment": "ui:lm_access_key-ignore tf:optional"
+    },
+    "lm_company_name": {
+      "$id": "#/properties/lm_company_name",
+      "type": "string",
+      "title": "Logicmonitor account name",
+      "description": "The LogicMonitor account name.nValue should be trimmed from URL \"___.logicmonitor.com\"\nexample: lmqauat.logicmonitor.com then \"lmqauat\" must be a valid value.",
+      "default": "",
+      "examples": [
+        "lmqauat"
+      ],
+      "$comment": "ui:lm_company_name-ignore tf:optional"
+    },
+    "clusterName": {
+      "$id": "#/properties/clusterName",
+      "type": "string",
+      "title": "Friendly Cluster Name",
+      "description": "The unique name to give to the cluster's resource group.\nNOTE: You must not change the name once the application is deployed in the cluster. If changed, breaks correlation at multiple places\nexample: Organised Resource group name of Kubernetes resource tree, is generated as \"Kubernetes Cluster: <clusterName>\"",
+      "default": "",
+      "examples": [
+        ""
+      ],
+      "$comment": "ui:clusterName-ignore tf:"
+    },
+    "global": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "accessID": {
+          "$id": "#/properties/global/properties/accessID",
+          "type": "string",
+          "title": "Logicmonitor API Token accessID",
+          "description": "The LogicMonitor API key ID.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:accessId-ignore tf:optional"
+        },
+        "accessKey": {
+          "$id": "#/properties/global/properties/accessKey",
+          "type": "string",
+          "title": "Logicmonitor API Token accessKey",
+          "description": "The LogicMonitor API key.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:accessKey-ignore tf:optional"
+        },
+        "account": {
+          "$id": "#/properties/global/properties/account",
+          "type": "string",
+          "title": "Logicmonitor account name",
+          "description": "The LogicMonitor account name.nValue should be trimmed from URL \"___.logicmonitor.com\"\nexample: lmqauat.logicmonitor.com then \"lmqauat\" must be a valid value.",
+          "default": "",
+          "examples": [
+            "lmqauat"
+          ],
+          "$comment": "ui:account-ignore tf:optional"
+        },
+        "clusterName": {
+          "$id": "#/properties/clusterName",
+          "type": "string",
+          "title": "Friendly Cluster Name",
+          "description": "The unique name to give to the cluster's resource group.\nNOTE: You must not change the name once the application is deployed in the cluster. If changed, breaks correlation at multiple places\nexample: Organised Resource group name of Kubernetes resource tree, is generated as \"Kubernetes Cluster: <clusterName>\"",
+          "default": "",
+          "examples": [
+            ""
+          ],
+          "$comment": "ui:clusterName-ignore tf:"
+        }
+      }
+    },
+    "imagePullSecrets": {
+      "description": "ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. For example, in the case of docker, only DockerConfig type secrets are honored. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod",
+      "examples": [
+        [
+          {
+            "name": "imagepullsecret1"
+          }
+        ]
+      ],
+      "items": {
+        "$ref": "#/definitions/io.k8s.api.core.v1.LocalObjectReference"
+      },
+      "uniqueItems": true,
+      "additionalProperties": false,
+      "type": "array"
+    },
+    "labels": {
+      "$id": "#/properties/labels",
+      "type": "object",
+      "$comment": "tf:optional,yamlencode",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "annotations": {
+      "$id": "#/properties/annotations",
+      "type": "object",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "additionalProperties": {
+        "type": "string"
+      },
+      "$comment": "tf:optional,yamlencode"
+    },
+    "nameOverride": {
+      "$id": "#/properties/nameOverride",
+      "$comment": "tf:optional",
+      "type": "string",
+      "title": "The nameOverride schema",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "fullnameOverride": {
+      "$comment": "tf:optional",
+      "$id": "#/properties/fullnameOverride",
+      "type": "string",
+      "title": "The fullnameOverride schema",
+      "default": "",
+      "examples": [
+        ""
+      ]
+    },
+    "env": {
+      "$id": "#/properties/env",
+      "type": "object",
+      "$comment": "tf:optional,yamlencode",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "resources": {
+      "$id": "#/properties/resources",
+      "type": "object",
+      "$comment": "tf:optional",
+      "title": "The Argus resource limits schema",
+      "description": "The Argus pod resource limits",
+      "default": {},
+      "examples": [
+        {
+          "limits": {
+            "cpu": "1000m",
+            "memory": "1Gi",
+            "ephemeral-storage": "100Mi"
+          },
+          "requests": {
+            "cpu": "1000m",
+            "memory": "1Gi",
+            "ephemeral-storage": "100Mi"
+          }
+        }
+      ],
+      "properties": {
+        "limits": {
+          "$id": "#/properties/resources/properties/limits",
+          "$comment": "tf:optional,yamlencode",
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+          "type": "object"
+        },
+        "requests": {
+          "$id": "#/properties/resources/properties/requests",
+          "$comment": "tf:optional,yamlencode",
+          "additionalProperties": {
+            "$ref": "#/definitions/io.k8s.apimachinery.pkg.api.resource.Quantity"
+          },
+          "description": "Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fluent": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "device_less_logs": {
+          "type": "boolean"
+        },
+        "include_metadata": {
+          "type": "boolean"
+        },
+        "buffer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "memory": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "flush_interval": {
+                  "type": "string"
+                },
+                "chunk_limit_size": {
+                  "type": "string"
+                },
+                "flush_thread_count": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "kubernetes": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "multiline_start_regexp": {
+          "type": "string"
+        },
+        "cluster_name" : {
+          "type": "string"
+        }
+      }
+    },
+    "nodeSelector": {
+      "$id": "#/properties/nodeSelector",
+      "$comment": "tf:optional,yamlencode",
+      "type": "object",
+      "title": "nodeSelector",
+      "description": "NodeSelector is a selector, which must be set to true for the pod to fit on a node. The selector must match the node's labels for the pod to be scheduled on that node. More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/",
+      "default": {},
+      "examples": [
+        {}
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "affinity": {
+      "$id": "#/properties/affinity",
+      "type": "object",
+      "$comment": "tf:optional,yamlencode",
+      "title": "affinity",
+      "description": "Affinity allows you to constrain which nodes your pod is eligible to be scheduled on.",
+      "default": {},
+      "examples": [
+        {}
+      ]
+    },
+    "tolerations": {
+      "additionalItems": true,
+      "items": {
+        "$id": "#/properties/tolerations/items",
+        "$ref": "#/definitions/toleration"
+      },
+      "uniqueItems": true,
+      "type": "array"
+    },
+    "volumes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/io.k8s.api.core.v1.Volume"
+      },
+      "uniqueItems": true
+    },
+    "volumeMounts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
+      },
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "lm_access_id",
+    "lm_access_key",
+    "lm_company_name"
+  ],
+  "definitions": {
+    "io.k8s.apimachinery.pkg.api.resource.Quantity": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "io.k8s.api.core.v1.LocalObjectReference": {
+      "description": "LocalObjectReference contains information to locate the referenced object inside the same namespace.",
+      "properties": {
+        "name": {
+          "description": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "io.k8s.api.core.v1.VolumeMount": {
+      "description": "VolumeMount describes a mounting of a Volume within a container.",
+      "required": [
+        "name",
+        "mountPath"
+      ],
+      "properties": {
+        "mountPath": {
+          "description": "Path within the container at which the volume should be mounted.  Must not contain ':'.",
+          "type": "string"
+        },
+        "name": {
+          "description": "This must match the Name of a Volume.",
+          "type": "string"
+        },
+        "readOnly": {
+          "description": "Mounted read-only if true, read-write otherwise (false or unspecified). Defaults to false.",
+          "type": "boolean"
+        },
+        "subPath": {
+          "description": "Path within the volume from which the container's volume should be mounted. Defaults to \"\" (volume's root).",
+          "type": "string"
+        }
+      }
+    },
+    "io.k8s.api.core.v1.Volume": {
+      "properties": {
+        "hostPath": {
+          "description": "Represents a host path mapped into a pod. Host path volumes do not support ownership management or SELinux relabeling.",
+          "properties": {
+            "path": {
+              "description": "Path of the directory on the host. If the path is a symlink, it will follow the link to the real path. More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath",
+              "type": "string"
+            },
+            "type": {
+              "description": "Type for HostPath Volume, by default is set to \"\" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        },
+        "name": {
+          "description": "Volume's name. Must be a DNS_LABEL and unique within the pod. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "toleration": {
+      "oneOf": [
+        {
+          "properties": {
+            "effect": {
+              "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+              "type": "string"
+            },
+            "key": {
+              "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+              "type": "string"
+            },
+            "operator": {
+              "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+              "type": "string",
+              "enum": [
+                "Exists"
+              ]
+            },
+            "tolerationSeconds": {
+              "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+              "format": "int64",
+              "type": "integer"
+            },
+            "value": {
+              "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+              "type": "string",
+              "maxLength": 0
+            }
+          },
+          "type": "object"
+        },
+        {
+          "properties": {
+            "effect": {
+              "description": "Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute.",
+              "type": "string"
+            },
+            "key": {
+              "description": "Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.",
+              "type": "string"
+            },
+            "operator": {
+              "description": "Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category.",
+              "type": "string",
+              "enum": [
+                "Equal"
+              ]
+            },
+            "tolerationSeconds": {
+              "description": "TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system.",
+              "format": "int64",
+              "type": "integer"
+            },
+            "value": {
+              "description": "Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "type": "object"
+        }
+      ]
+    }
+  }
+}
