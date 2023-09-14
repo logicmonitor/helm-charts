@@ -28,6 +28,7 @@ rules:
       - ""
     resources:
       - pods
+      - secrets
     verbs:
       - "*"
   - apiGroups:

@@ -24,4 +24,4 @@ data:
     {{- end }}
     ignoreSSL: {{ default false .Values.ignoreSSL }}
     collectorServiceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}-collector
-    secretName: {{ include "lmutil.fullname" . }}
+    secretName: {{ include "lmutil.secret-name" . }}
