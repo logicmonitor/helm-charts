@@ -22,7 +22,7 @@ dependencies:
       - monitoring
   - name: collectorset-controller
     # need to explicitly quote to make it string, else json schema fails
-    version: "6.1.0"
+    version: "6.0.0"
     repository: https://logicmonitor.github.io/helm-charts
     # uncomment to test umbrella chart in while developing
     # repository: file://../collectorset-controller
