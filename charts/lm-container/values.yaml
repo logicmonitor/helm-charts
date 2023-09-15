@@ -2,6 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global:
+  userDefinedSecret: ""
   image:
     registry: ""
     pullPolicy: ""
@@ -11,6 +12,8 @@ argus:
   enabled: true
 collectorset-controller:
   enabled: true
+lm-logs:
+  enabled: false
 lmotel:
   enabled: false
 
