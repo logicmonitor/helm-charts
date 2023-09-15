@@ -1586,6 +1586,21 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/lm-container-1.0.0/lm-container-1.0.0.tgz
     version: 1.0.0
+  lm-logs:
+  - apiVersion: v2
+    appVersion: 1.0.5
+    created: "2023-09-15T09:12:57.491931854Z"
+    description: A Helm chart for sending k8s logs to Logic Monitor
+    digest: 5a80400ba46380a65ec6a9afa10c5058a78611c124c990c86ab7e711c35ecdc2
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    maintainers:
+    - email: dev@logicmonitor.com
+      name: LogicMonitor
+    name: lm-logs
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lm-logs-0.4.0/lm-logs-0.4.0.tgz
+    version: 0.4.0
   lmotel:
   - apiVersion: v2
     appVersion: v2.0.10
@@ -1705,4 +1720,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/releasemanager-0.3.0/releasemanager-0.3.0.tgz
     version: 0.3.0
-generated: "2023-09-14T13:55:43.989417461Z"
+generated: "2023-09-15T09:12:57.492132855Z"
