@@ -1,0 +1,62 @@
+image:
+  repository: logicmonitor/lm-logs-k8s-fluentd
+  pullPolicy: Always
+  tag: "1.0.5"
+
+lm_access_id: ""
+lm_access_key: ""
+lm_company_name: ""
+
+global:
+  accessID: ""
+  accessKey: ""
+  account: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+labels: {}
+annotations: {}
+
+env: {}
+
+resources:
+  limits:
+    memory: 1000Mi
+  requests:
+    cpu: 300m
+    memory: 700Mi
+fluent:
+  device_less_logs: false
+  include_metadata: true
+  buffer:
+    memory:
+      flush_interval: 1s
+      chunk_limit_size: 8m
+      flush_thread_count: 8
+
+kubernetes:
+  multiline_start_regexp: /^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/
+
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
+
+volumes:
+  - name: varlog
+    hostPath:
+      path: /var/log
+  - name: varlibdockercontainers
+    hostPath:
+      path: /var/lib/docker/containers
+
+volumeMounts:
+  - name: fluentconf
+    mountPath: /fluentd/etc
+  - name: varlog
+    mountPath: /var/log
+  - name: varlibdockercontainers
+    mountPath: /var/lib/docker/containers
+    readOnly: true
