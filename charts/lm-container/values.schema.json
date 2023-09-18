@@ -46,6 +46,12 @@
             "lmqauat"
           ],
           "$comment": "ui:account-ignore tf:optional"
+        },
+        "userDefinedSecret": {
+          "$id": "#/properties/userDefinedSecret",
+          "type": "string",
+          "title": "User provided Secret for LM credentials",
+          "description": "User can provide LM credentials in a Secret instead of plain text. The secret should contain 'accessID', 'accessKey', 'account' along with optional params e.g. 'etcdDiscoveryToken', proxy credentials"
         }
       },
       "additionalProperties": true
