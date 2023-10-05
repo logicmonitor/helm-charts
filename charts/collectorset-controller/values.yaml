@@ -39,6 +39,16 @@ affinity: {}
 priorityClassName: ""
 # tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.
 tolerations: []
+resources: {}
+# Example:
+#  limits:
+#    cpu: "1000m"
+#    memory: "1Gi"
+#    ephemeral-storage: "100Mi"
+#  requests:
+#    cpu: "1000m"
+#    memory: "1Gi"
+#    ephemeral-storage: "100Mi"
 # Labels to apply on all objects created by Collectorset controller
 labels: {}
 # Annotations to apply on all objects created by Collectorset controller
