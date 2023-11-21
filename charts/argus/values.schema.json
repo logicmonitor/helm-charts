@@ -1314,6 +1314,47 @@
       },
       "uniqueItems": true
     },
+    "overview": {
+      "$id": "#/properties/overview",
+      "$comment": "tf:optional",
+      "type": "object",
+      "title": "The Overview schema",
+      "description": "Configurations for Overview Dashboard.",
+      "default": {},
+      "examples": [
+        {
+          "enable": false,
+          "duration": "* * * * *"
+        }
+      ],
+      "required": [
+      ],
+      "properties": {
+        "enable": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/overview/properties/enable",
+          "type": "boolean",
+          "title": "The enable schema",
+          "description": "Once the property is enabled, argus pod annotation will be updated after every duration interval. ",
+          "default": false,
+          "examples": [
+            false,
+            true
+          ]
+        },
+        "duration": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/overview/properties/duration",
+          "type": "string",
+          "title": "The duration schema",
+          "description": "Duration of argus pod annotation update in cron.",
+          "examples": [
+            "* * * * *"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
     "selfMonitor": {
       "$id": "#/properties/selfMonitor",
       "$comment": "tf:optional",

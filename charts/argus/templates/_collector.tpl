@@ -99,3 +99,30 @@ capabilities:
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{/* This template is used for validating COLLECTOR_NON_ROOT env variable, please do not print anything here */}}
+{{- define "non-root-prop-check"}}
+{{$isKeyInvalid := false}}
+{{$isValueInvalid := false}}
+{{- $trueCheckList := list "true" "1" "True" "yes" "Yes"}}
+{{- $falseCheckList := list "false" "0" "False" "no" "No"}}
+{{- if not (empty .Values.collector.env)}}
+{{- range $key, $value := .Values.collector.env }}
+    {{- if eq (upper $key) "COLLECTOR_NON_ROOT"}}
+        {{- if eq $key "COLLECTOR_NON_ROOT"}}
+            {{- if and (not (empty $value)) (not (or (has $value $falseCheckList) (has $value $trueCheckList))) }}
+            {{- $isValueInvalid = true}}
+            {{- end}}
+        {{- else }}
+            {{- $isKeyInvalid = true}}
+        {{- end }}
+    {{- end}}
+{{- end}}
+{{- if $isKeyInvalid }}
+{{- fail (printf "COLLECTOR_NON_ROOT param is case sensitive, please check your configurations.") }}
+{{- end}}
+{{- if $isValueInvalid }}
+{{- fail (printf "Please provide a valid boolean value for COLLECTOR_NON_ROOT param")}}
+{{- end}}
+{{- end}}
+{{- end}}
