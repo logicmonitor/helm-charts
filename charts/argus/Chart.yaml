@@ -8,7 +8,7 @@ maintainers:
 name: argus
 version: 8.0.0
 home: https://logicmonitor.github.io/helm-charts
-appVersion: 12.0.0
+appVersion: v12.0.0
 dependencies:
   - name: lmutil
     repository: https://logicmonitor.github.io/helm-charts
