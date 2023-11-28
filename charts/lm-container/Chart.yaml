@@ -2,7 +2,7 @@ apiVersion: v2
 name: lm-container
 description: A Helm chart for Logicmonitor's Kubernetes monitoring solutions
 type: application
-version: 6.0.0
+version: 6.0.1
 maintainers:
   - name: LogicMonitor
     email: argus@logicmonitor.com
@@ -58,7 +58,7 @@ dependencies:
   - condition: kube-state-metrics.enabled
     name: kube-state-metrics
     repository: https://prometheus-community.github.io/helm-charts
-    version: 4.20.0
+    version: 5.13.0
   - name: lmutil
     repository: https://logicmonitor.github.io/helm-charts
     # uncomment to test umbrella chart in while developing
