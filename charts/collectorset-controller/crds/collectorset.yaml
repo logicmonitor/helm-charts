@@ -1722,6 +1722,9 @@ spec:
                     - Created
                     - Registered
                   type: string
+                autoBalancedCollectorGroupId:
+                  default: 0
+                  type: integer
               type: object
           required:
             - spec
