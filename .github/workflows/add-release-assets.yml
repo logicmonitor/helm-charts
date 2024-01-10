@@ -64,7 +64,7 @@ jobs:
           version: v3.5.4
       - name: Wait for gh-pages to publish index.yaml
         if: steps.get_chart.outputs.chartname == 'lm-container'
-        uses: lewagon/wait-on-check-action@v1.0.0
+        uses: lewagon/wait-on-check-action@v1.3.3
         with:
           ref: "gh-pages"
           running-workflow-name: "pages-build-deployment"
