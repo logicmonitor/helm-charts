@@ -40,7 +40,9 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `affinity`                  | Affinity for pod assignment		                | `{}`  (evaluated as a template)                         |
 | `env`                       | Map to add extra environment variables	        | `{}`                                                    |
 | `kubernetes.multiline_start_regexp` | Regexp to match beginning of multiline	| `/^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/` |
-| `kubernetes.cluster_name`       | ClusterName given while adding k8s cluster  	| `""`                                                    |
+| `kubernetes.cluster_name`       | ClusterName given while adding k8s cluster  	| `""`                                                |
+| `kubernetes.multiline_concat_key`       | Key to look for fluentD to concatenate multiline logs   	| `"log"`                     |
+
 
 ### Avaialble Environment variables
 For descriptions see: https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter
@@ -76,3 +78,19 @@ Anomaly detection will be done on `namespace` and `service`
 #### Multiline log support for k8s lm logs
 To use regexp to match beginning of multiline set `kubernetes.multiline_start_regexp=<some-regex-pattern>`
 by default the regex is set to `/^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/`
+
+### Logs appearing in cri format
+If conatiner runtime is containerD or cri-o, on lm-logs ui you might see logs with prefix eg.
+```
+2016-10-06T00:17:09.669794202Z stdout F The content of the log entry 1
+```
+To solve this we need to install lm-logs with following command :
+```
+helm upgrade --install -n <namespace> \
+--set lm_company_name="<comapny>" \
+--set lm_access_id="<access_id>" \
+--set lm_access_key="<access_key"> \
+--set env.FLUENT_CONTAINER_TAIL_PARSER_TYPE="cri" \
+--set kubernetes.multiline_concat_key="message" \
+lm-logs logicmonitor/lm-logs
+```

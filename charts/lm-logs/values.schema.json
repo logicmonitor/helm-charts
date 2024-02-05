@@ -73,6 +73,17 @@
       ],
       "$comment": "ui:lm_access_key-ignore tf:optional"
     },
+    "lm_bearer_token": {
+      "$id": "#/properties/lm_bearer_token",
+      "type": "string",
+      "title": "Logicmonitor API Bearer Token",
+      "description": "The LogicMonitor API Bearer Token.\nNOTE: Ensure to add surrounding double quotes to avoid special character parsing errors.",
+      "default": "",
+      "examples": [
+        ""
+      ],
+      "$comment": "ui:lm_bearer_token-ignore tf:optional"
+    },
     "lm_company_name": {
       "$id": "#/properties/lm_company_name",
       "type": "string",
@@ -301,6 +312,9 @@
           "type": "string"
         },
         "cluster_name" : {
+          "type": "string"
+        },
+        "multiline_concat_key" : {
           "type": "string"
         }
       }
