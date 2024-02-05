@@ -43,6 +43,9 @@ spec:
           securityContext: {{ include "lmutil.container-sec-context-nonroot" (list . "lmutil.custom-container-sec-context-nonroot") | nindent 12 }}
           image: {{ include "argus-image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default (.Values.global.image.pullPolicy | default "Always") }}
+          volumeMounts:
+            - mountPath: /etc/collector_id
+              name: collector-ids
           {{ with .Values.resources }}
           resources:
             {{ toYaml . | nindent 12 }}
@@ -83,3 +86,10 @@ spec:
             - name: APP_KUBERNETES_IO_INSTANCE
               value: {{ .Release.Name }}
         {{ include "lm-credentials-and-proxy-details" . | nindent 12 }}
+      volumes:
+        - name: collector-ids
+          configMap:
+            name: {{ include "lmutil.fullname" . }}-collector
+            items:
+              - key: collector-ids.csv
+                path: collector-ids.csv
