@@ -1,17 +1,17 @@
 # Global owner
-*	@vkumbhar94 @kedarjapan @bpuri7
+*	@vkumbhar94 @bpuri7
 
 # argus directory owners
-charts/argus/   @vkumbhar94 @rohitphatak @shubhashri12 @sagarmamdapure @kedarjapan @bpuri7
+charts/argus/   @vkumbhar94 @rohitphatak @shubhashri12 @sagarmamdapure @bpuri7
 
 # collectorSet-controller directory owners
-charts/collectorset-controller/   @vkumbhar94  @rohitphatak @shubhashri12 @sagarmamdapure @kedarjapan @bpuri7
+charts/collectorset-controller/   @vkumbhar94  @rohitphatak @shubhashri12 @sagarmamdapure @bpuri7
 
 # lm-container directory owners
-charts/lm-container/    @vkumbhar94 @rohitphatak @shubhashri12 @sagarmamdapure @kedarjapan @bpuri7
+charts/lm-container/    @vkumbhar94 @rohitphatak @shubhashri12 @sagarmamdapure @bpuri7
 
 # releasemanager directory owners
-charts/releasemanager/ @kaladaOpuiyo
+# charts/releasemanager/ 
 
 # lm-logs directory owners
 charts/lm-logs  @siddharthck
