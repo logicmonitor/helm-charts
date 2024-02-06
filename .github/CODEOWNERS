@@ -12,3 +12,7 @@ charts/lm-container/    @vkumbhar94 @rohitphatak @shubhashri12 @sagarmamdapure @
 
 # releasemanager directory owners
 charts/releasemanager/ @kaladaOpuiyo
+
+# lm-logs directory owners
+charts/lm-logs  @siddharthck
+
