@@ -14,40 +14,61 @@ data:
       log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
     </system>
 
-    <filter kubernetes.**>
-      @type record_transformer
-      enable_ruby
-      <record>
-        message ${record["log"]} ${record["message"]}
-        timestamp ${record["time"]}
-        {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
-        {{ include "kubernetes.cluster_name" . | nindent 8 }}
-        {{- end}}
-        {{- if  .Values.fluent.device_less_logs }}
-        resource.service.name ${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") :  record.dig("kubernetes","container_name") != nil ?  record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") :  "unknown" }
-        resource.service.namespace ${record["kubernetes"]["namespace_name"]}
-        {{- end}}
-      </record>
-      remove_keys log
-    </filter>
+    <label @PROCESS_AFTER_CONCAT>
+      <filter kubernetes.**>
+        @type kubernetes_metadata
+        @id filter_kube_metadata
+        kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
+        verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
+        ca_file "#{ENV['KUBERNETES_CA_FILE']}"
+        skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
+        skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
+        skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
+        skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
+      </filter>
 
-    <match kubernetes.**>
-      @type lm
-      company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
-      resource_mapping {"kubernetes.pod_name": "auto.name"}
-      access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
-      access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}
-      debug false
-      compression gzip
-      include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
-      device_less_logs {{ .Values.fluent.device_less_logs | default false }}
-      <buffer>
-        @type memory
-        flush_interval {{ .Values.fluent.buffer.memory.flush_interval | default "1s" }}
-        chunk_limit_size {{ .Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
-        flush_thread_count {{ .Values.fluent.buffer.memory.flush_thread_count | default "8"}}
-      </buffer>
-    </match>
+      <filter kubernetes.**>
+        @type record_transformer
+        enable_ruby
+        <record>
+          message ${record["log"]} ${record["message"]}
+          timestamp ${record["time"]}
+          {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
+          {{ include "kubernetes.cluster_name" . | nindent 8 }}
+          {{- end}}
+          {{- if  .Values.fluent.device_less_logs }}
+          resource.service.name ${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") :  record.dig("kubernetes","container_name") != nil ?  record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") :  "unknown" }
+          resource.service.namespace ${record["kubernetes"]["namespace_name"]}
+          {{- end}}
+        </record>
+        remove_keys log
+      </filter>
+
+      <match kubernetes.**>
+        @type lm
+        company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
+        resource_mapping {"kubernetes.pod_name": "auto.name"}
+        {{- if  and ( or .Values.lm_access_id .Values.global.accessID ) ( or .Values.lm_access_key .Values.global.accessKey) }}
+        access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
+        access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}
+        {{- else if .Values.lm_bearer_token }}
+        bearer_token {{ .Values.lm_bearer_token }}
+        {{- else }} {{ required "Either specify valid lm_access_id and lm_access_key both or lm_bearer_token for authentication with LogicMonitor." .Values.lm_bearer_token }}
+        {{- end}}
+        debug false
+        compression gzip
+        include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
+        device_less_logs {{ .Values.fluent.device_less_logs | default false }}
+        <buffer>
+          @type memory
+          flush_interval {{ .Values.fluent.buffer.memory.flush_interval | default "1s" }}
+          chunk_limit_size {{ .Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
+          flush_thread_count {{ .Values.fluent.buffer.memory.flush_thread_count | default "8"}}
+        </buffer>
+      </match>
+    </label>
+
+
   kubernetes.conf: |
     <source>
       @type tail
@@ -74,26 +95,15 @@ data:
 
     <filter kubernetes.**>
       @type concat
-      key log
+      key {{ .Values.kubernetes.multiline_concat_key }}
       seperator ""
       multiline_start_regexp {{ .Values.kubernetes.multiline_start_regexp }}
-      timeout_label @NORMAL
+      timeout_label @PROCESS_AFTER_CONCAT
     </filter>
 
-    <label @NORMAL>
-      <match kubernetes.**>
-        @type stdout
-      </match>
-    </label>
+    <match kubernetes.**>
+      @type relabel
+      @label @PROCESS_AFTER_CONCAT
+    </match>
 
-    <filter kubernetes.**>
-      @type kubernetes_metadata
-      @id filter_kube_metadata
-      kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
-      verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
-      ca_file "#{ENV['KUBERNETES_CA_FILE']}"
-      skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
-      skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
-      skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
-      skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
-    </filter>
+
