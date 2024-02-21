@@ -75,7 +75,8 @@ jobs:
         if: steps.get_chart.outputs.chartname == 'lm-container'
         run: |
           helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
-          helm pull logicmonitor/lm-container --untar --version ${{ steps.get_chart.outputs.chartversion }}
+          helm pull logicmonitor/lm-container --version ${{ steps.get_chart.outputs.chartversion }}
+          helm pull logicmonitor-qa/lm-container --untar --version 7.0.1-rc04
           ./scripts/lmui/lmui > lm-container-ui-jsonpaths.json
           cat lm-container-ui-jsonpaths.json
       - name: Upload ui template to release asset
