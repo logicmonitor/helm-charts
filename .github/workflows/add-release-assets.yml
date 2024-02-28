@@ -33,7 +33,7 @@ jobs:
 
       - name: add values.yaml to release asset
         if: steps.values_yaml_exists.outputs.files_exists == 'true'
-        uses: actions/upload-release-asset@v1.0.2
+        uses: shogo82148/actions-upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -47,8 +47,9 @@ jobs:
         uses: andstor/file-existence-action@v1
         with:
           files: "./charts/${{ steps.get_chart.outputs.chartname }}/values.schema.json"
+
       - name: add values.schema.json to release asset
-        uses: actions/upload-release-asset@v1.0.2
+        uses: shogo82148/actions-upload-release-asset@v1
         if: steps.values_schema_exists.outputs.files_exists == 'true'
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -57,53 +58,12 @@ jobs:
           asset_path: ./charts/${{ steps.get_chart.outputs.chartname }}/values.schema.json
           asset_name: values.schema.json
           asset_content_type: text/plain
-      - name: Install Helm
-        if: steps.get_chart.outputs.chartname == 'lm-container'
-        uses: azure/setup-helm@v1
-        with:
-          version: v3.5.4
+
       - name: Wait for gh-pages to publish index.yaml
-        if: steps.get_chart.outputs.chartname == 'lm-container'
         uses: lewagon/wait-on-check-action@v1.3.3
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
         with:
           ref: "gh-pages"
           running-workflow-name: "pages-build-deployment"
           repo-token: ${{ secrets.CHART_RELEASE_TOKEN }}
-          wait-interval: 10
-
-      - name: Pull Charts and Generate UI Template
-        if: steps.get_chart.outputs.chartname == 'lm-container'
-        run: |
-          helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
-          helm pull logicmonitor/lm-container --untar --version ${{ steps.get_chart.outputs.chartversion }}
-          ./scripts/lmui/lmui > lm-container-ui-jsonpaths.json
-          cat lm-container-ui-jsonpaths.json
-      - name: Upload ui template to release asset
-        uses: actions/upload-release-asset@v1.0.2
-        if: steps.get_chart.outputs.chartname == 'lm-container'
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./lm-container-ui-jsonpaths.json
-          asset_name: lm-container-ui-jsonpaths.json
-          asset_content_type: text/plain
-      - name: checkout gh-pages
-        if: steps.get_chart.outputs.chartname == 'lm-container'
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          path: gh-pages
-          ref: gh-pages
-      - name: Copy UI Template to gh-pages branch
-        if: steps.get_chart.outputs.chartname == 'lm-container'
-        run: |
-          cp ./lm-container-ui-jsonpaths.json gh-pages/uitmpl/lm-container-${{ steps.get_chart.outputs.chartversion }}-ui-jsonpaths.json
-      - name: Upload UI Jsonpath template to gh-pages
-        if: steps.get_chart.outputs.chartname == 'lm-container'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: gh-pages
-          repository: gh-pages
-          commit_message: "docs(uitmpl): upload ui jsonpaths template"
-          file_pattern: "uitmpl/*-ui-jsonpaths.json"
+          wait-interval: 30
