@@ -1,0 +1,96 @@
+name: Generate and Upload UI template assets
+on:
+  release:
+    types: [ created ]
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Add ui template json file
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Get chart name from release
+        id: get_chart
+        run: |
+          chartname=$(echo "${{ steps.get_release.outputs.tag_name }}" | grep -E "^(.*)-[0-9\.]+" -o | rev | cut -d'-' -f2- | rev)
+          chartversion=$(echo "${{ steps.get_release.outputs.tag_name }}" | grep -Eio "[0-9\.]+(-[^\+]+)?")
+          echo "::set-output name=chartname::$chartname"
+          echo "::set-output name=chartversion::$chartversion"
+
+      - name: Install Helm
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.5.4
+
+      - name: Wait for gh-pages to publish index.yaml
+        uses: lewagon/wait-on-check-action@v1.3.3
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        with:
+          ref: "gh-pages"
+          running-workflow-name: "pages-build-deployment"
+          repo-token: ${{ secrets.CHART_RELEASE_TOKEN }}
+          wait-interval: 30
+
+      - name: wait for 30 seconds
+        run: |
+         sleep 30
+
+      - name: Pull Charts and Generate UI Template
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        run: |
+          helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
+          helm repo update
+          sleep 10
+          helm pull logicmonitor/lm-container --version ${{ steps.get_chart.outputs.chartversion }}
+          sleep 10
+          helm pull logicmonitor/lm-container --untar --version ${{ steps.get_chart.outputs.chartversion }}
+          ./scripts/lmui/lmui > lm-container-ui-jsonpaths.json
+          cat lm-container-ui-jsonpaths.json
+
+      - name: Upload ui template to release asset
+        uses: shogo82148/actions-upload-release-asset@v1
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./lm-container-ui-jsonpaths.json
+          asset_name: lm-container-ui-jsonpaths.json
+          asset_content_type: text/plain
+  
+      - name: checkout gh-pages
+        if: steps.get_chart.outputs.chartname == 'lm-container'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: gh-pages
+          ref: gh-pages
+
+      - name: Copy UI Template to gh-pages branch
+        if: steps.get_chart.outputs.chartname == 'lm-container'
+        run: |
+          cp ./lm-container-ui-jsonpaths.json gh-pages/uitmpl/lm-container-${{ steps.get_chart.outputs.chartversion }}-ui-jsonpaths.json
+      
+      - name: Upload UI Jsonpath template to gh-pages
+        if: steps.get_chart.outputs.chartname == 'lm-container'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: gh-pages
+          repository: gh-pages
+          commit_message: "docs(uitmpl): upload ui jsonpaths template"
+          file_pattern: "uitmpl/*-ui-jsonpaths.json"
