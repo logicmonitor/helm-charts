@@ -73,6 +73,10 @@ spec:
                   optional: true
             - name: LOGICMONITOR_OTEL_NAMESPACE
               value: {{ include "lmutil.release.namespace" . }}
+          {{- range $key, $val := .Values.envVars }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+          {{- end }}
           {{- if .Values.external_config.lmconfig }}
           args: 
             - --config

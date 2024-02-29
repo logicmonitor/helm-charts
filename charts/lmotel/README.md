@@ -65,6 +65,11 @@ To enable logs add the following option
 --set logs.enable=true \
 ```
 
+To enable proxy support add the following option
+``` console
+--set envVars.HTTPS_PROXY=<proxy_server_ip:port> \
+```
+
 ---
 Required Values:
 - **account (default: `""`):** The LogicMonitor account name.
