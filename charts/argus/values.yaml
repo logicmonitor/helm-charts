@@ -237,7 +237,7 @@ probe:
     periodSeconds: 10
   liveness:
     failureThreshold: 3
-    periodSeconds: 10
+    periodSeconds: 30
   readiness:
     failureThreshold: 3
     periodSeconds: 10
