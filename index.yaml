@@ -2409,6 +2409,25 @@ entries:
   lmotel:
   - apiVersion: v2
     appVersion: v2.0.10
+    created: "2024-03-05T12:06:39.661332392Z"
+    dependencies:
+    - name: lmutil
+      repository: https://logicmonitor.github.io/helm-charts
+      version: 0.1.6
+    description: Logicmonitor's distribution of OpenTelemetry Collector
+    digest: 4e53de5bf442dd814fbe95b25be17fca93cd86264d5a13e9caeefbf14bf980f7
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.14.0-0'
+    maintainers:
+    - email: lmotel@logicmonitor.com
+      name: LogicMonitor
+    name: lmotel
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lmotel-1.9.0/lmotel-1.9.0.tgz
+    version: 1.9.0
+  - apiVersion: v2
+    appVersion: v2.0.10
     created: "2023-08-10T12:39:11.596724422Z"
     dependencies:
     - name: lmutil
@@ -2525,4 +2544,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/releasemanager-0.3.0/releasemanager-0.3.0.tgz
     version: 0.3.0
-generated: "2024-03-04T08:55:53.303122042Z"
+generated: "2024-03-05T12:06:39.66159814Z"
