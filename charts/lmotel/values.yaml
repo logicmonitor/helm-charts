@@ -39,6 +39,8 @@ external_config:
   lmconfig: ""
 arguments: []
 
+envVars: {}
+
 ingress:
   enabled: false
   annotations: {}

@@ -65,6 +65,11 @@ To enable logs add the following option
 --set logs.enable=true \
 ```
 
+To enable proxy support add the following option
+``` console
+--set envVars.HTTPS_PROXY=<proxy_server_ip:port> \
+```
+
 ---
 Required Values:
 - **account (default: `""`):** The LogicMonitor account name.
@@ -115,3 +120,4 @@ Optional Values:
 - **ingress.annotations (default: `{}`):** Annotations common to all the ingress resource definitions.
 - **ingress.http.annotations (default: `{}`):** Annotations specific to the ingress-http resource
 - **ingress.grpc.annotations (default: `{}`):** Annotations specific to the ingress-grpc resource
+- **envVars (default: `{}`):** Environment variables in form of key value pair

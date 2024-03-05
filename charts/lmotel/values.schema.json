@@ -252,6 +252,11 @@
 			"examples": [
 			]
 		},
+		"envVars": {
+			"$id": "#properties/envVars", 
+			"title": "Environment Variables", 
+			"type": "object"
+		},
 		"ingress": {
 			"$id": "#properties/ingress", 
 			"title": "LMOTEL Collector Ingress schema", 
