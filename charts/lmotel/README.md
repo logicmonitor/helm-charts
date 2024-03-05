@@ -120,3 +120,4 @@ Optional Values:
 - **ingress.annotations (default: `{}`):** Annotations common to all the ingress resource definitions.
 - **ingress.http.annotations (default: `{}`):** Annotations specific to the ingress-http resource
 - **ingress.grpc.annotations (default: `{}`):** Annotations specific to the ingress-grpc resource
+- **envVars (default: `{}`):** Environment variables in form of key value pair
