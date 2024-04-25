@@ -10,7 +10,7 @@ metadata:
     checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       {{ include "lmutil.selectorLabels" . | nindent 6 }}
@@ -90,6 +90,7 @@ spec:
         - name: collector-ids
           configMap:
             name: {{ include "lmutil.fullname" . }}-collector
+            optional: true
             items:
               - key: collector-ids.csv
                 path: collector-ids.csv

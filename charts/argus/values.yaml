@@ -52,8 +52,6 @@ resources: {}
 labels: {}
 # Annotations to apply on all objects created by Argus
 annotations: {}
-# Replicas - defaults to 1, param is just for development purpose, do not increase more than one replicas in production
-replicas: 1
 
 
 ## OPTIONAL VALUES - Argus application configuration
