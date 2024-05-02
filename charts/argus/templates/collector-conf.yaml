@@ -17,4 +17,4 @@ data:
     {{- $abc := include "collector-conf" . | fromYaml }}
     {{- $result := get $abc "resultList" }}
     {{- toYaml $result | nindent 6 }}
-  collector-ids.csv: "0"
+  # collector-ids.csv: "0"
