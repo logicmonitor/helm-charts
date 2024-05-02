@@ -115,7 +115,8 @@
     },
     "lm-logs": {
       "$id": "#/properties/lm-logs",
-      "description": "LM Logs Helm Chart Configurations",
+      "title": "LM Logs Helm Chart Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/lm-logs?modal=values-schema for schema",
+      "description": "LM Logs Helm Chart Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/lm-logs?modal=values-schema for schema",
       "type": "object",
       "properties": {
         "enabled": {
@@ -129,7 +130,8 @@
     },
     "lmotel": {
       "$id": "#/properties/lmotel",
-      "description": "LMOTEL Helm Chart Configurations",
+      "title": "LMOTEL Helm Chart Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/lmotel for schema",
+      "description": "LMOTEL Helm Chart Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/lmotel for schema",
       "type": "object",
       "properties": {
         "enabled": {
