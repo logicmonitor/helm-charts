@@ -1,7 +1,7 @@
 apiVersion: v2
 description: A Helm chart for sending k8s logs to Logic Monitor
 name: lm-logs
-version: 0.6.0-rc01
+version: 0.6.0
 maintainers:
   - email: dev@logicmonitor.com
     name: LogicMonitor
