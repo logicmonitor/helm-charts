@@ -57,6 +57,7 @@ data:
         {{- end}}
         debug false
         compression gzip
+        {{ include "logsource.userAgent" . | nindent 8 }}
         include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
         device_less_logs {{ .Values.fluent.device_less_logs | default false }}
         <buffer>

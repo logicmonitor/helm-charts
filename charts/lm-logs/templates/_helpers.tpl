@@ -43,6 +43,19 @@ kubernetes.cluster_name {{ $cluster }}
 {{- end }}
 
 {{/*
+User-agent for log-ingest requests */}}
+{{- define "logsource.userAgent" -}}
+{{- $cluster := "" -}}
+{{- if .Values.kubernetes.cluster_name -}}
+{{- $cluster = .Values.kubernetes.cluster_name -}}
+{{- else if .Values.global.clusterName -}}
+{{- $cluster = .Values.global.clusterName -}}
+{{- end -}}
+log_source lm-logs-fluentd (K8S; {{ $cluster }})
+{{- end -}}
+
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "fluentd.chart" -}}
