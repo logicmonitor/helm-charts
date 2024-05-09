@@ -24,6 +24,7 @@ data:
       skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
     </filter>
 
+    #filter plugin to filter logs from specific namespace
     <filter kubernetes.**>
       @type grep
       <exclude>
@@ -32,6 +33,7 @@ data:
       </exclude>
     </filter>
 
+    #filter plugin to filter logs having a message pattern
     <filter kubernetes.**>
       @type grep
       <exclude>
@@ -82,6 +84,7 @@ data:
     </match>
   </label>
   kubernetes.conf: |
+    #sources for separate log files
     <source>
       @type tail
       @id in_tail_container_logs1
@@ -142,6 +145,7 @@ data:
       </parse>
     </source>
 
+    #filter plugin to use regexp to match beginning of multiline
     <filter kubernetes.test1>
       @type concat
       key message
@@ -166,6 +170,7 @@ data:
       timeout_label @PROCESS_AFTER_CONCAT
     </filter>
 
+    #filter plugin to extract log_level as metadata
     <filter kubernetes.test1>
       @type parser
       key_name message
