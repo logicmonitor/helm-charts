@@ -1,83 +1,93 @@
-kind: ConfigMap
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
 apiVersion: v1
-metadata:
-  name: {{ include "fluentd.fullname" . }}
-  labels:
-    {{- include "fluentd.labels" . | nindent 4 }}
-  annotations:
-    {{- include "fluentd.annotations" . | nindent 4 }}
 data:
   fluent.conf: |
-    @include kubernetes.conf
+  @include kubernetes.conf
 
-    <system>
-      log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
-    </system>
+  <system>
+    log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
+  </system>
 
-    <label @PROCESS_AFTER_CONCAT>
-      <filter kubernetes.**>
-        @type kubernetes_metadata
-        @id filter_kube_metadata
-        kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
-        verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
-        ca_file "#{ENV['KUBERNETES_CA_FILE']}"
-        skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
-        skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
-        skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
-        skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
-      </filter>
+  <label @PROCESS_AFTER_CONCAT>
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      @id filter_kube_metadata
+      kubernetes_url "#{ENV['FLUENT_FILTER_KUBERNETES_URL'] || 'https://' + ENV.fetch('KUBERNETES_SERVICE_HOST') + ':' + ENV.fetch('KUBERNETES_SERVICE_PORT') + '/api'}"
+      verify_ssl "#{ENV['KUBERNETES_VERIFY_SSL'] || true}"
+      ca_file "#{ENV['KUBERNETES_CA_FILE']}"
+      skip_labels "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_LABELS'] || 'false'}"
+      skip_container_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_CONTAINER_METADATA'] || 'false'}"
+      skip_master_url "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL'] || 'false'}"
+      skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
+    </filter>
 
-      <filter kubernetes.**>
-        @type record_transformer
-        enable_ruby
-        <record>
-          message ${record["log"]} ${record["message"]}
-          timestamp ${record["time"]}
-          {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
-          {{ include "kubernetes.cluster_name" . | nindent 8 }}
-          {{- end}}
-          {{- if  .Values.fluent.device_less_logs }}
-          resource.service.name ${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") :  record.dig("kubernetes","container_name") != nil ?  record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") :  "unknown" }
-          resource.service.namespace ${record["kubernetes"]["namespace_name"]}
-          {{- end}}
-        </record>
-        remove_keys log
-      </filter>
+    <filter kubernetes.**>
+      @type grep
+      <exclude>
+        key $.kubernetes.namespace_name
+        pattern /namespace1/
+      </exclude>
+    </filter>
 
-      <match kubernetes.**>
-        @type lm
-        company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
-        resource_mapping {"kubernetes.pod_name": "auto.name"}
-        {{- if  and ( or .Values.lm_access_id .Values.global.accessID ) ( or .Values.lm_access_key .Values.global.accessKey) }}
-        access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
-        access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}
-        {{- else if .Values.lm_bearer_token }}
-        bearer_token {{ .Values.lm_bearer_token }}
-        {{- else }} {{ required "Either specify valid lm_access_id and lm_access_key both or lm_bearer_token for authentication with LogicMonitor." .Values.lm_bearer_token }}
+    <filter kubernetes.**>
+      @type grep
+      <exclude>
+        key $.message
+        pattern /message1/
+      </exclude>
+    </filter>
+
+    <filter kubernetes.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        message ${record["log"]} ${record["message"]}
+        timestamp ${record["time"]}
+        {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
+        {{ include "kubernetes.cluster_name" . | nindent 8 }}
         {{- end}}
-        debug false
-        compression gzip
-        {{ include "logsource.userAgent" . | nindent 8 }}
-        include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
-        device_less_logs {{ .Values.fluent.device_less_logs | default false }}
-        <buffer>
-          @type memory
-          flush_interval {{ .Values.fluent.buffer.memory.flush_interval | default "1s" }}
-          chunk_limit_size {{ .Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
-          flush_thread_count {{ .Values.fluent.buffer.memory.flush_thread_count | default "8"}}
-        </buffer>
-      </match>
-    </label>
+        {{- if  .Values.fluent.device_less_logs }}
+        resource.service.name ${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") :  record.dig("kubernetes","container_name") != nil ?  record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") :  "unknown" }
+        resource.service.namespace ${record["kubernetes"]["namespace_name"]}
+        {{- end}}
+      </record>
+      remove_keys log
+    </filter>
 
-
+    <match kubernetes.**>
+      @type lm
+      company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
+      resource_mapping {"kubernetes.pod_name": "auto.name"}
+      {{- if  and ( or .Values.lm_access_id .Values.global.accessID ) ( or .Values.lm_access_key .Values.global.accessKey) }}
+      access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
+      access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}
+      {{- else if .Values.lm_bearer_token }}
+      bearer_token {{ .Values.lm_bearer_token }}
+      {{- else }} {{ required "Either specify valid lm_access_id and lm_access_key both or lm_bearer_token for authentication with LogicMonitor." .Values.lm_bearer_token }}
+      {{- end}}
+      debug false
+      compression gzip
+      {{ include "logsource.userAgent" . | nindent 8 }}
+      include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
+      device_less_logs {{ .Values.fluent.device_less_logs | default false }}
+      <buffer>
+        @type memory
+        flush_interval {{ .Values.fluent.buffer.memory.flush_interval | default "1s" }}
+        chunk_limit_size {{ .Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
+        flush_thread_count {{ .Values.fluent.buffer.memory.flush_thread_count | default "8"}}
+      </buffer>
+    </match>
+  </label>
   kubernetes.conf: |
     <source>
       @type tail
-      @id in_tail_container_logs
-      path /var/log/containers/*.log
-      pos_file /var/log/fluentd-containers.log.pos
-      tag "#{ENV['FLUENT_CONTAINER_TAIL_TAG'] || 'kubernetes.*'}"
-      exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/{{ .Chart.Name }}*.log' }"
+      @id in_tail_container_logs1
+      path /var/log/containers/{NAME_OF_POD}.log
+      tag "kubernetes.test1"
+      exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/lm-logs*.log' }"
       <parse>
         @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'multi_format'}"
         <pattern>
@@ -86,7 +96,7 @@ data:
           time_format %Y-%m-%dT%H:%M:%S.%NZ
         </pattern>
         <pattern>
-          format syslog
+          format1 syslog
         </pattern>
         <pattern>
           format none
@@ -94,17 +104,120 @@ data:
       </parse>
     </source>
 
-    <filter kubernetes.**>
+    <source>
+      @type tail
+      @id in_tail_container_logs2
+      path /var/log/containers/{NAME_OF_POD}.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag "kubernetes.test2"
+      exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/lm-logs*.log' }"
+      <parse>
+        @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'multi_format'}"
+        <pattern>
+          format json
+          keep_time_key true
+          time_format %Y-%m-%dT%H:%M:%S.%NZ
+        </pattern>
+        <pattern>
+          format1 syslog
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </source>
+
+    <source>
+      @type tail
+      @id in_tail_container_logs3
+      path /var/log/containers/{NAME_OF_POD}.log
+      #pos_file /var/log/fluentd-containers.log.pos
+      tag "kubernetes.test3"
+      exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/lm-logs*.log' }"
+      <parse>
+        @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'multi_format'}"
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </source>
+
+    <filter kubernetes.test1>
       @type concat
-      key {{ .Values.kubernetes.multiline_concat_key }}
+      key message
       seperator ""
-      multiline_start_regexp {{ .Values.kubernetes.multiline_start_regexp }}
+      multiline_start_regexp /^(\d{4}-)?\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}.*/
       timeout_label @PROCESS_AFTER_CONCAT
     </filter>
 
+    <filter kubernetes.test2>
+      @type concat
+      key message
+      seperator ""
+      multiline_start_regexp /^(\d{4}-)?\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}.*/
+      timeout_label @PROCESS_AFTER_CONCAT
+    </filter>
+
+    <filter kubernetes.test3>
+      @type concat
+      key message
+      seperator ""
+      multiline_start_regexp /[A-Z],\s\[(\d{4}-)?\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}.*\s#[0-9]{1,}\]/
+      timeout_label @PROCESS_AFTER_CONCAT
+    </filter>
+
+    <filter kubernetes.test1>
+      @type parser
+      key_name message
+      emit_invalid_record_to_error false # do not fail on non-matching log messages
+      reserve_data true # keep the log key (needed for non-matching records)
+      <parse>
+        @type regexp
+        expression /"level":"(?<log_level>(.*?))"/
+      </parse>
+    </filter>
+
+    <filter kubernetes.test2>
+      @type parser
+      key_name message
+      emit_invalid_record_to_error false # do not fail on non-matching log messages
+      reserve_data true # keep the log key (needed for non-matching records)
+      <parse>
+        @type regexp
+        expression /(?<log_level>[A-Z]+?):/
+      </parse>
+    </filter>
+
+    <filter kubernetes.test3>
+      @type parser
+      key_name message
+      emit_invalid_record_to_error false # do not fail on non-matching log messages
+      reserve_data true # keep the log key (needed for non-matching records)
+      <parse>
+        @type regexp
+        expression /[A-Z],\s(\[(?<datetime>[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6,}\s\#[0-9]{1,})\]\s(?<log_level>[A-Za-z]+))\s(?<log>.*)$/
+      </parse>
+    </filter>
+
     <match kubernetes.**>
-      @type relabel
-      @label @PROCESS_AFTER_CONCAT
+    @type relabel
+    @label @PROCESS_AFTER_CONCAT
     </match>
+kind: ConfigMap
+metadata:
+  annotations:
+    logicmonitor.com/provider: lm-container
+    meta.helm.sh/release-name: lm-logs
+    meta.helm.sh/release-namespace: logicmonitor
+  labels:
+    app.kubernetes.io/component: lm-logs-agent
+    app.kubernetes.io/instance: lm-logs
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: lm-logs
+    app.kubernetes.io/part-of: lm-logs
+    app.kubernetes.io/version: 1.1.0
+    helm.sh/chart: lm-logs-0.5.1
+  name: lm-logs
+  namespace: logicmonitor
 
 
