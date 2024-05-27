@@ -447,6 +447,18 @@
       },
       "$comment": "tf:optional,yamlencode"
     },
+    "replicas": {
+      "$id": "#/properties/replicas",
+      "type": "integer",
+      "title": "The replicas schema",
+      "description": "Argus Pod Replicas - defaults to 1, parameter is just for development purpose, do not increase more than one replicas in production",
+      "default": 1,
+      "minimum": 0,
+      "maximum": 1,
+      "examples": [
+        1
+      ]
+    },
     "resourceContainerID": {
       "$id": "#/properties/resourceContainerID",
       "type": "integer",

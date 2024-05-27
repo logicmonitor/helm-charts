@@ -10,7 +10,7 @@ metadata:
     checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
       {{ include "lmutil.selectorLabels" . | nindent 6 }}
