@@ -126,6 +126,13 @@ rules:
     verbs:
       - list
       - get
+  - apiGroups:
+      - "cert-manager.io"
+    resources:
+      - certificates
+    verbs:
+      - list
+      - get
   - nonResourceURLs:
       - /
       - /healthz
