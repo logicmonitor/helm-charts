@@ -35,6 +35,7 @@
 ## Collectorset Controller Releases
 | name | version | appVersion | dependencies | Compatible Kubernetes Versions |
 | :---- | :---- | :---- | :---- | :---- |
+| collectorset-controller | [10.0.0](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-10.0.0) | [v12.0.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v12.0.0) | <ul> <li>lmutil@0.1.9 https://logicmonitor.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [9.3.0](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-9.3.0) | [v11.2.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v11.2.0) | <ul> <li>lmutil@0.1.9 https://logicmonitor.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [9.2.1](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-9.2.1) | [v11.1.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v11.1.0) | <ul> <li>lmutil@0.1.9 https://logicmonitor.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
 | collectorset-controller | [9.1.0](https://github.com/logicmonitor/helm-charts/releases/tag/collectorset-controller-9.1.0) | [v11.0.0](https://hub.docker.com/r/logicmonitor/collectorset-controller/tags?page=1&name=v11.0.0) | <ul> <li>lmutil@0.1.9 https://logicmonitor.github.io/helm-charts</li> </ul> | >= 1.16.0-0 | 
