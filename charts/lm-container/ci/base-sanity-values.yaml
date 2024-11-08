@@ -5,6 +5,8 @@ argus:
   accessKey: "dummy"
   # The LogicMonitor account name.
   account: "dummy"
+  # The LogicMonitor account domain.
+  companyDomain: "dummy"
   # A unique name given to the cluster's resource group.
   clusterName: "dummy"
 
