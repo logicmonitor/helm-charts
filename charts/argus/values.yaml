@@ -211,6 +211,7 @@ global:
   accessID: ""
   accessKey: ""
   account: ""
+  companyDomain: ""
   proxy:
     url: ""
     user: ""
