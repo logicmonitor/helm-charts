@@ -86,6 +86,15 @@ Argus proxy details or not, for this we're using Lookup function in helm.
     secretKeyRef:
       name: {{ include "lmutil.secret-name" . }}
       key: account
+- name: COMPANY_DOMAIN
+{{- if and .Values.global.userDefinedSecret (or (not (hasKey $secretData "companyDomain")) (eq (get $secretData "companyDomain") "")) }}
+  value: "logicmonitor.com"
+{{- else }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "lmutil.secret-name" . }}
+      key: companyDomain
+{{- end}}
 {{- if $secretData.etcdDiscoveryToken }}
 - name: ETCD_DISCOVERY_TOKEN
   valueFrom:

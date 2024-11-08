@@ -43,6 +43,7 @@
         "accessID": "",
         "accessKey": "",
         "account": "",
+        "companyDomain": "",
         "collectorsetServiceNameSuffix": "",
         "userDefinedSecret": "",
         "proxy": {
@@ -101,6 +102,18 @@
       "default": "",
       "examples": [
         ""
+      ]
+    },
+    "companyDomain": {
+      "$comment": "tf:optional",
+      "$id": "#/properties/companyDomain",
+      "type": "string",
+      "title": "The domain schema",
+      "description": "The Logicmonitor account domain",
+      "examples": [
+        "logicmonitor.com",
+        "qa-lmgov.us",
+        "lmgov.us"
       ]
     },
     "log": {
@@ -635,6 +648,13 @@
           "type": "string",
           "default": "",
           "description": "User can provide LM credentials in a Secret instead of plain text. The secret should contain 'accessID', 'accessKey', 'account' along with optional params e.g. 'etcdDiscoveryToken', proxy credentials"
+        },
+        "companyDomain" : {
+          "$comment" : "tf:optional",
+          "$id" : "#/properties/global/properties/companyDomain",
+          "type" : "string",
+          "default": "",
+          "description" : "The Logicmonitor account domain"
         }
       }
     },

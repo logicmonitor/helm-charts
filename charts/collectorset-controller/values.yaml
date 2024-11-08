@@ -71,6 +71,7 @@ global:
     repository: ""
     pullPolicy: Always
   userDefinedSecret: ""
+  companyDomain: ""
   imagePullSecrets: []
 
 podSecurityContext: {}
