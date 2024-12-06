@@ -21,7 +21,7 @@ Add helm repository using following command:
 $ helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
 ```
 Use [helm search repo](https://helm.sh/docs/helm/helm_search_repo/#helm-search-repo) to search charts and its latest chart versions, etc...
-
+ 
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/logicmonitor/helm-charts/blob/main/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us. Number of open issues with help wanted ![helm wanted issues](https://img.shields.io/github/issues/logicmonitor/helm-charts/helm-wanted)
