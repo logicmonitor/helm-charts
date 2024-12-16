@@ -64,6 +64,8 @@ resourceContainerID: 1
 log:
   level: "info"
 
+ksmUrl: ""
+
 collectorsetcontroller:
   address: collectorset-controller
   port: 50000
