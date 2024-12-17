@@ -4,6 +4,8 @@
 global:
   companyDomain: ""
   userDefinedSecret: ""
+  kube-state-metrics:
+    enabled: true
   image:
     registry: ""
     pullPolicy: ""

@@ -60,6 +60,16 @@
           ]
 
         },
+        "kube-state-metrics": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/kube-state-metrics",
+          "type": "object",
+          "additionalItems": true,
+          "additionalProperties": true,
+          "title": "KSM account domain",
+          "description": "KSM account domain",
+          "examples": []
+        },
         "userDefinedSecret": {
           "$id": "#/properties/userDefinedSecret",
           "type": "string",
