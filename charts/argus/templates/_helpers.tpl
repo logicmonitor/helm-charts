@@ -117,6 +117,49 @@ Collector Pod security context
 {{ toYaml .Values.collector.podSecurityContext | nindent 0 }}
 {{- end }}
 
+{{- define "ksm-url" -}}
+{{- $url := "" }}
+{{- $ksm := index .Values.global "kube-state-metrics" }}
+{{- if not (empty .Values.ksmUrl) }}
+{{- $url = .Values.ksmUrl }}
+{{- else if $ksm.enabled }}
+{{- $port := 8080 }}
+{{- $url = printf "http://%s-kube-state-metrics.%s.svc.cluster.local:%d/metrics" .Release.Name .Release.Namespace $port }}
+{{- else }}
+{{- $nsservices := (lookup "v1" "Service" .Release.Namespace "") | default dict }}
+{{- $nsfilteredServices := dict "items" (list) }}
+{{- range $service := $nsservices.items }}
+  {{- if eq (index $service.metadata.labels "app.kubernetes.io/name" | default "") "kube-state-metrics" }}
+    {{- $_ := set $nsfilteredServices "items" (append $nsfilteredServices.items $service) }}
+    {{- $port := "" }}
+    {{- range $p := $service.spec.ports }}
+      {{- if or (eq $p.name "http") (eq $p.name "http-metrics") }}
+        {{- $port = $p.port }}
+      {{- end }}
+    {{- end }}
+    {{- $url = printf "http://%s.%s.svc.cluster.local:%d/metrics" $service.metadata.name $service.metadata.namespace $port }}
+  {{- end }}
+{{- end }}
+{{- if (empty $url)}}
+{{- $services := (lookup "v1" "Service" "" "") | default dict }}
+{{- $filteredServices := dict "items" (list) }}
+{{- range $service := $services.items }}
+  {{- if eq (index $service.metadata.labels "app.kubernetes.io/name" | default "") "kube-state-metrics" }}
+    {{- $_ := set $filteredServices "items" (append $filteredServices.items $service) }}
+    {{- $port := "" }}
+    {{- range $p := $service.spec.ports }}
+      {{- if or (eq $p.name "http") (eq $p.name "http-metrics") }}
+        {{- $port = $p.port }}
+      {{- end }}
+    {{- end }}
+    {{- $url = printf "http://%s.%s.svc.cluster.local:%d/metrics" $service.metadata.name $service.metadata.namespace $port }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- $url }}
+{{- end }}
+
 {{- define "collector-csp" }}
 {{- $addCaps := .Values.collector.securityContext.capabilities.add }}
 {{- if and (eq (include "lmutil.get-platform" .) "gke") (not (has "NET_RAW" $addCaps)) }}

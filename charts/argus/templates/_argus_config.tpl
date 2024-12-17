@@ -76,4 +76,5 @@ proxy:
 proxy:
   url: {{ .Values.global.proxy.url }}
 {{- end }}
+ksmUrl: {{ include "ksm-url" . | quote }}
 {{- end -}}
