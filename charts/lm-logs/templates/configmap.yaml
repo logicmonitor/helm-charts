@@ -97,7 +97,7 @@ data:
     <filter kubernetes.**>
       @type concat
       key {{ .Values.kubernetes.multiline_concat_key }}
-      seperator ""
+      separator ""
       multiline_start_regexp {{ .Values.kubernetes.multiline_start_regexp }}
       timeout_label @PROCESS_AFTER_CONCAT
     </filter>

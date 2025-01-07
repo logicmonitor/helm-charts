@@ -6,7 +6,7 @@ maintainers:
   - email: argus@logicmonitor.com
     name: LogicMonitor
 name: argus
-version: 11.1.0
+version: 11.1.1
 home: https://logicmonitor.github.io/helm-charts
 appVersion: v15.1.0
 dependencies:

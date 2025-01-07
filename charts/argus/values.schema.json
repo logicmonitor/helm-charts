@@ -1113,7 +1113,7 @@
                   "$id": "#/properties/lm/properties/lmlogs/properties/k8sevent/properties/enable",
                   "type": "boolean",
                   "title": "The enable schema",
-                  "description": "Once you enable the property, it starts collecting Kuberentes events.",
+                  "description": "Once you enable the property, it starts collecting Kubernetes events.",
                   "default": false,
                   "examples": [
                     false
@@ -1142,7 +1142,7 @@
                   "$id": "#/properties/lm/properties/lmlogs/properties/k8spodlog/properties/enable",
                   "type": "boolean",
                   "title": "The enable schema",
-                  "description": "Once you enable the property, it starts Kuberentes Pod's logs collection",
+                  "description": "Once you enable the property, it starts Kubernetes Pod's logs collection",
                   "default": false,
                   "examples": [
                     false
