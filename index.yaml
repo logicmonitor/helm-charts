@@ -3,6 +3,25 @@ entries:
   argus:
   - apiVersion: v2
     appVersion: v15.1.0
+    created: "2025-01-07T13:02:17.581462384Z"
+    dependencies:
+    - name: lmutil
+      repository: https://logicmonitor.github.io/helm-charts
+      version: 0.1.9
+    description: Automated Kubernetes monitoring
+    digest: ca26d6d067205de7cba8f008871d4eda8e47be6995a944d4c7926bf08345dca3
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    kubeVersion: '>= 1.16.0-0'
+    maintainers:
+    - email: argus@logicmonitor.com
+      name: LogicMonitor
+    name: argus
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/argus-11.1.1/argus-11.1.1.tgz
+    version: 11.1.1
+  - apiVersion: v2
+    appVersion: v15.1.0
     created: "2024-12-17T03:57:50.375054851Z"
     dependencies:
     - name: lmutil
@@ -3471,6 +3490,20 @@ entries:
   lm-logs:
   - apiVersion: v2
     appVersion: 1.2.0
+    created: "2025-01-07T13:02:17.746578207Z"
+    description: A Helm chart for sending k8s logs to Logic Monitor
+    digest: 9ca954bd13f69a533b101ab8177709eb5bcc1784b20d1257289136cc8b13193f
+    home: https://logicmonitor.github.io/helm-charts
+    icon: https://logicmonitor.github.io/helm-charts/lm_logo.png
+    maintainers:
+    - email: dev@logicmonitor.com
+      name: LogicMonitor
+    name: lm-logs
+    urls:
+    - https://github.com/logicmonitor/helm-charts/releases/download/lm-logs-0.6.1/lm-logs-0.6.1.tgz
+    version: 0.6.1
+  - apiVersion: v2
+    appVersion: 1.2.0
     created: "2024-05-07T11:41:41.1312303Z"
     description: A Helm chart for sending k8s logs to Logic Monitor
     digest: 0d90e74e8022952ac5d3551d81a253955d0038f2b88047cf7682cd1d9d97c774
@@ -3649,4 +3682,4 @@ entries:
     urls:
     - https://github.com/logicmonitor/helm-charts/releases/download/releasemanager-0.3.0/releasemanager-0.3.0.tgz
     version: 0.3.0
-generated: "2025-01-07T09:29:41.026999354Z"
+generated: "2025-01-07T13:02:17.74709798Z"
