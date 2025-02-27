@@ -25,3 +25,4 @@ data:
     ignoreSSL: {{ default false .Values.ignoreSSL }}
     collectorServiceAccountName: {{ include "collectorset-controller.serviceAccountName" . }}-collector
     secretName: {{ include "lmutil.secret-name" . }}
+    isUpgrade: {{ .Release.IsUpgrade | default false }}
