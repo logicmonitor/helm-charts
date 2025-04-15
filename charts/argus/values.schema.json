@@ -196,14 +196,16 @@
       "$id": "#/properties/monitoringMode",
       "type": "string",
       "title": "Argus Monitoring Mode",
-      "description": "Monitoring mode for Argus (Minimal/Advanced)",
-      "default": "Minimal",
+      "description": "Monitoring mode for Argus (Essential/Advanced)",
+      "default": "Essential",
       "enum": [
         "Minimal",
+        "Essentials",
+        "Essential",
         "Advanced"
       ],
       "examples": [
-        "Minimal",
+        "Essential",
         "Advanced"
       ],
       "$comment": "ui:accessKey-ignore tf:optional"
