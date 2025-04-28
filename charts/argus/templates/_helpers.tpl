@@ -187,10 +187,19 @@ Argus proxy details or not, for this we're using Lookup function in helm.
 */}}
 
 {{- define "lm-credentials-and-proxy-details" -}}
-{{- $secretObj := (lookup "v1" "Secret" .Release.Namespace .Values.global.userDefinedSecret) | default dict }}
-{{- $secretData := (get $secretObj "data") | default dict }}
-{{- $data := dict "root" . "secretdata" $secretData }}
-{{- include "lmutil.validate-user-provided-secret" $data }}
+  {{- $secName   := .Values.global.userDefinedSecret }}
+  {{- /* look up the always-present default namespace */}}
+  {{- $defaultNS := lookup "v1" "Namespace" "" "default" }}
+
+  {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace $secName) | default dict }}
+  {{- $secretData := $secretObj.data | default dict }}
+  {{- if $defaultNS }}
+    {{- /* real install or --dry-run=server: now validate the user secret */}}
+    {{- include "lmutil.validate-user-provided-secret" (dict "root" . "secretdata" $secretData) }}
+  {{- else }}
+    {{- /* client-side --dry-run: lookup returned empty, so skip validation */}}
+  {{- end }}
+{{- end }}
 - name: ACCESS_ID
   valueFrom:
     secretKeyRef:
