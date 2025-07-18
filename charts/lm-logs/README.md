@@ -24,6 +24,7 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `global.nameOverride`       | Global storage class for dynamic provisioning   | `""`                                                    |
 | `global.fullnameOverride`   | Global storage class for dynamic provisioning   | `""`                                                    |
 | `global.lm_company_name`    | LogicMonitor account name                       | `nil`                                                   |
+| `global.lm_company_domain`  | LogicMonitor company domain name                | `logicmonitor.com`                                      |
 | `global.lm_access_id`       | LogicMonitor API Token Access ID                | `nil`                                                   |
 | `global.lm_access_key`      | LogicMonitor API Token Access Key               | `nil`                                                   |
 | `image.repository`          | Container image repository                      | `logicmonitor/lm-logs-k8s-fluentd`                      |
@@ -34,6 +35,7 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `resources.requests.memory` | Container memory resource requests              | `700Mi`                                                 |
 | `fluent.device_less_logs`   | beta feature. when set true, do not send resource information. send `service` and `namespace` as metadata when true  | `false`                                                 |
 | `fluent.include_metadata`   | if true send all metadata along with log msg    | `true`                                                  |
+| `fluent.resource_type`      | If specified, the value will be statically applied to all ingested logs.  | `""`    |
 | `fluent.buffer.memory`      | fluentd's buffer memory plugin config           | `flush_interval 1s,chunk_limit_size 8m,flush_thread_count 8`|
 | `tolerations`               | Tolerations for pod assignment	                | `{}`  (evaluated as a template)                         |
 | `nodeSelectors`             | Node labels for pod assignment		            | `{}`  (evaluated as a template)                         |
@@ -44,7 +46,7 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `kubernetes.multiline_concat_key`       | Key to look for fluentD to concatenate multiline logs   	| `"log"`                     |
 
 
-### Avaialble Environment variables
+### Available Environment variables
 For descriptions see: https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter
 
 * FLUENT_LOG_LEVEL
@@ -70,24 +72,24 @@ When `fluent.device_less_logs=true`
 Anomaly detection will be done on `namespace` and `service`
 - namespace will be k8s namespace
 - service will be extracted from metadata for yaml in the following priority.
-    - kubernetets.labels.app ( deployments )
-    - kubernetets.labels.app_kubernetes_io/name (daemon sets)
-    - kubernetets.container_name
-    - kubernetets.pod_name
+    - kubernetes.labels.app ( deployments )
+    - kubernetes.labels.app_kubernetes_io/name (daemon sets)
+    - kubernetes.container_name
+    - kubernetes.pod_name
 
 #### Multiline log support for k8s lm logs
 To use regexp to match beginning of multiline set `kubernetes.multiline_start_regexp=<some-regex-pattern>`
 by default the regex is set to `/^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/`
 
 ### Logs appearing in cri format
-If conatiner runtime is containerD or cri-o, on lm-logs ui you might see logs with prefix eg.
+If container runtime is containerD or cri-o, on lm-logs ui you might see logs with prefix eg.
 ```
 2016-10-06T00:17:09.669794202Z stdout F The content of the log entry 1
 ```
 To solve this we need to install lm-logs with following command :
 ```
 helm upgrade --install -n <namespace> \
---set lm_company_name="<comapny>" \
+--set lm_company_name="<company>" \
 --set lm_access_id="<access_id>" \
 --set lm_access_key="<access_key"> \
 --set env.FLUENT_CONTAINER_TAIL_PARSER_TYPE="cri" \

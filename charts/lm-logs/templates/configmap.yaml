@@ -47,7 +47,9 @@ data:
       <match kubernetes.**>
         @type lm
         company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
+        company_domain {{ .Values.lm_company_domain | default .Values.global.companyDomain | default "logicmonitor.com" }}
         resource_mapping {"kubernetes.pod_name": "auto.name"}
+        resource_type {{ .Values.fluent.resource_type | default "" }}
         {{- if  and ( or .Values.lm_access_id .Values.global.accessID ) ( or .Values.lm_access_key .Values.global.accessKey) }}
         access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
         access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}

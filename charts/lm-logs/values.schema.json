@@ -95,6 +95,18 @@
       ],
       "$comment": "ui:lm_company_name-ignore tf:optional"
     },
+    "lm_company_domain": {
+      "$id": "#/properties/lm_company_domain",
+      "type": "string",
+      "title": "Logicmonitor domain name",
+      "description": "The LogicMonitor domain name.nValue should be trimmed from URL \"company1.logicmonitor.com\"\nexample: lmqauat.logicmonitor.com then \"logicmonitor.com\" must be a valid value.",
+      "default": "",
+      "examples": [
+        "logicmonitor.com",
+        "lmgov.us"
+      ],
+      "$comment": "ui:lm_company_domain-ignore tf:optional"
+    },
     "clusterName": {
       "$id": "#/properties/clusterName",
       "type": "string",
@@ -280,6 +292,9 @@
         },
         "include_metadata": {
           "type": "boolean"
+        },
+        "resource_type": {
+          "type" : "string"
         },
         "buffer": {
           "type": "object",
