@@ -65,7 +65,7 @@ log:
   level: "info"
 
 ksmUrl: ""
-monitoringMode: "Minimal"
+monitoringMode: ""
 disableBatchingPods: true
 
 collectorsetcontroller:

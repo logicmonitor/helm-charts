@@ -44,7 +44,7 @@ logicmonitor.com/provider: lm-container
 
 {{- define "monitoring.disable" }}
 {{ $alwaysDisable := list }}
-{{- if and (not .Release.IsUpgrade) (has .Values.monitoringMode (list "Minimal" "Essentials" "Essential")) }}
+{{- if or (has .Values.monitoringMode (list "Minimal" "Essentials" "Essential")) (and (eq .Values.monitoringMode "") (not (.Release.IsUpgrade))) }}
 {{ $alwaysDisable = list "resourcequotas" "limitranges" "roles" "rolebindings" "networkpolicies" "configmaps" "clusterrolebindings" "clusterroles" "priorityclasses" "storageclasses" "cronjobs" "jobs" "endpoints" "ingresses" "secrets" "serviceaccounts" "poddisruptionbudgets" "customresourcedefinitions" }}
 {{- end }}
 

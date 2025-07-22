@@ -197,8 +197,9 @@
       "type": "string",
       "title": "Argus Monitoring Mode",
       "description": "Monitoring mode for Argus (Essential/Advanced)",
-      "default": "Essential",
+      "default": "",
       "enum": [
+        "",
         "Minimal",
         "Essentials",
         "Essential",
