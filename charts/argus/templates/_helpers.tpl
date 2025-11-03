@@ -7,6 +7,16 @@ Common labels
 {{ include "lmutil.generic.labels" . }}
 app.kubernetes.io/component: discovery-agent
 {{/*
+The following label sets the monitoring mode for Argus resources:
+- If this is an upgrade scenario and .Values.monitoringMode is empty, use "Advanced".
+- If .Values.monitoringMode is set, use its value. Otherwise, default to "Essentials".
+*/}}
+{{- if or (has .Values.monitoringMode (list "Minimal" "Essentials" "Essential")) (and (eq .Values.monitoringMode "") (not (.Release.IsUpgrade))) }}
+argus.monitoring-mode: "Essentials"
+{{- else }}
+argus.monitoring-mode: "Advanced"
+{{- end}}
+{{/*
 Adding app property to make it backward compatible in trasition phase.
 New datasources or existing datasources should use app.kubernetes.io/name property in its appliesto script
 */}}
@@ -129,37 +139,6 @@ Collector Pod security context
 {{- else if $ksm.enabled }}
 {{- $port := 8080 }}
 {{- $url = printf "http://%s-kube-state-metrics.%s.svc.cluster.local:%d/metrics" .Release.Name .Release.Namespace $port }}
-{{- else }}
-{{- $nsservices := (lookup "v1" "Service" .Release.Namespace "") | default dict }}
-{{- $nsfilteredServices := dict "items" (list) }}
-{{- range $service := $nsservices.items }}
-  {{- if eq (index $service.metadata.labels "app.kubernetes.io/name" | default "") "kube-state-metrics" }}
-    {{- $_ := set $nsfilteredServices "items" (append $nsfilteredServices.items $service) }}
-    {{- $port := "" }}
-    {{- range $p := $service.spec.ports }}
-      {{- if or (eq $p.name "http") (eq $p.name "http-metrics") }}
-        {{- $port = $p.port }}
-      {{- end }}
-    {{- end }}
-    {{- $url = printf "http://%s.%s.svc.cluster.local:%d/metrics" $service.metadata.name $service.metadata.namespace $port }}
-  {{- end }}
-{{- end }}
-{{- if (empty $url)}}
-{{- $services := (lookup "v1" "Service" "" "") | default dict }}
-{{- $filteredServices := dict "items" (list) }}
-{{- range $service := $services.items }}
-  {{- if eq (index $service.metadata.labels "app.kubernetes.io/name" | default "") "kube-state-metrics" }}
-    {{- $_ := set $filteredServices "items" (append $filteredServices.items $service) }}
-    {{- $port := "" }}
-    {{- range $p := $service.spec.ports }}
-      {{- if or (eq $p.name "http") (eq $p.name "http-metrics") }}
-        {{- $port = $p.port }}
-      {{- end }}
-    {{- end }}
-    {{- $url = printf "http://%s.%s.svc.cluster.local:%d/metrics" $service.metadata.name $service.metadata.namespace $port }}
-  {{- end }}
-{{- end }}
-{{- end }}
 {{- end }}
 {{- $url }}
 {{- end }}
@@ -187,10 +166,6 @@ Argus proxy details or not, for this we're using Lookup function in helm.
 */}}
 
 {{- define "lm-credentials-and-proxy-details" -}}
-{{- $secretObj := (lookup "v1" "Secret" .Release.Namespace .Values.global.userDefinedSecret) | default dict }}
-{{- $secretData := (get $secretObj "data") | default dict }}
-{{- $data := dict "root" . "secretdata" $secretData }}
-{{- include "lmutil.validate-user-provided-secret" $data }}
 - name: ACCESS_ID
   valueFrom:
     secretKeyRef:
@@ -206,42 +181,18 @@ Argus proxy details or not, for this we're using Lookup function in helm.
     secretKeyRef:
       name: {{ include "lmutil.secret-name" . }}
       key: account
-- name: COMPANY_DOMAIN
-{{- if and .Values.global.userDefinedSecret (or (not (hasKey $secretData "companyDomain")) (eq (get $secretData "companyDomain") "")) }}
-  value: "logicmonitor.com"
-{{- else }}
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "lmutil.secret-name" . }}
-      key: companyDomain
-{{- end}}
-{{- if $secretData.etcdDiscoveryToken }}
-- name: ETCD_DISCOVERY_TOKEN
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "lmutil.secret-name" . }}
-      key: etcdDiscoveryToken
-{{- end }}
-{{- if or $secretData.argusProxyUser $secretData.proxyUser .Values.proxy.user .Values.global.proxy.user }}
+{{- if or .Values.proxy.user .Values.global.proxy.user }}
 - name: PROXY_USER
   valueFrom:
     secretKeyRef:
       name: {{ include "lmutil.secret-name" . }}
-      {{- if $secretData.argusProxyUser }}
-      key: argusProxyUser
-      {{- else }}
       key: proxyUser
-      {{- end }}
 {{- end }}
-{{- if or $secretData.argusProxyPass $secretData.proxyPass .Values.proxy.pass .Values.global.proxy.pass }}
+{{- if or .Values.proxy.pass .Values.global.proxy.pass }}
 - name: PROXY_PASS
   valueFrom:
     secretKeyRef:
       name: {{ include "lmutil.secret-name" . }}
-      {{- if $secretData.argusProxyPass }}
-      key: argusProxyPass
-      {{- else }}
       key: proxyPass
-      {{- end }}
 {{- end }}
 {{- end }}
