@@ -1,0 +1,219 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: csc-props-patch-{{ .Release.Name }}
+  labels:
+    {{- include "collectorset-controller.labels" . | nindent 4}}
+    app.kubernetes.io/job: config-updater
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation
+    {{- include "collectorset-controller.annotations" . | nindent 4}}
+spec:
+  ttlSecondsAfterFinished: {{ .Values.patchJob.ttlSecondsAfterFinished | default 1800 }} # delete this job from cluster after 30 mins
+  template:
+    spec:
+      containers:
+        - name: patch-configmap
+          image: bitnamisecure/kubectl:latest
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              set -e
+
+              # Initialize variables with global scope (use export to make them available to subshells)
+              export SECRET_DATA=""
+              export HAS_COMPANY_DOMAIN="false"
+              export COMPANY_DOMAIN_VALUE=""
+
+              # Get data from secret whose name is .Values.global.userDefinedSecret
+              if [ -n "{{ .Values.global.userDefinedSecret }}" ]; then
+                echo "Looking up secret {{ .Values.global.userDefinedSecret }} in namespace {{ .Release.Namespace }}"
+                export SECRET_DATA=$(kubectl get secret {{ .Values.global.userDefinedSecret }} -n {{ .Release.Namespace }} -o json | jq -r '.data')
+                if [ "$SECRET_DATA" != "null" ] && [ -n "$SECRET_DATA" ]; then
+                  echo "Secret data found"
+
+                  # Check if SECRET_DATA contains a key named companyDomain
+                  if echo "$SECRET_DATA" | jq -e 'has("companyDomain")' > /dev/null; then
+                    echo "Secret contains companyDomain key"
+                    export HAS_COMPANY_DOMAIN="true"
+                    export COMPANY_DOMAIN_VALUE="$(echo "$SECRET_DATA" | jq -r '.companyDomain' | base64 -d)"
+                    echo "Company domain from secret: $COMPANY_DOMAIN_VALUE"
+                  else
+                    echo "Secret does not contain companyDomain key"
+                  fi
+
+                  # This creates a variable for each key in the secret
+                  for key in $(echo $SECRET_DATA | jq -r 'keys[]'); do
+                    value=$(echo $SECRET_DATA | jq -r ".[\"$key\"]" | base64 -d)
+                    # Create a variable with uppercase key name and export it
+                    export "SECRET_$(echo $key | tr '[:lower:]' '[:upper:]')=$value"
+                    echo "Created variable SECRET_$(echo $key | tr '[:lower:]' '[:upper:]')"
+                  done
+                else
+                  echo "No data found in secret {{ .Values.global.userDefinedSecret }}"
+                fi
+
+                # Validate accessKey, accessId, account to be present in secret
+                if [ -z "$SECRET_ACCESSKEY" ] || [ -z "$SECRET_ACCESSID" ] || [ -z "$SECRET_ACCOUNT" ]; then
+                  echo "❌ accessKey, accessId, or account not found in secret {{ .Values.global.userDefinedSecret }}. These are required."
+                  exit 1
+                fi
+              else
+                echo "No userDefinedSecret specified in values"
+              fi
+
+
+              # Update the deployment with environment variables
+              # Use the global HAS_COMPANY_DOMAIN variable to conditionally include company domain
+              PATCH_CONTENT=""
+              ENVS=""
+
+              # Determine where to get company domain from
+              if [ "$HAS_COMPANY_DOMAIN" = "true" ]; then
+                echo "Using company domain from secret {{ .Values.global.userDefinedSecret }}"
+                COMPANY_DOMAIN_ENV=$(cat << EOF
+                {
+                  "name": "COMPANY_DOMAIN",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "{{ .Values.global.userDefinedSecret }}",
+                      "key": "companyDomain"
+                    }
+                  }
+                }
+              EOF
+                )
+              else
+                echo "Using company domain from .Values"
+                COMPANY_DOMAIN_ENV=$(cat << EOF
+                {
+                  "name": "COMPANY_DOMAIN",
+                  "value": {{ .Values.global.companyDomain | default "logicmonitor.com" | quote }}
+                }
+              EOF
+                )
+              fi
+
+              ENVS="${COMPANY_DOMAIN_ENV}"
+              # Determine if etcdDiscoveryToken is set
+              if [ "$SECRET_ETCDDISCOVERYTOKEN" != "" ]; then
+                echo "etcdDiscoveryToken found in secret, adding to env"
+                ETCD_ENV=$(cat << EOF
+                {
+                  "name": "ETCD_DISCOVERY_TOKEN",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "{{ include "lmutil.secret-name" . }}",
+                      "key": "etcdDiscoveryToken"
+                    }
+                  }
+                }
+              EOF
+                )
+                ENVS="${ENVS},${ETCD_ENV}"
+              fi
+
+              # Determine if proxyUser and proxyPass are set
+              if [ "$SECRET_ARGUS_PROXYUSER" != "" ]; then
+                echo "Argus proxyUser found in secret, adding to env"
+                PROXY_USER_ENV=$(cat << EOF
+                {
+                  "name": "PROXY_USER",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "{{ include "lmutil.secret-name" . }}",
+                      "key": "argusProxyUser"
+                    }
+                  }
+                }
+              EOF
+                )
+                ENVS="${ENVS},${PROXY_USER_ENV}"
+              fi
+
+              if [ "$SECRET_PROXYUSER" != "" ]; then
+                echo "ProxyUser found in secret, adding to env"
+                PROXY_USER_ENV=$(cat << EOF
+                {
+                  "name": "PROXY_USER",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "{{ include "lmutil.secret-name" . }}",
+                      "key": "proxyUser"
+                    }
+                  }
+                }
+              EOF
+                )
+                ENVS="${ENVS},${PROXY_USER_ENV}"
+              fi
+
+              if [ "$SECRET_ARGUS_PROXYPASS" != "" ]; then
+                echo "Argus proxyPass found in secret, adding to env"
+                PROXY_PASS_ENV=$(cat << EOF
+                {
+                  "name": "PROXY_PASS",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "{{ include "lmutil.secret-name" . }}",
+                      "key": "argusProxyPass"
+                    }
+                  }
+                }
+              EOF
+                )
+                ENVS="${ENVS},${PROXY_PASS_ENV}"
+              fi
+
+              if [ "$SECRET_PROXYPASS" != "" ]; then
+                echo "ProxyPass found in secret, adding to env"
+                PROXY_PASS_ENV=$(cat << EOF
+                {
+                  "name": "PROXY_PASS",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "{{ include "lmutil.secret-name" . }}",
+                      "key": "proxyPass"
+                    }
+                  }
+                }
+              EOF
+                )
+                ENVS="${ENVS},${PROXY_PASS_ENV}"
+              fi
+
+              # Create the full patch with proper JSON formatting
+              PATCH_CONTENT=$(cat << EOF
+              {
+                "spec": {
+                  "template": {
+                    "spec": {
+                      "containers": [
+                        {
+                          "name": "collectorset-controller",
+                          "env": [
+                            ${ENVS}
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+              EOF
+              )
+
+              # Apply the patch
+              echo "Applying deployment patch..."
+              kubectl patch deployment {{ include "lmutil.fullname" . }} -n {{ .Release.Namespace }} --type=strategic --patch "$PATCH_CONTENT"
+
+              # Scale the deployment
+              kubectl scale deployment {{ include "lmutil.fullname" . }} --replicas=1 -n {{ .Release.Namespace }}
+          env:
+            - name: HOME
+              value: /tmp
+      restartPolicy: Never
+      serviceAccountName: {{ include "lmutil.serviceAccountName" . }}

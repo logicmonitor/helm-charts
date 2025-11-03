@@ -55,6 +55,8 @@ labels: {}
 annotations: {}
 # Set flag to ignore ssl/tls validation
 ignoreSSL: false
+patchJob:
+  ttlSecondsAfterFinished: 1800  # delete this job from cluster after 30 mins
 
 imagePullSecrets: []
 global:
