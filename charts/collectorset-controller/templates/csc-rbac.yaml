@@ -36,6 +36,8 @@ rules:
       - "apps"
     resources:
       - statefulsets
+      - deployments
+      - deployments/scale
     verbs:
       - "*"
   - apiGroups:
