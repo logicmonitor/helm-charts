@@ -88,6 +88,9 @@
         }
       },
       "filters": [],
+      "patchJob": {
+        "ttlSecondsAfterFinished": 1800
+      },
       "selfMonitor": {
         "enable": false,
         "port": 2112
@@ -150,7 +153,8 @@
         "create": true
       },
       "serviceAccount": {
-        "create": true
+        "create": true,
+        "name": ""
       }
     }
   ],
@@ -1410,6 +1414,35 @@
       },
       "additionalProperties": false
     },
+    "patchJob": {
+      "$id": "#/properties/patchJob",
+      "$comment": "tf:optional",
+      "type": "object",
+      "title": "The Argus Props Patch Job Schema",
+      "description": "Configurations for Argus Props Patch Job",
+      "default": {},
+      "examples": [
+        {
+          "ttlSecondsAfterFinished": 1800
+        }
+      ],
+      "required": [],
+      "properties": {
+          "ttlSecondsAfterFinished": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/patchJob/properties/ttlSecondsAfterFinished",
+          "type": "integer",
+          "title": "Time To Live After PatchJob Completion",
+          "description": "Specifies the time-to-live (in seconds) for the patchJob resource after it has completed execution. Once this duration has passed, the job and its associated pods will be automatically cleaned up by Kubernetes",
+          "default": 1800,
+          "examples": [
+              60,
+              1800
+          ]
+          }
+      },
+      "additionalProperties": false
+    },
     "selfMonitor": {
       "$id": "#/properties/selfMonitor",
       "$comment": "tf:optional",
@@ -2572,7 +2605,12 @@
       "default": {},
       "examples": [
         {
-          "create": true
+          "create": true,
+          "name": ""
+        },
+        {
+          "create": true,
+          "name": "custom-service-account"
         }
       ],
       "required": [
@@ -2587,6 +2625,17 @@
           "default": false,
           "examples": [
             true
+          ]
+        },
+        "name": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/serviceAccount/properties/name",
+          "type": "string",
+          "title": "The name schema",
+          "description": "Custom service account name. If not specified, defaults to the fullname of the release.",
+          "default": "",
+          "examples": [
+            "custom-service-account"
           ]
         }
       },

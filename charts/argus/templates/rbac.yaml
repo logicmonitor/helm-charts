@@ -27,6 +27,13 @@ metadata:
     {{- include "argus.annotations" . | nindent 4 }}
 rules:
   - apiGroups:
+      - "logicmonitor.com"
+    resources:
+      - collectorsets
+    verbs:
+      - get
+      - patch
+  - apiGroups:
       - ""
     resources:
       - pods
@@ -64,6 +71,7 @@ rules:
     verbs:
       - list
       - get
+      - patch
       - watch
       - update
       - create
@@ -72,6 +80,7 @@ rules:
       - "apps"
     resources:
       - deployments
+      - deployments/scale
       - daemonsets
       - replicasets
       - statefulsets
@@ -80,6 +89,7 @@ rules:
       - get
       - watch
       - update
+      - patch
   - apiGroups:
       - "scheduling.k8s.io"
     resources:

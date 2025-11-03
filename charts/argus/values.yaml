@@ -130,6 +130,8 @@ lm:
       nodes: []
       etcd: []
 filters: []
+patchJob:
+  ttlSecondsAfterFinished: 1800  # delete this job from cluster after 30 mins
 selfMonitor:
   enable: false
   port: 2112
@@ -234,6 +236,7 @@ rbac:
   create: true
 serviceAccount:
   create: true
+  # name: ""  # Optional: specify a custom service account name
 
 probe:
   enabled: true

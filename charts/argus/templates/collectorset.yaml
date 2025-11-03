@@ -31,14 +31,10 @@ spec:
   {{- if .Values.collector.useEA }}
   useEA: {{ .Values.collector.useEA }}
   {{- end }}
-  {{/*  TODO: create a function for the below logic */}}
-  {{- $secretObj := (lookup "v1" "Secret" .Release.Namespace .Values.global.userDefinedSecret) | default dict }}
-  {{- $secretData := (get $secretObj "data") | default dict }}
-  {{- if or $secretData.collectorProxyUser $secretData.proxyUser }}
-  secretName: {{ .Values.global.userDefinedSecret }}
-  {{- else if and (not (empty .Values.collector.proxy.user)) (empty .Values.global.userDefinedSecret ) }}
-  secretName: {{ include "lmutil.fullname" . }}-collector
-  {{- else if and (not (empty .Values.global.proxy.user)) (empty .Values.global.userDefinedSecret ) }}
+  {{- $proxyUser := .Values.collector.proxy.user | default "" }}
+  {{- $globalProxyUser := .Values.global.proxy.user | default "" }}
+  {{- $userDefinedSecret := .Values.global.userDefinedSecret | default "" }}
+  {{- if and (or $proxyUser $globalProxyUser) (empty $userDefinedSecret) }}
   secretName: {{ include "lmutil.fullname" . }}-collector
   {{- end }}
   {{- if .Values.collector.proxy.url }}
@@ -69,4 +65,3 @@ spec:
   affinity: {{ include "argus.collector-affinity" . | nindent 4 }}
   securityContext: {{ include "argus.collector-container-sec-context-nonroot" (list . "argus.custom-collector-container-sec-context-nonroot") | nindent 4 }}
   podSecurityContext: {{ include "argus.collector-pod-sec-context-nonroot" (list . "argus.custom-collector-pod-sec-context-nonroot") | nindent 4 }}
-  
