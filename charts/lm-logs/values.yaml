@@ -72,7 +72,6 @@ volumes:
     hostPath:
       path: /run/log/journal
 
-
 volumeMounts:
   - name: fluentconf
     mountPath: /fluentd/etc
