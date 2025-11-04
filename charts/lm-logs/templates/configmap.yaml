@@ -9,12 +9,34 @@ metadata:
 data:
   fluent.conf: |
     @include kubernetes.conf
+    {{- if .Values.useSystemdConf }}
+    @include systemd.conf
+    {{- end }}
 
     <system>
       log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
     </system>
 
     <label @PROCESS_AFTER_CONCAT>
+      {{- if .Values.useSystemdConf }}
+      <filter {{ .Values.systemd.tag | default "systemd.al2023" }}>
+        @type record_transformer
+        enable_ruby
+        <record>
+          message ${record["MESSAGE"]}
+          timestamp ${record["__REALTIME_TIMESTAMP"]}
+          source_tag {{ .Values.systemd.tag | default "systemd.al2023" }}
+          {{- if .Values.fluent.device_less_logs }}
+          resource.service.name ${ENV['K8S_NODE_NAME']}
+          {{- end }}
+          {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
+          {{ include "kubernetes.cluster_name" . | nindent 10 }}
+          {{- end }}
+        </record>
+        remove_keys MESSAGE
+      </filter>
+      {{- end }}
+
       <filter kubernetes.**>
         @type kubernetes_metadata
         @id filter_kube_metadata
@@ -35,42 +57,20 @@ data:
           timestamp ${record["time"]}
           {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
           {{ include "kubernetes.cluster_name" . | nindent 8 }}
-          {{- end}}
-          {{- if  .Values.fluent.device_less_logs }}
-          resource.service.name ${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") :  record.dig("kubernetes","container_name") != nil ?  record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") :  "unknown" }
+          {{- end }}
+          {{- if .Values.fluent.device_less_logs }}
+          resource.service.name '${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") : record.dig("kubernetes","container_name") != nil ? record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") : "unknown"}'
           resource.service.namespace ${record["kubernetes"]["namespace_name"]}
-          {{- end}}
+          {{- end }}
         </record>
         remove_keys log
       </filter>
 
-      <match kubernetes.**>
-        @type lm
-        company_name {{ if .Values.lm_company_name }} {{ .Values.lm_company_name }} {{ else }} {{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
-        company_domain {{ .Values.lm_company_domain | default .Values.global.companyDomain | default "logicmonitor.com" }}
-        resource_mapping {"kubernetes.pod_name": "auto.name"}
-        resource_type {{ .Values.fluent.resource_type | default "" }}
-        {{- if  and ( or .Values.lm_access_id .Values.global.accessID ) ( or .Values.lm_access_key .Values.global.accessKey) }}
-        access_id {{ .Values.lm_access_id | default .Values.global.accessID }}
-        access_key {{ .Values.lm_access_key | default .Values.global.accessKey }}
-        {{- else if .Values.lm_bearer_token }}
-        bearer_token {{ .Values.lm_bearer_token }}
-        {{- else }} {{ required "Either specify valid lm_access_id and lm_access_key both or lm_bearer_token for authentication with LogicMonitor." .Values.lm_bearer_token }}
-        {{- end}}
-        debug false
-        compression gzip
-        {{ include "logsource.userAgent" . | nindent 8 }}
-        include_metadata {{ hasKey .Values.fluent "include_metadata" | ternary .Values.fluent.include_metadata true }}
-        device_less_logs {{ .Values.fluent.device_less_logs | default false }}
-        <buffer>
-          @type memory
-          flush_interval {{ .Values.fluent.buffer.memory.flush_interval | default "1s" }}
-          chunk_limit_size {{ .Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
-          flush_thread_count {{ .Values.fluent.buffer.memory.flush_thread_count | default "8"}}
-        </buffer>
-      </match>
+      {{ include "fluentd.lmMatch" (dict "tag" "kubernetes.**" "resource_mapping" "{\"kubernetes.pod_name\": \"auto.name\"}" "context" .) | nindent 6 }}
+      {{- if .Values.useSystemdConf }}
+      {{ include "fluentd.lmMatch" (dict "tag" (.Values.systemd.tag | default "systemd.al2023") "resource_mapping" "{\"_HOSTNAME\": \"system.hostname\"}" "context" .) | nindent 6 }}
+      {{- end }}
     </label>
-
 
   kubernetes.conf: |
     <source>
@@ -109,4 +109,4 @@ data:
       @label @PROCESS_AFTER_CONCAT
     </match>
 
-
+    {{ include "fluentd.systemdConfBlock" (dict "context" .) | indent 2 }}

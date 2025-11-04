@@ -1,7 +1,7 @@
 image:
   repository: logicmonitor/lm-logs-k8s-fluentd
   pullPolicy: Always
-  tag: "1.3.0"
+  tag: "1.4.0"
 
 lm_access_id: ""
 lm_access_key: ""
@@ -41,6 +41,16 @@ fluent:
       chunk_limit_size: 8m
       flush_thread_count: 8
 
+systemd:
+  tag: ""
+  conf: ""
+
+useSystemdConf: false
+
+securityContext: null
+
+priorityClassName: null
+
 kubernetes:
   multiline_start_regexp: /^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/
   cluster_name: ""
@@ -58,6 +68,10 @@ volumes:
   - name: varlibdockercontainers
     hostPath:
       path: /var/lib/docker/containers
+  - name: journal
+    hostPath:
+      path: /run/log/journal
+
 
 volumeMounts:
   - name: fluentconf
@@ -66,4 +80,7 @@ volumeMounts:
     mountPath: /var/log
   - name: varlibdockercontainers
     mountPath: /var/lib/docker/containers
+    readOnly: true
+  - name: journal
+    mountPath: /run/log/journal
     readOnly: true

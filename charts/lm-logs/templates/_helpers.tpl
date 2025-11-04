@@ -130,3 +130,64 @@ Return the appropriate apiVersion for rbac.
 {{- define "fluentd-image" -}}
 "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
 {{- end -}}
+
+{{- define "fluentd.lmMatch" -}}
+<match {{ .tag }}>
+  @type lm
+  company_name {{ if .context.Values.lm_company_name }}{{ .context.Values.lm_company_name }}{{ else }}{{ required "A valid .Values.lm_company_name or .Values.global.account entry is required!" .context.Values.global.account }}{{ end }}
+  company_domain {{ .context.Values.lm_company_domain | default .context.Values.global.companyDomain | default "logicmonitor.com" }}
+  resource_mapping '{{ .resource_mapping }}'
+  resource_type {{ .context.Values.fluent.resource_type | default "" }}
+  {{- if and (or .context.Values.lm_access_id .context.Values.global.accessID) (or .context.Values.lm_access_key .context.Values.global.accessKey) }}
+  access_id {{ .context.Values.lm_access_id | default .context.Values.global.accessID }}
+  access_key {{ .context.Values.lm_access_key | default .context.Values.global.accessKey }}
+  {{- else if .context.Values.lm_bearer_token }}
+  bearer_token {{ .context.Values.lm_bearer_token }}
+  {{- else }}
+  {{ required "Either specify valid lm_access_id and lm_access_key both or lm_bearer_token for authentication with LogicMonitor." .context.Values.lm_bearer_token }}
+  {{- end }}
+  debug false
+  compression gzip
+  {{ include "logsource.userAgent" .context | nindent 8 }}
+  include_metadata {{ hasKey .context.Values.fluent "include_metadata" | ternary .context.Values.fluent.include_metadata true }}
+  device_less_logs {{ .context.Values.fluent.device_less_logs | default false }}
+  <buffer>
+    @type memory
+    flush_interval {{ .context.Values.fluent.buffer.memory.flush_interval | default "1s" }}
+    chunk_limit_size {{ .context.Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
+    flush_thread_count {{ .context.Values.fluent.buffer.memory.flush_thread_count | default "8" }}
+  </buffer>
+</match>
+{{- end }}
+
+{{/*
+Optional systemd.conf block for ConfigMap rendering (with context passing)
+*/}}
+{{- define "fluentd.systemdConfBlock" -}}
+{{- $ctx := .context -}}
+{{- if $ctx.Values.useSystemdConf }}
+  {{- if not $ctx.Values.systemd.conf }}
+systemd.conf: |
+  <source>
+    @type systemd
+    path /run/log/journal
+    tag systemd.al2023
+    read_from_head false
+    <storage>
+      @type local
+      persistent false
+    </storage>
+  </source>
+
+  <match systemd.al2023>
+    @type relabel
+    @label @PROCESS_AFTER_CONCAT
+  </match>
+  {{- else }}
+systemd.conf: |
+{{ $ctx.Values.systemd.conf | indent 2 }}
+  {{- end }}
+{{- else }}
+systemd.conf: ""
+{{- end }}
+{{- end }}
