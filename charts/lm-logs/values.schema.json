@@ -381,6 +381,52 @@
         "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
       },
       "uniqueItems": true
+    },
+    "systemd": {
+      "type": ["object", "null"],
+      "default": null,
+      "description": "Optional systemd log source configuration for AL2023 or similar systems",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "description": "The Fluentd tag used for systemd logs",
+          "examples": ["systemd.al2023"]
+        },
+        "conf": {
+          "type": "string",
+          "description": "Custom Fluentd systemd.conf content to be included and processed if defined"
+        }
+      },
+      "additionalProperties": false
+    },
+    "securityContext": {
+      "type": ["object", "null"],
+      "default": null,
+      "properties": {
+        "privileged": {
+          "type": "boolean"
+        },
+        "runAsUser": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "priorityClassName": {
+      "$id": "#/properties/priorityClassName",
+      "type": ["string", "null"],
+      "title": "Priority Class Name",
+      "description": "The Kubernetes PriorityClass to assign to Fluentd pods. If set, this determines pod preemption and scheduling priority.",
+      "default": null,
+      "examples": [
+        ""
+      ],
+      "$comment": "tf:optional"
+    },
+    "useSystemdConf": {
+      "type": "boolean",
+      "default": true,
+      "description": "If true and no custom systemd.conf is provided, a default configuration for systemd will be injected. If false, systemd will be disabled regardless of conf."
     }
   },
   "additionalProperties": false,
