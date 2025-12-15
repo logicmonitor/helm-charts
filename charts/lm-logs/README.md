@@ -16,6 +16,20 @@ helm install -n <namespace> \
 lm-logs logicmonitor/lm-logs
 ```
 
+Install the lm-logs chart using a user defined secret for LM credentials.
+
+``` console
+# For LMv1
+helm install lm-logs logicmonitor/lm-logs -n <namespace> \
+  --set global.userDefinedSecret=lm-logs-credentials \
+  --set authMode=lmv1
+
+# For Bearer
+helm install lm-logs logicmonitor/lm-logs -n <namespace> \
+  --set global.userDefinedSecret=lm-logs-credentials \
+  --set authMode=bearer
+```
+
 #### Parameters
 The following tables lists the configurable parameters of the lm-logs chart and their default values.
 | Parameter                   | Description                                     | Default                                                 |
@@ -24,9 +38,11 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `global.nameOverride`       | Global storage class for dynamic provisioning   | `""`                                                    |
 | `global.fullnameOverride`   | Global storage class for dynamic provisioning   | `""`                                                    |
 | `global.lm_company_name`    | LogicMonitor account name                       | `nil`                                                   |
+| `global.userDefinedSecret`  | User Defined Secret for LM credentials          | `""`                                                    |
 | `global.lm_company_domain`  | LogicMonitor company domain name                | `logicmonitor.com`                                      |
 | `global.lm_access_id`       | LogicMonitor API Token Access ID                | `nil`                                                   |
 | `global.lm_access_key`      | LogicMonitor API Token Access Key               | `nil`                                                   |
+| `authMode`                  | Mode to use for authenticating requests sent to LM. Can we lmv1/bearer  | `lmv1`                          |
 | `image.repository`          | Container image repository                      | `logicmonitor/lm-logs-k8s-fluentd`                      |
 | `image.pullPolicy`          | Container image pull policy                     | `IfNotPresent`                                          |
 | `image.tag`                 | Container image tag                             | `""`                                                    |
@@ -61,6 +77,14 @@ For descriptions see: https://github.com/fabric8io/fluent-plugin-kubernetes_meta
 * FLUENT_KUBERNETES_METADATA_SKIP_MASTER_URL
 * FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA
 
+#### User Defined Secret for LM credentials
+You can create a kubernetes secret with your LM credentials and pass the secret name to the chart.
+The secret must contain the following keys:
+- account
+- accessID
+- accessKey
+- bearerToken (if accessKey/accessID is not present in the secret)
+  Also, the authMode needs to be set accordingly. If the secret contains accessID/accessKey, authMode should be set to lmv1, otherwise bearer (similarly it should be set for the configurable parameters).
 #### New deviceless logs k8s integration (beta)
 Note: This feature may not be available to all customers.
 To enable this feature set `fluent.device_less_logs=true`

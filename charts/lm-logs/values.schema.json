@@ -165,6 +165,15 @@
             ""
           ],
           "$comment": "ui:clusterName-ignore tf:"
+        },
+        "userDefinedSecret": {
+          "type": "string",
+          "title": "Existing Kubernetes Secret name",
+          "description": "Name of a Secret that contains credentials for lm-logs. Expected keys: 'account' and either ('accessID' + 'accessKey') or 'bearerToken'.",
+          "default": "",
+          "examples": [
+            "lm-logs-credentials"
+          ]
         }
       }
     },
@@ -427,13 +436,67 @@
       "type": "boolean",
       "default": true,
       "description": "If true and no custom systemd.conf is provided, a default configuration for systemd will be injected. If false, systemd will be disabled regardless of conf."
+    },
+    "authMode": {
+      "description": "If bearer then will use bearerToken if set, if lmv1 will use accessID/accessKey if set.",
+      "oneOf": [
+        { "enum": ["bearer", "lmv1"] },
+        { "type": "string", "maxLength": 0 }
+      ]
     }
   },
   "additionalProperties": false,
-  "required": [
-    "lm_access_id",
-    "lm_access_key",
-    "lm_company_name"
+
+  "required": ["authMode"],
+
+  "allOf": [
+    {
+      "anyOf": [
+        { "required": ["lm_bearer_token"] },
+        { "required": ["lm_access_id", "lm_access_key"] },
+        {
+          "required": ["global"],
+          "properties": {
+            "global": {
+              "type": "object",
+              "required": ["userDefinedSecret"]
+            }
+          }
+        },
+        {
+          "required": ["global"],
+          "properties": {
+            "global": {
+              "type": "object",
+              "required": ["accessID", "accessKey"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "anyOf": [
+        { "required": ["lm_company_name"] },
+        {
+          "required": ["global"],
+          "properties": {
+            "global": {
+              "type": "object",
+              "required": ["account"]
+            }
+          }
+        },
+        {
+          "required": ["global"],
+          "properties": {
+            "global": {
+              "type": "object",
+              "required": ["userDefinedSecret"]
+            }
+          }
+        }
+      ]
+    }
   ],
   "definitions": {
     "io.k8s.apimachinery.pkg.api.resource.Quantity": {

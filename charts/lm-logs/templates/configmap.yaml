@@ -1,3 +1,8 @@
+{{- /* Accept any of: userDefinedSecret, bearerToken value, or id+key values */ -}}
+  {{- if not (include "lm-logs.credsProvided" .) -}}
+  {{- fail "Provide credentials via Secret (global.userDefinedSecret) or via global.* / lm_* values." -}}
+  {{- end -}}
+  {{- include "lm-logs.assertInputs" . -}}
 kind: ConfigMap
 apiVersion: v1
 metadata:

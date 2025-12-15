@@ -31,9 +31,25 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            {{ if gt (.Values.env | len) 0 }}
-            {{ include "ds-env" . | nindent 12 }}
-            {{ end }}
+            {{- if gt (len .Values.env) 0 }}
+            {{- include "ds-env" . | nindent 12 }}
+            {{- end }}
+            - name: LM_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lm-logs.secretKeyRef" (dict "ctx" . "key" "account") | nindent 18 }}
+            - name: LM_ACCESS_ID
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lm-logs.secretKeyRef" (dict "ctx" . "key" "accessID") | nindent 18 }}
+            - name: LM_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lm-logs.secretKeyRef" (dict "ctx" . "key" "accessKey") | nindent 18 }}
+            - name: LM_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lm-logs.secretKeyRef" (dict "ctx" . "key" "bearerToken") | nindent 18 }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default "Always" }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
