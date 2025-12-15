@@ -9,7 +9,15 @@ lm_company_name: ""
 lm_bearer_token: ""
 lm_company_domain: ""
 
+authMode: "lmv1"  # or "lmv1/bearer"
+
 global:
+  userDefinedSecret: ""  # Uncomment and set to use a custom secret for credentials
+  # The referenced secret must contain the following keys (all base64 encoded):
+  #   accessID
+  #   accessKey
+  #   bearerToken
+  #   account
   accessID: ""
   accessKey: ""
   account: ""
@@ -70,7 +78,8 @@ volumes:
       path: /var/lib/docker/containers
   - name: journal
     hostPath:
-      path: /run/log/journal
+      path: /var/log/journal
+
 
 volumeMounts:
   - name: fluentconf
@@ -81,5 +90,5 @@ volumeMounts:
     mountPath: /var/lib/docker/containers
     readOnly: true
   - name: journal
-    mountPath: /run/log/journal
+    mountPath: /var/log/journal
     readOnly: true

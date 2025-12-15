@@ -1,3 +1,8 @@
 lm_company_name: "dummy_company"
 lm_access_id: "dummy_id"
 lm_access_key: "dummy_key"
+authMode: "lmv1"
+global:
+  account: "dummyaccount"
+  accessID: "dummyid"
+  accessKey: "dummykey"
