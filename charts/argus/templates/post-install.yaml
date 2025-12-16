@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: patch-configmap
-          image: bitnamisecure/kubectl:latest
+          image: {{ include "lmutil.patchjob-image" . }}
+          imagePullPolicy: {{ .Values.patchJob.image.pullPolicy | default (.Values.global.image.pullPolicy | default "IfNotPresent") }}
           command:
             - /bin/sh
             - -c
