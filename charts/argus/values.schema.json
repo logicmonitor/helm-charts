@@ -89,7 +89,14 @@
       },
       "filters": [],
       "patchJob": {
-        "ttlSecondsAfterFinished": 1800
+        "ttlSecondsAfterFinished": 1800,
+        "image": {
+          "registry": "",
+          "repository": "",
+          "name": "kubectl",
+          "tag": "",
+          "pullPolicy": ""
+        }
       },
       "selfMonitor": {
         "enable": false,
@@ -1423,12 +1430,19 @@
       "default": {},
       "examples": [
         {
-          "ttlSecondsAfterFinished": 1800
+          "ttlSecondsAfterFinished": 1800,
+          "image": {
+            "registry": "",
+            "repository": "",
+            "name": "kubectl",
+            "tag": "",
+            "pullPolicy": ""
+          }
         }
       ],
       "required": [],
       "properties": {
-          "ttlSecondsAfterFinished": {
+        "ttlSecondsAfterFinished": {
           "$comment": "tf:optional",
           "$id": "#/properties/patchJob/properties/ttlSecondsAfterFinished",
           "type": "integer",
@@ -1436,10 +1450,67 @@
           "description": "Specifies the time-to-live (in seconds) for the patchJob resource after it has completed execution. Once this duration has passed, the job and its associated pods will be automatically cleaned up by Kubernetes",
           "default": 1800,
           "examples": [
-              60,
-              1800
+            60,
+            1800
           ]
-          }
+        },
+        "image": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/patchJob/properties/image",
+          "type": "object",
+          "title": "The patchJob image schema",
+          "description": "Container image configuration for the patchJob",
+          "default": {},
+          "properties": {
+            "registry": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/registry",
+              "type": "string",
+              "title": "The registry schema",
+              "description": "Container image registry for patchJob",
+              "default": "",
+              "examples": ["public.ecr.aws/logicmonitor"]
+            },
+            "repository": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/repository",
+              "type": "string",
+              "title": "The repository schema",
+              "description": "Container image repository for patchJob. Defaults to 'logicmonitor' when no registry is set.",
+              "default": "",
+              "examples": ["logicmonitor"]
+            },
+            "name": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/name",
+              "type": "string",
+              "title": "The name schema",
+              "description": "Container image name for patchJob",
+              "default": "kubectl",
+              "examples": ["kubectl"]
+            },
+            "tag": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/tag",
+              "type": "string",
+              "title": "The tag schema",
+              "description": "Container image tag for patchJob. Defaults to version defined in lmutil.patchjob-image template",
+              "default": "",
+              "examples": ["v1.29.3"]
+            },
+            "pullPolicy": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/pullPolicy",
+              "type": "string",
+              "title": "The pullPolicy schema",
+              "description": "Container image pull policy for patchJob. Defaults to global.image.pullPolicy or 'IfNotPresent'",
+              "default": "",
+              "enum": ["Always", "IfNotPresent", "Never", ""],
+              "examples": ["IfNotPresent"]
+            }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },
@@ -2353,6 +2424,12 @@
         }
       },
       "additionalProperties": false
+    },
+    "extraObjects": {
+      "$id": "#/properties/extraObjects",
+      "type": "array",
+      "additionalProperties": true,
+      "properties": {}
     },
     "global": {
       "$id": "#/properties/global",
