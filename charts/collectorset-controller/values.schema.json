@@ -40,7 +40,14 @@
       "annotations": {},
       "ignoreSSL": false,
       "patchJob": {
-        "ttlSecondsAfterFinished": 1800
+        "ttlSecondsAfterFinished": 1800,
+        "image": {
+          "registry": "",
+          "repository": "",
+          "name": "kubectl",
+          "tag": "",
+          "pullPolicy": ""
+        }
       },
       "global": {
         "accessID": "",
@@ -526,7 +533,14 @@
       "default": {},
       "examples": [
         {
-          "ttlSecondsAfterFinished": 1800
+          "ttlSecondsAfterFinished": 1800,
+          "image": {
+            "registry": "",
+            "repository": "",
+            "name": "kubectl",
+            "tag": "",
+            "pullPolicy": ""
+          }
         }
       ],
       "required": [
@@ -543,6 +557,63 @@
             60,
             1800
           ]
+        },
+        "image": {
+          "$comment": "tf:optional",
+          "$id": "#/properties/patchJob/properties/image",
+          "type": "object",
+          "title": "The patchJob image schema",
+          "description": "Container image configuration for the patchJob",
+          "default": {},
+          "properties": {
+            "registry": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/registry",
+              "type": "string",
+              "title": "The registry schema",
+              "description": "Container image registry for patchJob",
+              "default": "",
+              "examples": ["public.ecr.aws/logicmonitor"]
+            },
+            "repository": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/repository",
+              "type": "string",
+              "title": "The repository schema",
+              "description": "Container image repository for patchJob. Defaults to 'logicmonitor' when no registry is set.",
+              "default": "",
+              "examples": ["logicmonitor"]
+            },
+            "name": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/name",
+              "type": "string",
+              "title": "The name schema",
+              "description": "Container image name for patchJob",
+              "default": "kubectl",
+              "examples": ["kubectl"]
+            },
+            "tag": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/tag",
+              "type": "string",
+              "title": "The tag schema",
+              "description": "Container image tag for patchJob. Defaults to version defined in lmutil.patchjob-image template",
+              "default": "",
+              "examples": ["v1.29.3"]
+            },
+            "pullPolicy": {
+              "$comment": "tf:optional",
+              "$id": "#/properties/patchJob/properties/image/properties/pullPolicy",
+              "type": "string",
+              "title": "The pullPolicy schema",
+              "description": "Container image pull policy for patchJob. Defaults to global.image.pullPolicy or 'IfNotPresent'",
+              "default": "",
+              "enum": ["Always", "IfNotPresent", "Never", ""],
+              "examples": ["IfNotPresent"]
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false
