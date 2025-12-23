@@ -79,6 +79,12 @@
       },
       "additionalProperties": true
     },
+    "extraObjects": {
+      "$id": "#/properties/extraObjects",
+      "type": "array",
+      "additionalProperties": true,
+      "properties": {}
+    },
     "argus": {
       "$id": "#/properties/argus",
       "title": "Argus Configurations, check https://artifacthub.io/packages/helm/logicmonitor-helm-charts/argus?modal=values-schema for schema",
