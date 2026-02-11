@@ -8,13 +8,13 @@ charts/argus/   @rohitphataklm @lmshubhashri @sagar-mamdapure @lmmahi8may @lmbhu
 charts/collectorset-controller/   @rohitphataklm @lmshubhashri @sagar-mamdapure @lmmahi8may @lmbhushanpuri
 
 # lm-container directory owners
-charts/lm-container/    @rohitphataklm @lmshubhashri @sagar-mamdapure @lmmahi8may @lmbhushanpuri
+charts/lm-container/    @rohitphataklm @lmshubhashri @sagar-mamdapure @lmmahi8may @lmbhushanpuri @lm-aditya-kadam @choudharypooja
 
 # lmutil directory owners
-charts/lmutil/    @lmvaibhavk  @rohitphataklm @lmshubhashri @sagar-mamdapure @guru13-lm
+charts/lmutil/    @lmvaibhavk  @rohitphataklm @lmshubhashri @sagar-mamdapure
 
 # lmotel directory owners
 charts/lmotel/ @lmvaibhavk @avadhut123pisal @khyatigandhi6 @lmshubhashri
 
 # lm-logs directory owners
-charts/lm-logs  @lmvaibhavk @guru13-lm @choudharypooja @lmshubhashri
+charts/lm-logs  @lmvaibhavk @choudharypooja @lmshubhashri @lm-aditya-kadam @choudharypooja
