@@ -61,7 +61,9 @@ data:
           message ${record["log"]} ${record["message"]}
           timestamp ${record["time"]}
           {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
-          {{ include "kubernetes.cluster_name" . | nindent 8 }}
+          {{- $cluster := .Values.kubernetes.cluster_name | default .Values.global.clusterName }}
+          kubernetes.cluster_name {{ $cluster }}
+          kubernetes ${record["kubernetes"] ? record["kubernetes"].merge({"cluster_name" => "{{ $cluster }}"}) : {"cluster_name" => "{{ $cluster }}"}}
           {{- end }}
           {{- if .Values.fluent.device_less_logs }}
           resource.service.name '${record.dig("kubernetes","labels","app") != nil ? record.dig("kubernetes","labels","app") : record.dig("kubernetes","labels","app_kubernetes_io/name") != nil ? record.dig("kubernetes","labels","app_kubernetes_io/name") : record.dig("kubernetes","container_name") != nil ? record.dig("kubernetes","container_name") : record.dig("kubernetes","pod_name") != nil ? record.dig("kubernetes","pod_name") : "unknown"}'
@@ -71,7 +73,7 @@ data:
         remove_keys log
       </filter>
 
-      {{ include "fluentd.lmMatch" (dict "tag" "kubernetes.**" "resource_mapping" "{\"kubernetes.pod_name\": \"auto.name\"}" "context" .) | nindent 6 }}
+      {{ include "fluentd.lmMatch" (dict "tag" "kubernetes.**" "resource_mapping" "{\"kubernetes.pod_name\": \"auto.name\", \"kubernetes.namespace_name\": \"auto.namespace\", \"kubernetes.cluster_name\": \"auto.clustername\"}" "context" .) | nindent 6 }}
       {{- if .Values.useSystemdConf }}
       {{ include "fluentd.lmMatch" (dict "tag" (.Values.systemd.tag | default "systemd.al2023") "resource_mapping" "{\"_HOSTNAME\": \"system.hostname\"}" "context" .) | nindent 6 }}
       {{- end }}

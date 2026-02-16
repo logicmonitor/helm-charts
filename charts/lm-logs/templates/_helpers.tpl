@@ -75,6 +75,14 @@ optional: true
 {{- $mode := default "" .Values.authMode -}}
 {{- $uds  := default "" .Values.global.userDefinedSecret -}}
 
+{{- /* Validate fluent.buffer.type */ -}}
+{{- $bufType := default "memory" .Values.fluent.buffer.type -}}
+{{- if not (or (eq $bufType "memory") (eq $bufType "file")) -}}
+  {{- fail (printf
+    "Invalid fluent.buffer.type=%q. Supported values are: memory, file."
+    $bufType) -}}
+{{- end -}}
+
 {{- /* Fetch Secret if configured */ -}}
 {{- $sec := dict -}}
 {{- if ne $uds "" -}}
@@ -304,11 +312,25 @@ ENV['LM_ACCOUNT'] → global.account → lm_company_name
   {{ include "logsource.userAgent" .context }}
   include_metadata {{ hasKey .context.Values.fluent "include_metadata" | ternary .context.Values.fluent.include_metadata true }}
   device_less_logs {{ .context.Values.fluent.device_less_logs | default false }}
+
+  {{- $bufType := (default "memory" .context.Values.fluent.buffer.type) }}
   <buffer>
-    @type memory
+    @type {{ $bufType }}
+
+    {{- if eq $bufType "file" }}
+    path {{ .context.Values.fluent.buffer.file.path | default "/fluentd/buffer/lm-logs" }}
+    flush_interval {{ .context.Values.fluent.buffer.file.flush_interval | default "1s" }}
+    chunk_limit_size {{ .context.Values.fluent.buffer.file.chunk_limit_size | default "8m" }}
+    flush_thread_count {{ .context.Values.fluent.buffer.file.flush_thread_count | default "8" }}
+    total_limit_size {{ .context.Values.fluent.buffer.file.total_limit_size | default "8g" }}
+    compress {{ .context.Values.fluent.buffer.file.compress | default "gzip" }}
+    {{- else }}
     flush_interval {{ .context.Values.fluent.buffer.memory.flush_interval | default "1s" }}
     chunk_limit_size {{ .context.Values.fluent.buffer.memory.chunk_limit_size | default "8m" }}
     flush_thread_count {{ .context.Values.fluent.buffer.memory.flush_thread_count | default "8" }}
+    total_limit_size {{ .context.Values.fluent.buffer.memory.total_limit_size | default "512m" }}
+    compress {{ .context.Values.fluent.buffer.memory.compress | default "gzip" }}
+    {{- end }}
   </buffer>
 </match>
 {{- end }}

@@ -44,10 +44,25 @@ fluent:
   include_metadata: true
   resource_type: ""
   buffer:
+    type: memory
     memory:
       flush_interval: 1s
       chunk_limit_size: 8m
       flush_thread_count: 8
+      total_limit_size: 512m
+      compress: gzip   # text|gzip
+
+    # type: file
+    # file:
+    #   path: /fluentd/buffer/lm-logs     # prefix path for chunks
+    #   mountPath: /fluentd/buffer        # mount point inside container
+    #   sizeLimit: 10Gi                  # optional emptyDir size limit
+
+    #   flush_interval: 1s
+    #   chunk_limit_size: 8m
+    #   flush_thread_count: 8
+    #   total_limit_size: 8gb
+    #   compress: gzip   # text|gzip
 
 systemd:
   tag: ""
