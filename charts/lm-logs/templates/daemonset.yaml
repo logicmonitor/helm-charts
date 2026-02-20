@@ -55,11 +55,22 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+            {{- if eq (default "memory" .Values.fluent.buffer.type) "file" }}
+            - name: fluentbuffer
+              mountPath: {{ .Values.fluent.buffer.file.mountPath | default "/fluentd/buffer" }}
+            {{- end }}
       volumes:
         - name: fluentconf
           configMap:
             name: {{ include "fluentd.fullname" . }}
         {{- toYaml .Values.volumes | nindent 8 }}
+        {{- if eq (default "memory" .Values.fluent.buffer.type) "file" }}
+        - name: fluentbuffer
+          emptyDir:
+            {{- if .Values.fluent.buffer.file.sizeLimit }}
+            sizeLimit: {{ .Values.fluent.buffer.file.sizeLimit }}
+            {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
