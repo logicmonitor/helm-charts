@@ -130,6 +130,41 @@ lm:
       nodes: []
       etcd: []
 filters: []
+jobs:
+  # Event mode: how job events should be processed
+  # Options: "logs" (forward as logs) or "resources" (create device for monitoring)
+  eventMode: "resources"
+  # LogicMonitor tenant identifier for multi-tenant environments
+  # This is added as a property (tenant.identifier) on the jobs device
+  tenantIdentifier: "argus"
+  # Maximum length of label values to include in logs
+  # Labels with values exceeding this length are excluded from log ingestion
+  labelsMaxLength: 150
+  # Maximum length of annotation values to include in logs
+  # Annotations with values exceeding this length are excluded from log ingestion
+  annotationsMaxLength: 150
+  # JSON paths to exclude from log ingestion
+  excludeKeys:
+    - "metadata.managedFields"
+    - "metadata.selfLink"
+    - "metadata.generation"
+    - "metadata.resourceVersion"
+    - "spec.template.spec.containers"
+    - "spec.template.spec.initContainers"
+    - "spec.template.spec.volumes"
+    - "spec.template.metadata.managedFields"
+    - "spec.selector"
+    - "status.conditions"
+    - "status.uncountedTerminatedPods"
+  # Event types to NOT ingest as logs (blacklist approach)
+  # Valid values: "add", "update", "delete"
+  disableIngestEvents: []
+  # Log ingest worker configuration (only used when eventMode is "logs")
+  logIngestWorker:
+    poolSize: 2
+    bufferSize: 100
+    batchSize: 10
+    flushIntervalMs: 2000
 patchJob:
   ttlSecondsAfterFinished: 1800  # delete this job from cluster after 30 mins
   image:
