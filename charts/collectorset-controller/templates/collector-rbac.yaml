@@ -12,7 +12,6 @@ aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
         logicmonitor.com/aggregate-to-collector: "true"
-rules: [ ] # The control plane automatically fills in the rules
 ---
 kind: ClusterRole
 apiVersion: {{ template "lmutil.rbac.apiVersion" . }}
@@ -105,6 +104,7 @@ rules:
       - rolebindings
     verbs:
       - list
+      - patch
       - get
   - apiGroups:
       - ""

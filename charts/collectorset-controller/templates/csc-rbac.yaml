@@ -12,7 +12,6 @@ aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
         logicmonitor.com/aggregate-to-collectorset-controller: "true"
-rules: [ ] # The control plane automatically fills in the rules
 ---
 kind: ClusterRole
 apiVersion: {{ include "lmutil.rbac.apiVersion" . }}
@@ -46,6 +45,19 @@ rules:
       - collectorsets
     verbs:
       - "*"
+  - apiGroups:
+      - "rbac.authorization.k8s.io"
+    resources:
+      - clusterroles
+      - clusterrolebindings
+      - roles
+      - rolebindings
+    verbs:
+      - list
+      - get
+      - watch
+      - patch
+      - update
   - apiGroups:
       - apiextensions.k8s.io
     resources:
