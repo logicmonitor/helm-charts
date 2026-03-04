@@ -69,6 +69,10 @@ lm:
 {{- if .Values.debug }}
 {{- toYaml .Values.debug | nindent 0 }}
 {{- end }}
+{{- if .Values.jobs }}
+jobs:
+  {{- toYaml .Values.jobs | nindent 2 }}
+{{- end }}
 {{- if .Values.proxy.url }}
 proxy:
   url: {{ .Values.proxy.url }}
