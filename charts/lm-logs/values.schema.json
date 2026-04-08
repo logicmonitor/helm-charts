@@ -387,6 +387,12 @@
       "additionalProperties": false,
       "type": "object",
       "properties": {
+        "containerTailParserType": {
+          "type": "string",
+          "default": "cri",
+          "enum": ["cri", "multi_format"],
+          "description": "Fluentd tail parser type for container logs. Use 'cri' for containerd/CRI-O (recommended), 'multi_format' for legacy/mixed."
+        },
         "multiline_start_regexp": {
           "type": "string"
         },

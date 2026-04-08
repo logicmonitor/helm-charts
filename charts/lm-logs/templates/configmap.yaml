@@ -93,6 +93,9 @@ data:
       tag "#{ENV['FLUENT_CONTAINER_TAIL_TAG'] || 'kubernetes.*'}"
       exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/{{ .Chart.Name }}*.log' }"
       <parse>
+        {{- if eq (.Values.kubernetes.containerTailParserType | default "cri") "cri" }}
+        @type cri
+        {{- else }}
         @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'multi_format'}"
         <pattern>
           format json
@@ -105,6 +108,7 @@ data:
         <pattern>
           format none
         </pattern>
+        {{- end }}
       </parse>
     </source>
 

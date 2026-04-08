@@ -100,6 +100,7 @@ securityContext: null
 priorityClassName: null
 
 kubernetes:
+  containerTailParserType: cri    # "cri" (recommended for containerd/CRI-O) or "multi_format"
   multiline_start_regexp: /^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/
   cluster_name: ""
   multiline_concat_key: log
