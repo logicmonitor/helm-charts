@@ -305,6 +305,11 @@
         "resource_type": {
           "type" : "string"
         },
+        "extraFilters": {
+          "type": "string",
+          "default": "",
+          "description": "Raw Fluentd filter config injected after kubernetes_metadata enrichment inside <label @PROCESS_AFTER_CONCAT>. Use for grep include/exclude filters."
+        },
         "buffer": {
           "type": "object",
           "additionalProperties": false,
@@ -440,6 +445,22 @@
         "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
       },
       "uniqueItems": true
+    },
+    "extraVolumes": {
+      "type": "array",
+      "default": [],
+      "description": "Additional volumes to add to the Fluentd DaemonSet pod.",
+      "items": {
+        "$ref": "#/definitions/io.k8s.api.core.v1.Volume"
+      }
+    },
+    "extraVolumeMounts": {
+      "type": "array",
+      "default": [],
+      "description": "Additional volume mounts to add to the Fluentd container.",
+      "items": {
+        "$ref": "#/definitions/io.k8s.api.core.v1.VolumeMount"
+      }
     },
     "systemd": {
       "type": ["object", "null"],

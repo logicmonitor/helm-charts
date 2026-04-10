@@ -34,7 +34,7 @@ data:
           {{- if .Values.fluent.device_less_logs }}
           resource.service.name ${ENV['K8S_NODE_NAME']}
           {{- end }}
-          {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
+          {{- if .Values.kubernetes.cluster_name }}
           {{ include "kubernetes.cluster_name" . | nindent 10 }}
           {{- end }}
         </record>
@@ -54,14 +54,19 @@ data:
         skip_namespace_metadata "#{ENV['FLUENT_KUBERNETES_METADATA_SKIP_NAMESPACE_METADATA'] || 'false'}"
       </filter>
 
+      {{- if .Values.fluent.extraFilters }}
+      {{- include "lm-logs.validateExtraFilters" . }}
+{{ .Values.fluent.extraFilters | nindent 6 }}
+      {{- end }}
+
       <filter kubernetes.**>
         @type record_transformer
         enable_ruby
         <record>
           message ${record["log"]} ${record["message"]}
           timestamp ${record["time"]}
-          {{- if or .Values.kubernetes.cluster_name .Values.global.clusterName }}
-          {{- $cluster := .Values.kubernetes.cluster_name | default .Values.global.clusterName }}
+          {{- if .Values.kubernetes.cluster_name }}
+          {{- $cluster := .Values.kubernetes.cluster_name }}
           kubernetes.cluster_name {{ $cluster }}
           kubernetes ${record["kubernetes"] ? record["kubernetes"].merge({"cluster_name" => "{{ $cluster }}"}) : {"cluster_name" => "{{ $cluster }}"}}
           {{- end }}

@@ -59,6 +59,9 @@ spec:
             - name: fluentbuffer
               mountPath: {{ .Values.fluent.buffer.file.mountPath | default "/fluentd/buffer" }}
             {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
       volumes:
         - name: fluentconf
           configMap:
@@ -70,6 +73,9 @@ spec:
             {{- if .Values.fluent.buffer.file.sizeLimit }}
             sizeLimit: {{ .Values.fluent.buffer.file.sizeLimit }}
             {{- end }}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
