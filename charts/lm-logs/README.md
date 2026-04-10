@@ -13,6 +13,7 @@ helm install -n <namespace> \
 --set lm_company_name="<lm_company_name>" \
 --set lm_access_id="<lm_access_id>" \
 --set lm_access_key="<lm_access_key>" \
+--set kubernetes.cluster_name="<cluster_name>" \
 lm-logs logicmonitor/lm-logs
 ```
 
@@ -22,11 +23,13 @@ Install the lm-logs chart using a user defined secret for LM credentials.
 # For LMv1
 helm install lm-logs logicmonitor/lm-logs -n <namespace> \
   --set global.userDefinedSecret=lm-logs-credentials \
+  --set kubernetes.cluster_name="<cluster_name>" \
   --set authMode=lmv1
 
 # For Bearer
 helm install lm-logs logicmonitor/lm-logs -n <namespace> \
   --set global.userDefinedSecret=lm-logs-credentials \
+  --set kubernetes.cluster_name="<cluster_name>" \
   --set authMode=bearer
 ```
 
@@ -69,7 +72,7 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `affinity`                  | Affinity for pod assignment		                | `{}`  (evaluated as a template)                         |
 | `env`                       | Map to add extra environment variables	        | `{}`                                                    |
 | `kubernetes.multiline_start_regexp` | Regexp to match beginning of multiline	| `/^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/` |
-| `kubernetes.cluster_name`       | ClusterName given while adding k8s cluster  	| `""`                                                |
+| `kubernetes.cluster_name`       | (Required) Cluster name given while adding k8s cluster. Must be set for both standalone lm-logs and lm-container with lm-logs.  	| `""`                                                |
 | `kubernetes.multiline_concat_key`       | Key to look for fluentD to concatenate multiline logs   	| `"log"`                     |
 
 
@@ -166,6 +169,7 @@ helm upgrade --install -n <namespace> \
 --set lm_company_name="<company>" \
 --set lm_access_id="<access_id>" \
 --set lm_access_key="<access_key"> \
+--set kubernetes.cluster_name="<cluster_name>" \
 --set env.FLUENT_CONTAINER_TAIL_PARSER_TYPE="cri" \
 --set kubernetes.multiline_concat_key="message" \
 lm-logs logicmonitor/lm-logs

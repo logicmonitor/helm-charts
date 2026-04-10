@@ -134,18 +134,18 @@ optional: true
 {{- else -}}
   {{- fail "authMode must be 'lmv1' or 'bearer'." -}}
 {{- end -}}
+
+{{- /* 3) Enforce kubernetes.cluster_name presence (required for resource mapping). No global fallback. */ -}}
+{{- if not (and .Values.kubernetes .Values.kubernetes.cluster_name) -}}
+  {{- fail "kubernetes.cluster_name is required. Set lm-logs.kubernetes.cluster_name (or kubernetes.cluster_name when installing lm-logs standalone)." -}}
+{{- end -}}
 {{- end -}}
 
 {{/*
 Adding validations for clustername for lm-logs to contain only lower alphanumeric or '-' and start and end with an alphanumeric character
 */}}
 {{- define "kubernetes.cluster_name" -}}
-{{- $cluster := "" -}}
-{{- if .Values.kubernetes.cluster_name -}}
-{{- $cluster = .Values.kubernetes.cluster_name -}}
-{{- else if .Values.global.clusterName -}}
-{{- $cluster = .Values.global.clusterName -}}
-{{- end -}}
+{{- $cluster := .Values.kubernetes.cluster_name -}}
 {{- if ne $cluster "" -}}
 {{- if regexMatch "^[a-z0-9][a-z0-9-]*[a-z0-9]$" $cluster }}
 kubernetes.cluster_name {{ $cluster }}
@@ -159,12 +159,7 @@ kubernetes.cluster_name {{ $cluster }}
 User-agent for log-ingest requests
 */}}
 {{- define "logsource.userAgent" -}}
-{{- $cluster := "" -}}
-{{- if .Values.kubernetes.cluster_name -}}
-{{- $cluster = .Values.kubernetes.cluster_name -}}
-{{- else if .Values.global.clusterName -}}
-{{- $cluster = .Values.global.clusterName -}}
-{{- end -}}
+{{- $cluster := .Values.kubernetes.cluster_name -}}
 log_source lm-logs-fluentd (K8S; {{ $cluster }})
 {{- end -}}
 
