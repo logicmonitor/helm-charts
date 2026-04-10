@@ -367,3 +367,20 @@ systemd.conf: ""
 {{- end }}
 {{- end }}
 
+
+{{/*
+Validate fluent.extraFilters: only <filter> blocks allowed, tags must be balanced.
+*/}}
+{{- define "lm-logs.validateExtraFilters" -}}
+{{- $f := .Values.fluent.extraFilters -}}
+{{- if $f -}}
+  {{- if or (contains "<match" $f) (contains "<source" $f) (contains "<label" $f) -}}
+    {{- fail "fluent.extraFilters must only contain <filter> blocks. Found disallowed directive (<match>, <source>, or <label>). Use only <filter> blocks for custom filtering." -}}
+  {{- end -}}
+  {{- $open := regexFindAll "<filter" $f -1 -}}
+  {{- $close := regexFindAll "</filter>" $f -1 -}}
+  {{- if ne (len $open) (len $close) -}}
+    {{- fail "fluent.extraFilters has mismatched <filter>/</filter> tags. Ensure every <filter> has a closing </filter>." -}}
+  {{- end -}}
+{{- end -}}
+{{- end -}}
