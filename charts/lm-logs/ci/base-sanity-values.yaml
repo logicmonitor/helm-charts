@@ -2,8 +2,6 @@ lm_company_name: "dummy_company"
 lm_access_id: "dummy_id"
 lm_access_key: "dummy_key"
 authMode: "lmv1"
-kubernetes:
-  cluster_name: "dummy-cluster"
 global:
   account: "dummyaccount"
   accessID: "dummyid"
