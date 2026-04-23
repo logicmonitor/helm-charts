@@ -160,12 +160,20 @@ capabilities:
 
 {{/*
 LM Credentials and Proxy Details.
-The user can provide proxy details in values.yaml or by creating user defined secret.
-Argus proxy takes precendence over the global proxy. We need to check if the user defined secret contains
-Argus proxy details or not, for this we're using Lookup function in helm.
+
+These env vars are emitted statically into the Deployment so the manifest is
+fully declarative and GitOps tools (Rancher Fleet, Argo CD) do not see drift.
+This replaces a post-install Job that previously patched the Deployment env
+based on a runtime lookup of the user-defined Secret.
+
+Precedence enforced by the Argus binary (see pkg/config/config.go,
+applySecretEnvOverrides): values from the user-defined Secret win over the
+plaintext values rendered from .Values. Every `*_FROM_SECRET` env var uses
+`optional: true` so a key missing from the user-defined Secret simply leaves
+the override unset — Argus then falls back to the plaintext env.
 */}}
 
-{{- define "lm-credentials-and-proxy-details" -}}
+{{- define "argus.lm-credentials-and-proxy-details" -}}
 - name: ACCESS_ID
   valueFrom:
     secretKeyRef:
@@ -181,14 +189,69 @@ Argus proxy details or not, for this we're using Lookup function in helm.
     secretKeyRef:
       name: {{ include "lmutil.secret-name" . }}
       key: account
-{{- if or .Values.proxy.user .Values.global.proxy.user }}
+{{- /* COMPANY_DOMAIN: secret override (if userDefinedSecret) wins, else plaintext */}}
+{{- if .Values.global.userDefinedSecret }}
+- name: COMPANY_DOMAIN_FROM_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.global.userDefinedSecret }}
+      key: companyDomain
+      optional: true
+{{- end }}
+- name: COMPANY_DOMAIN
+  value: {{ .Values.global.companyDomain | default "logicmonitor.com" | quote }}
+{{- /* ETCD_DISCOVERY_TOKEN: optional, sourced from secret only */}}
+{{- if .Values.global.userDefinedSecret }}
+- name: ETCD_DISCOVERY_TOKEN_FROM_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.global.userDefinedSecret }}
+      key: etcdDiscoveryToken
+      optional: true
+{{- else }}
+- name: ETCD_DISCOVERY_TOKEN
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "lmutil.secret-name" . }}
+      key: etcdDiscoveryToken
+      optional: true
+{{- end }}
+{{- /* PROXY_USER: argus-specific secret key wins over generic, then plaintext */}}
+{{- if .Values.global.userDefinedSecret }}
+- name: PROXY_USER_FROM_SECRET_ARGUS
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.global.userDefinedSecret }}
+      key: argusProxyUser
+      optional: true
+- name: PROXY_USER_FROM_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.global.userDefinedSecret }}
+      key: proxyUser
+      optional: true
+{{- else if or .Values.proxy.user .Values.global.proxy.user }}
 - name: PROXY_USER
   valueFrom:
     secretKeyRef:
       name: {{ include "lmutil.secret-name" . }}
       key: proxyUser
 {{- end }}
-{{- if or .Values.proxy.pass .Values.global.proxy.pass }}
+{{- /* PROXY_PASS: argus-specific secret key wins over generic, then plaintext */}}
+{{- if .Values.global.userDefinedSecret }}
+- name: PROXY_PASS_FROM_SECRET_ARGUS
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.global.userDefinedSecret }}
+      key: argusProxyPass
+      optional: true
+- name: PROXY_PASS_FROM_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.global.userDefinedSecret }}
+      key: proxyPass
+      optional: true
+{{- else if or .Values.proxy.pass .Values.global.proxy.pass }}
 - name: PROXY_PASS
   valueFrom:
     secretKeyRef:

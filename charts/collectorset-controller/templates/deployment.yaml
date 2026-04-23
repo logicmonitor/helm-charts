@@ -10,7 +10,7 @@ metadata:
     checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
     {{- include "collectorset-controller.annotations" . | nindent 4}}
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       {{- include "lmutil.selectorLabels" . | nindent 6 }}
@@ -81,7 +81,7 @@ spec:
             {{ toYaml . | nindent 12 }}
         {{- end}}
           env:
-        {{ include "lm-credentials-and-proxy-details" . | nindent 12 }}
+        {{ include "collectorset-controller.lm-credentials-and-proxy-details" . | nindent 12 }}
           volumeMounts:
             - name: etc-collectorset-controller
               mountPath: "/etc/collectorset-controller"

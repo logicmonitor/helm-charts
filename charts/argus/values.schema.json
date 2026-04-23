@@ -114,16 +114,6 @@
           "flushIntervalMs": 2000
         }
       },
-      "patchJob": {
-        "ttlSecondsAfterFinished": 1800,
-        "image": {
-          "registry": "",
-          "repository": "",
-          "name": "kubectl",
-          "tag": "",
-          "pullPolicy": ""
-        }
-      },
       "selfMonitor": {
         "enable": false,
         "port": 2112
@@ -1443,99 +1433,6 @@
           "examples": [
             "* * * * *"
           ]
-        }
-      },
-      "additionalProperties": false
-    },
-    "patchJob": {
-      "$id": "#/properties/patchJob",
-      "$comment": "tf:optional",
-      "type": "object",
-      "title": "The Argus Props Patch Job Schema",
-      "description": "Configurations for Argus Props Patch Job",
-      "default": {},
-      "examples": [
-        {
-          "ttlSecondsAfterFinished": 1800,
-          "image": {
-            "registry": "",
-            "repository": "",
-            "name": "kubectl",
-            "tag": "",
-            "pullPolicy": ""
-          }
-        }
-      ],
-      "required": [],
-      "properties": {
-        "ttlSecondsAfterFinished": {
-          "$comment": "tf:optional",
-          "$id": "#/properties/patchJob/properties/ttlSecondsAfterFinished",
-          "type": "integer",
-          "title": "Time To Live After PatchJob Completion",
-          "description": "Specifies the time-to-live (in seconds) for the patchJob resource after it has completed execution. Once this duration has passed, the job and its associated pods will be automatically cleaned up by Kubernetes",
-          "default": 1800,
-          "examples": [
-            60,
-            1800
-          ]
-        },
-        "image": {
-          "$comment": "tf:optional",
-          "$id": "#/properties/patchJob/properties/image",
-          "type": "object",
-          "title": "The patchJob image schema",
-          "description": "Container image configuration for the patchJob",
-          "default": {},
-          "properties": {
-            "registry": {
-              "$comment": "tf:optional",
-              "$id": "#/properties/patchJob/properties/image/properties/registry",
-              "type": "string",
-              "title": "The registry schema",
-              "description": "Container image registry for patchJob",
-              "default": "",
-              "examples": ["public.ecr.aws/logicmonitor"]
-            },
-            "repository": {
-              "$comment": "tf:optional",
-              "$id": "#/properties/patchJob/properties/image/properties/repository",
-              "type": "string",
-              "title": "The repository schema",
-              "description": "Container image repository for patchJob. Defaults to 'logicmonitor' when no registry is set.",
-              "default": "",
-              "examples": ["logicmonitor"]
-            },
-            "name": {
-              "$comment": "tf:optional",
-              "$id": "#/properties/patchJob/properties/image/properties/name",
-              "type": "string",
-              "title": "The name schema",
-              "description": "Container image name for patchJob",
-              "default": "kubectl",
-              "examples": ["kubectl"]
-            },
-            "tag": {
-              "$comment": "tf:optional",
-              "$id": "#/properties/patchJob/properties/image/properties/tag",
-              "type": "string",
-              "title": "The tag schema",
-              "description": "Container image tag for patchJob. Defaults to version defined in lmutil.patchjob-image template",
-              "default": "",
-              "examples": ["v1.29.3"]
-            },
-            "pullPolicy": {
-              "$comment": "tf:optional",
-              "$id": "#/properties/patchJob/properties/image/properties/pullPolicy",
-              "type": "string",
-              "title": "The pullPolicy schema",
-              "description": "Container image pull policy for patchJob. Defaults to global.image.pullPolicy or 'IfNotPresent'",
-              "default": "",
-              "enum": ["Always", "IfNotPresent", "Never", ""],
-              "examples": ["IfNotPresent"]
-            }
-          },
-          "additionalProperties": false
         }
       },
       "additionalProperties": false
@@ -3391,7 +3288,7 @@
     },
     "io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelectorRequirement": {
       "required": [
-        "key", 
+        "key",
         "operator"
       ],
       "description": "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.",
@@ -3406,7 +3303,7 @@
           },
           "description": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.",
           "type": "array"
-        }, 
+        },
         "key": {
           "description": "key is the label key that the selector applies to.",
           "type": "string"
@@ -3415,7 +3312,7 @@
       "type": "object"
     },
     "io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector": {
-      "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.", 
+      "description": "A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.",
       "properties": {
         "matchLabels": {
           "additionalProperties": {
@@ -3436,7 +3333,7 @@
     },
     "io.k8s.kubernetes.pkg.api.v1.WeightedPodAffinityTerm": {
       "required": [
-        "weight", 
+        "weight",
         "podAffinityTerm"
       ],
       "description": "The weights of all of the matched WeightedPodAffinityTerm fields are added per-node to find the most preferred node(s)",
@@ -3457,25 +3354,25 @@
       "required": [
         "topologyKey"
       ],
-      "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> tches that of any node on which a pod of the set of pods is running", 
+      "description": "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> tches that of any node on which a pod of the set of pods is running",
       "properties": {
         "labelSelector": {
-          "description": "A label query over a set of resources, in this case pods.", 
+          "description": "A label query over a set of resources, in this case pods.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector"
-        }, 
+        },
         "namespaces": {
           "items": {
             "type": "string"
           },
           "description": "namespaces specifies which namespaces the labelSelector applies to (matches against); null or empty list means \"this pod's namespace\"",
           "type": "array"
-        }, 
+        },
         "topologyKey": {
           "type": "string",
           "description": "This pod should be co-located (affinity) or not co-located (anti-affinity) with the pods matching the labelSelector in the specified namespaces, where co-located is defined as running on a node whose value of the label with key topologyKey matches that of any node on which any of the selected pods is running. For PreferredDuringScheduling pod anti-affinity, empty topologyKey is interpreted as \"all topologies\" (\"all topologies\" here means all the topologyKeys indicated by scheduler command-line argument --failure-domains); for affinity and for RequiredDuringScheduling pod anti-affinity, empty topologyKey is not allowed."
         },
         "namespaceSelector": {
-          "description": "A label query over a set of resources, in this case pods.", 
+          "description": "A label query over a set of resources, in this case pods.",
           "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.LabelSelector"
         }
       },
@@ -3614,7 +3511,7 @@
               },
               "type": "array",
               "description": "If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system will try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied. RequiredDuringSchedulingRequiredDuringExecution []PodAffinityTerm  `json:\"requiredDuringSchedulingRequiredDuringExecution,omitempty\"` If the anti-affinity requirements specified by this field are not met at scheduling time, the pod will not be scheduled onto the node. If the anti-affinity requirements specified by this field cease to be met at some point during pod execution (e.g. due to a pod label update), the system may or may not try to eventually evict the pod from its node. When there are multiple elements, the lists of nodes corresponding to each podAffinityTerm are intersected, i.e. all terms must be satisfied."
-            }, 
+            },
             "preferredDuringSchedulingIgnoredDuringExecution": {
               "items": {
                 "$ref": "#/definitions/io.k8s.kubernetes.pkg.api.v1.WeightedPodAffinityTerm"

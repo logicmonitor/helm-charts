@@ -55,15 +55,6 @@ labels: {}
 annotations: {}
 # Set flag to ignore ssl/tls validation
 ignoreSSL: false
-patchJob:
-  ttlSecondsAfterFinished: 1800  # delete this job from cluster after 30 mins
-  image:
-    registry: ""  # Optional: e.g., "public.ecr.aws/logicmonitor"
-    repository: ""  # Optional: only needed if registry requires additional path segment. Defaults to "logicmonitor" when no registry is set.
-    name: "kubectl"
-    tag: ""  # Defaults to version defined in lmutil.patchjob-image template
-    pullPolicy: ""  # Defaults to global.image.pullPolicy or "IfNotPresent"
-
 imagePullSecrets: []
 global:
   accessID: ""

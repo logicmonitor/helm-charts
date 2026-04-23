@@ -10,7 +10,7 @@ metadata:
     checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
 spec:
-  replicas: 0
+  replicas: {{ .Values.replicas | default 1 }}
   selector:
     matchLabels:
       {{ include "lmutil.selectorLabels" . | nindent 6 }}
@@ -85,7 +85,7 @@ spec:
               value: {{ template "lmutil.name" . }}
             - name: APP_KUBERNETES_IO_INSTANCE
               value: {{ .Release.Name }}
-        {{ include "lm-credentials-and-proxy-details" . | nindent 12 }}
+        {{ include "argus.lm-credentials-and-proxy-details" . | nindent 12 }}
       volumes:
         - name: collector-ids
           configMap:
