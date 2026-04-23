@@ -34,7 +34,15 @@ spec:
   {{- $proxyUser := .Values.collector.proxy.user | default "" }}
   {{- $globalProxyUser := .Values.global.proxy.user | default "" }}
   {{- $userDefinedSecret := .Values.global.userDefinedSecret | default "" }}
-  {{- if and (or $proxyUser $globalProxyUser) (empty $userDefinedSecret) }}
+  {{- /*
+  When userDefinedSecret is set, always reference it as the collector's secretName so
+  the CollectorSet can pick up proxy/credentials keys from it. This used to be done at
+  runtime by a post-install Job (`kubectl patch collectorset ... secretName: <uds>`),
+  which caused drift in Rancher Fleet/Argo CD. Inlining it keeps the manifest declarative.
+  */ -}}
+  {{- if $userDefinedSecret }}
+  secretName: {{ $userDefinedSecret }}
+  {{- else if or $proxyUser $globalProxyUser }}
   secretName: {{ include "lmutil.fullname" . }}-collector
   {{- end }}
   {{- if .Values.collector.proxy.url }}
