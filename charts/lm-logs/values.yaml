@@ -89,6 +89,18 @@ fluent:
     #   total_limit_size: 8gb
     #   compress: gzip   # text|gzip
 
+  # Fluentd monitor_agent exposes plugin/buffer metrics over HTTP.
+  # When enabled, a <source> block is added to the ConfigMap and the
+  # corresponding port is exposed on the DaemonSet container so that
+  # clients can scrape buffer metrics (e.g. via `kubectl port-forward`).
+  #
+  # Example query (after `kubectl port-forward` to the pod):
+  #   curl http://127.0.0.1:24220/api/plugins.json
+  monitorAgent:
+    enabled: false
+    bind: 0.0.0.0
+    port: 24220
+
 systemd:
   tag: ""
   conf: ""

@@ -310,6 +310,28 @@
           "default": "",
           "description": "Raw Fluentd filter config injected after kubernetes_metadata enrichment inside <label @PROCESS_AFTER_CONCAT>. Use for grep include/exclude filters."
         },
+        "monitorAgent": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Fluentd monitor_agent configuration. When enabled, a <source> block exposing plugin/buffer metrics over HTTP is added to the ConfigMap and the corresponding port is exposed on the DaemonSet container.",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false,
+              "description": "If true, configures the monitor_agent <source> in the Fluentd config and exposes the port on the container."
+            },
+            "bind": {
+              "type": "string",
+              "default": "0.0.0.0",
+              "description": "Bind address for the monitor_agent HTTP server."
+            },
+            "port": {
+              "type": "integer",
+              "default": 24220,
+              "description": "Listen port for the monitor_agent HTTP server."
+            }
+          }
+        },
         "buffer": {
           "type": "object",
           "additionalProperties": false,

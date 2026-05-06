@@ -74,7 +74,56 @@ The following tables lists the configurable parameters of the lm-logs chart and 
 | `kubernetes.multiline_start_regexp` | Regexp to match beginning of multiline	| `/^\[(\d{4}-)?\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}.*\]/` |
 | `kubernetes.cluster_name`       | (Required) Cluster name given while adding k8s cluster. Must be set for both standalone lm-logs and lm-container with lm-logs.  	| `""`                                                |
 | `kubernetes.multiline_concat_key`       | Key to look for fluentD to concatenate multiline logs   	| `"log"`                     |
+| `fluent.monitorAgent.enabled`           | Enable Fluentd monitor_agent to expose buffer metrics via HTTP | `false`                     |
+| `fluent.monitorAgent.bind`              | Bind address for monitor_agent HTTP server     | `0.0.0.0`                   |
+| `fluent.monitorAgent.port`              | Listen port for monitor_agent HTTP server      | `24220`                     |
+| `fluent.extraFilters`                   | Extra Fluentd `<filter>` YAML injected after Kubernetes metadata (only `<filter>` blocks allowed) | `""` |
 
+
+### Monitor Agent (Buffer Metrics)
+
+The `fluent.monitorAgent` feature exposes Fluentd plugin and buffer metrics via HTTP, allowing clients to monitor buffer usage and plugin status in real-time.
+
+#### Enable Monitor Agent
+
+To enable the monitor agent:
+
+```bash
+helm install lm-logs logicmonitor/lm-logs -n <namespace> \
+  --set lm_company_name="<company>" \
+  --set lm_access_id="<access_id>" \
+  --set lm_access_key="<access_key>" \
+  --set kubernetes.cluster_name="<cluster_name>" \
+  --set fluent.monitorAgent.enabled=true
+```
+
+Or in your values file:
+
+```yaml
+fluent:
+  monitorAgent:
+    enabled: true
+    bind: 0.0.0.0
+    port: 24220
+```
+
+#### Access Monitor Metrics
+
+After enabling, you can access the metrics endpoint:
+
+```bash
+# Port forward to a pod
+kubectl port-forward ds/lm-logs 24220:24220 -n <namespace>
+
+# Query the metrics endpoint
+curl http://127.0.0.1:24220/api/plugins.json
+```
+
+This provides insights into:
+- Plugin status and configuration
+- Buffer queue size and memory usage
+- Retry counts and backoff state
+- Flush metrics and performance data
 
 #### Buffer configuration (Fluentd)
 
@@ -114,6 +163,12 @@ buffer:
 ```
 
 All parameters are configurable, with the values above as defaults.
+
+### Custom Fluentd filters
+
+Set `fluent.extraFilters` in your values file to inject additional Fluentd `<filter>` blocks after Kubernetes metadata enrichment. The chart only allows `<filter>` directives in this field; see `values.yaml` for commented examples.
+
+For more information about custom filters configurable via the lm-logs Helm chart, refer to: https://www.logicmonitor.com/support/custom-fluentd-filters-in-the-lm-logs-helm-chart
 
 ### Available Environment variables
 For descriptions see: https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter

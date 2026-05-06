@@ -22,6 +22,14 @@ data:
       log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
     </system>
 
+    {{- if .Values.fluent.monitorAgent.enabled }}
+    <source>
+      @type monitor_agent
+      bind {{ .Values.fluent.monitorAgent.bind | default "0.0.0.0" }}
+      port {{ .Values.fluent.monitorAgent.port | default 24220 }}
+    </source>
+    {{- end }}
+
     <label @PROCESS_AFTER_CONCAT>
       {{- if .Values.useSystemdConf }}
       <filter {{ .Values.systemd.tag | default "systemd.al2023" }}>
