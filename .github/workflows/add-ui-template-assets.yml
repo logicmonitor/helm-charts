@@ -40,9 +40,11 @@ jobs:
       - name: Wait for gh-pages to publish index.yaml
         uses: lewagon/wait-on-check-action@v1.3.3
         if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        timeout-minutes: 10
         with:
           ref: "gh-pages"
-          running-workflow-name: "pages-build-deployment"
+          check-name: "pages-build-deployment"
+          ignore-checks: "Veracode Static Analysis Pipeline Scan,Veracode Software Composition Analysis,Veracode Static Code Analysis - Pipeline"
           repo-token: ${{ secrets.CHART_RELEASE_TOKEN }}
           wait-interval: 30
 
