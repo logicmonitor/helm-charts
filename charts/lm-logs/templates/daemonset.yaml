@@ -51,6 +51,12 @@ spec:
                 secretKeyRef:
                   {{- include "lm-logs.secretKeyRef" (dict "ctx" . "key" "bearerToken") | nindent 18 }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default "Always" }}
+          {{- if .Values.fluent.monitorAgent.enabled }}
+          ports:
+            - name: monitor-agent
+              containerPort: {{ .Values.fluent.monitorAgent.port | default 24220 }}
+              protocol: TCP
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

@@ -22,6 +22,14 @@ data:
       log_level "#{ENV['FLUENT_LOG_LEVEL'] || 'warn'}"
     </system>
 
+    {{- if .Values.fluent.monitorAgent.enabled }}
+    <source>
+      @type monitor_agent
+      bind {{ .Values.fluent.monitorAgent.bind | default "0.0.0.0" }}
+      port {{ .Values.fluent.monitorAgent.port | default 24220 }}
+    </source>
+    {{- end }}
+
     <label @PROCESS_AFTER_CONCAT>
       {{- if .Values.useSystemdConf }}
       <filter {{ .Values.systemd.tag | default "systemd.al2023" }}>
@@ -93,6 +101,9 @@ data:
       tag "#{ENV['FLUENT_CONTAINER_TAIL_TAG'] || 'kubernetes.*'}"
       exclude_path "#{ENV['FLUENT_CONTAINER_TAIL_EXCLUDE_PATH'] || '/var/log/containers/{{ .Chart.Name }}*.log' }"
       <parse>
+        {{- if eq (.Values.kubernetes.containerTailParserType | default "cri") "cri" }}
+        @type cri
+        {{- else }}
         @type "#{ENV['FLUENT_CONTAINER_TAIL_PARSER_TYPE'] || 'multi_format'}"
         <pattern>
           format json
@@ -105,6 +116,7 @@ data:
         <pattern>
           format none
         </pattern>
+        {{- end }}
       </parse>
     </source>
 
