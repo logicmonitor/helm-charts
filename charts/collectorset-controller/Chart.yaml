@@ -13,7 +13,7 @@ dependencies:
   - name: lmutil
     repository: https://logicmonitor.github.io/helm-charts
     # repository: file://../lmutil
-    version: 0.1.11-rc01
+    version: 0.1.11
 annotations:
   artifacthub.io/crds: |
     - kind: CollectorSet
