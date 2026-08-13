@@ -13,6 +13,12 @@ lm:
   otel_version: 0
 
 global:
+  userDefinedSecret: ""  # Uncomment and set to use a custom secret for credentials
+  # The referenced secret must contain the following keys (all base64 encoded):
+  #   account
+  #   accessID
+  #   accessKey
+  #   bearerToken
   accessID: ""
   accessKey: ""
   account: ""

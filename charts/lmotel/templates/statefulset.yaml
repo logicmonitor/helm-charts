@@ -41,6 +41,24 @@ spec:
             {{ end }}
           {{- end }}
           env:
+            {{- if .Values.global.userDefinedSecret }}
+            - name: LOGICMONITOR_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lmotel.secretKeyRef" (dict "ctx" . "key" "account") | nindent 18 }}
+            - name: LOGICMONITOR_BEARER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lmotel.secretKeyRef" (dict "ctx" . "key" "bearerToken") | nindent 18 }}
+            - name: LOGICMONITOR_ACCESS_ID
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lmotel.secretKeyRef" (dict "ctx" . "key" "accessID") | nindent 18 }}
+            - name: LOGICMONITOR_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  {{- include "lmotel.secretKeyRef" (dict "ctx" . "key" "accessKey") | nindent 18 }}
+            {{- else }}
             - name: LOGICMONITOR_ACCOUNT
               valueFrom:
                 configMapKeyRef:
@@ -64,6 +82,7 @@ spec:
                   name: {{ include "lmutil.fullname" . }}
                   key: lm_access_key
                   optional: true                
+            {{- end }}
             - name: LOGICMONITOR_OTEL_NAME
               valueFrom:
                 configMapKeyRef:
@@ -77,9 +96,19 @@ spec:
                   optional: true
             - name: LOGICMONITOR_OTEL_NAMESPACE
               value: {{ include "lmutil.release.namespace" . }}
+            {{- if .Values.global.userDefinedSecret }}
+            - name: HTTPS_PROXY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.userDefinedSecret }}
+                  key: https_proxy
+                  optional: true
+            {{- end }}
           {{- range $key, $val := .Values.envVars }}
+          {{- if or (not $.Values.global.userDefinedSecret) (ne $key "HTTPS_PROXY") }}
             - name: {{ $key }}
               value: {{ $val | quote }}
+          {{- end }}
           {{- end }}
           {{- if .Values.external_config.lmconfig}}
           args: 
