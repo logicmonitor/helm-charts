@@ -7,3 +7,8 @@ lm:
   account: "dummy"
   # The LMOTEL Collector name.
   otel_name: "dummy"
+
+global:
+  account: "dummyaccount"
+  accessID: "dummyid"
+  accessKey: "dummykey"

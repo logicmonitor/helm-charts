@@ -60,15 +60,39 @@ helm install -n <namespace> \
 lmotel logicmonitor/lmotel
 ```
 
+#### User Defined Secret for LM credentials
+You can create a kubernetes secret with your LM credentials and pass the secret name to the chart.
+The secret must contain the following keys:
+- account
+- accessID
+- accessKey
+- bearerToken (for bearer-only auth), and/or accessID + accessKey (for LMv1). At least one complete set is required; the collector prefers LMv1 when both LMv1 credentials and a bearer token are present.
+
+Example install:
+
+``` console
+helm install -n <namespace> \
+  --set global.userDefinedSecret=<your-secret-name> \
+  --set lm.otel_name=<lmotel_collector_name> \
+  lmotel logicmonitor/lmotel
+```
+
+When lmotel is installed as a dependency of **lm-container**, set `global.userDefinedSecret` on the **parent** release (for example in `lm-container-configuration.yaml`). Helm merges that root `global` into lmotel and it overrides `lmotel.global.userDefinedSecret` for the same key, so one umbrella-level Secret name stays authoritative.
+
 To enable logs add the following option
 ``` console
 --set logs.enable=true \
 ```
 
-To enable proxy support add the following option
+To enable proxy support:
+
+- **Without `global.userDefinedSecret`:** set a plain value (same as before):
+
 ``` console
---set envVars.HTTPS_PROXY=<proxy_server_ip:port> \
+--set envVars.HTTPS_PROXY=<proxy_server_ip_or_url> \
 ```
+
+- **With `global.userDefinedSecret`:** add a Secret data key **`https_proxy`** (base64-encoded value). The chart sets container env **`HTTPS_PROXY`** from that key via `secretKeyRef` (`optional: true`). In that case **`envVars.HTTPS_PROXY` is ignored** if set, to avoid duplicate env names.
 
 ---
 Required Values:
@@ -86,6 +110,7 @@ or
 Optional Values:
 - **replicaCount (default: `1`):** Number of replicas of lmotel kubernetes pod.
 - **otel_version (default: `""`):** Lmotel collector version.
+- **global.userDefinedSecret (default: `""`):** Existing Secret for LM credentials (keys account, and either accessID+accessKey and/or bearerToken). At least one complete LMv1 pair or bearer token must be present; the collector prefers LMv1 when both are available. Optional key **`https_proxy`** supplies `HTTPS_PROXY` in the pod when this Secret is used.
 - **arguments :** command line arguments for lmotel, can be passed as {--log-level, DEBUG}, other options can be added using comma separated values.
 ---
 
@@ -120,4 +145,3 @@ Optional Values:
 - **ingress.annotations (default: `{}`):** Annotations common to all the ingress resource definitions.
 - **ingress.http.annotations (default: `{}`):** Annotations specific to the ingress-http resource
 - **ingress.grpc.annotations (default: `{}`):** Annotations specific to the ingress-grpc resource
-- **envVars (default: `{}`):** Environment variables in form of key value pair
