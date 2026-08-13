@@ -1,3 +1,7 @@
+{{- if not (include "lmotel.credsProvided" .) -}}
+{{- fail "Provide credentials via global.userDefinedSecret or via global.* / lm.* values." -}}
+{{- end -}}
+{{- include "lmotel.assertInputs" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -10,7 +14,7 @@ metadata:
     helm-revision: "{{ .Release.Revision }}"
     {{- include "lmotel.annotations" . | nindent 4 }}
 data:
-  lm_account: {{ if .Values.lm.account }} {{ .Values.lm.account }} {{ else }} {{ required "A valid .Values.lm.account or .Values.global.account entry is required!" .Values.global.account }} {{ end }}
+  lm_account: {{- if .Values.lm.account }} {{ .Values.lm.account }} {{- else if .Values.global.account }} {{ .Values.global.account }} {{- else if .Values.global.userDefinedSecret }} "" {{- else }} {{ required "A valid .Values.lm.account or .Values.global.account entry is required!" .Values.global.account }} {{- end }}
   lm_otel_name: {{ required "A valid .Values.lm.otel_name entry is required!" .Values.lm.otel_name }}
   {{- if or (.Values.lm.access_id) (.Values.global.accessID)}}
   lm_access_id: {{ if .Values.lm.access_id }} {{ .Values.lm.access_id }} {{ else }} {{ .Values.global.accessID  }} {{ end }}

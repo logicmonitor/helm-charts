@@ -6,6 +6,76 @@
 		"lm"
 	],
 	"additionalProperties": false,
+	"allOf": [
+		{
+			"anyOf": [
+				{
+					"properties": {
+						"lm": {
+							"type": "object",
+							"required": ["bearer_token"]
+						}
+					}
+				},
+				{
+					"properties": {
+						"lm": {
+							"type": "object",
+							"required": ["access_id", "access_key"]
+						}
+					}
+				},
+				{
+					"required": ["global"],
+					"properties": {
+						"global": {
+							"type": "object",
+							"required": ["userDefinedSecret"]
+						}
+					}
+				},
+				{
+					"required": ["global"],
+					"properties": {
+						"global": {
+							"type": "object",
+							"required": ["accessID", "accessKey"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"anyOf": [
+				{
+					"properties": {
+						"lm": {
+							"type": "object",
+							"required": ["account"]
+						}
+					}
+				},
+				{
+					"required": ["global"],
+					"properties": {
+						"global": {
+							"type": "object",
+							"required": ["account"]
+						}
+					}
+				},
+				{
+					"required": ["global"],
+					"properties": {
+						"global": {
+							"type": "object",
+							"required": ["userDefinedSecret"]
+						}
+					}
+				}
+			]
+		}
+	],
 	"properties": {
 		"enabled": {
 			"$id": "#/properties/enabled",
@@ -27,10 +97,6 @@
 			"title": "lm", 
 			"type": "object",
 			"required": [
-				"account",
-				"bearer_token",
-				"access_id",
-				"access_key",
 				"otel_name"
 			],
 			"properties": {
@@ -639,6 +705,16 @@
 				  "lmqauat"
 				],
 				"$comment": "ui:account-ignore"
+			  },
+			  "userDefinedSecret": {
+				"$id": "#/properties/global/properties/userDefinedSecret",
+				"type": "string",
+				"title": "Existing Kubernetes Secret name",
+				"description": "Name of a Secret in the release namespace with LM credentials (base64-encoded keys): account, and either bearerToken or accessID+accessKey (at least one complete LMv1 pair or bearer token). Optional key https_proxy is exposed as container env HTTPS_PROXY via secretKeyRef when set; otherwise use envVars.HTTPS_PROXY.",
+				"default": "",
+				"examples": [
+				  "lmotel-credentials"
+				]
 			  }
 			}
 		}
