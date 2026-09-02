@@ -59,6 +59,10 @@ jobs:
           asset_name: values.schema.json
           asset_content_type: text/plain
 
+      - name: Wait for Pages workflow to start
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        run: sleep 120
+
       - name: Wait for gh-pages to publish index.yaml
         uses: lewagon/wait-on-check-action@v1.3.3
         if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}

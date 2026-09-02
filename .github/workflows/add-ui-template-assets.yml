@@ -37,6 +37,10 @@ jobs:
         with:
           version: v3.5.4
 
+      - name: Wait for Pages workflow to start
+        if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
+        run: sleep 120
+
       - name: Wait for gh-pages to publish index.yaml
         uses: lewagon/wait-on-check-action@v1.3.3
         if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
@@ -55,12 +59,12 @@ jobs:
       - name: Pull Charts and Generate UI Template
         if: ${{ steps.get_chart.outputs.chartname == 'lm-container' }}
         run: |
-          helm repo add logicmonitor https://logicmonitor.github.io/helm-charts
+          helm repo add logicmonitor-qa https://logicmonitor.github.io/helm-charts-qa
           helm repo update
           sleep 10
-          helm pull logicmonitor/lm-container --version ${{ steps.get_chart.outputs.chartversion }}
+          helm pull logicmonitor-qa/lm-container --version ${{ steps.get_chart.outputs.chartversion }}
           sleep 10
-          helm pull logicmonitor/lm-container --untar --version ${{ steps.get_chart.outputs.chartversion }}
+          helm pull logicmonitor-qa/lm-container --untar --version ${{ steps.get_chart.outputs.chartversion }}
           ./scripts/lmui/lmui > lm-container-ui-jsonpaths.json
           cat lm-container-ui-jsonpaths.json
 
