@@ -2,7 +2,9 @@
   "dependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.1",
-    "husky": "^9.1.7"
+    "fast-uri": "^4.1.4",
+    "husky": "^9.1.7",
+    "js-yaml": "^5.4.1"
   },
   "devDependencies": {
     "commitizen": "^4.2.4",
