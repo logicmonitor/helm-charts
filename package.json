@@ -2,7 +2,7 @@
   "dependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.1",
-    "fast-uri": "^4.2.1",
+    "fast-uri": "^4.2.3",
     "husky": "^9.1.7",
     "js-yaml": "^5.4.1"
   },
@@ -16,6 +16,11 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "overrides": {
+    "ajv": {
+      "fast-uri": "3.1.9"
     }
   }
 }
