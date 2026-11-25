@@ -196,7 +196,7 @@
 					"type": "object",
 					"examples": [
 						{
-						  "repository": "public.ecr.aws/logicmonitor/lmotel-logs",
+						  "repository": "logicmonitor/lmotel",
 						  "pullPolicy": "Always",
 						  "tag": "latest"
 						}
@@ -206,10 +206,10 @@
 							"$id": "#properties/logs/properties/image/properties/repository", 
 							"title": "LMOTEL Logs Image Repository", 
 							"type": "string",
-							"default": "public.ecr.aws/logicmonitor/lmotel-logs",
+							"default": "logicmonitor/lmotel",
 							"minLength": 1,
 							"examples": [
-								"public.ecr.aws/logicmonitor/lmotel-logs"
+								"logicmonitor/lmotel"
 							]
 						},
 						"pullPolicy": {
